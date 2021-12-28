@@ -3,7 +3,7 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: CodePerryH
+title: 须知少时凌云志，曾许人间第一流
 subtitle: 'iOSer,life,and Cat'
 description: 'ios'
 keywords:
@@ -94,6 +94,10 @@ include:
 exclude:
 ignore:
 
+server:
+  port: 4001
+  compress: true
+  header: true
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
@@ -106,6 +110,5 @@ deploy:
   repo: https://github.com/CodePerryH/CodePerryH.github.io.git
   branch: master
 
-banner_img: /img/theme/topbgvImage.jpeg   # 对应存放在 /source/img/bg/example.jpg
 
 
