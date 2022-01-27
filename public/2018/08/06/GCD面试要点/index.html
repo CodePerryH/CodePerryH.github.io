@@ -2,12 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-
-
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -16,12 +13,14 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="GCD在iOS中应该是最常使用的并发编程技术了，GCD接口设计得很简洁，使用起来也很方便，由于苹果做了高度的封装，所以很多人对GCD的原理并不是很了解，本文来总结一下GCD常用面试要点。 什么是GCDGCD(Grand Central Dispatch) 是 Apple 开发的一个多核编程的较新的解决方法。它主要用于优化应用程序以支持多核处理器以及其他对称多处理系统。它是一个在线程池模式的基础">
+  <meta name="description" content="GCD在iOS中应该是最常使用的并发编程技术了，GCD接口设计得很简洁，使用起来也很方便，由于苹果做了高度的封装，所以很多人对GCD的原理并不是很了解，本文来总结一下GCD常用面试要点。 什么是GCDGCD(Grand Central Dispatch) 是 Apple 开发的一个多核编程的较新的解决方法。它主要用于优化应用程序以支持多核处理器以及其他对称多处理系统。它是一个在线程池模式的基础">
 <meta property="og:type" content="article">
 <meta property="og:title" content="GCD">
 <meta property="og:url" content="http://example.com/2018/08/06/GCD%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/index.html">
@@ -39,42 +38,76 @@
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/22877992-cf988fe2ddcc0277.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
-
 <link rel="canonical" href="http://example.com/2018/08/06/GCD%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
 
 
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2018/08/06/GCD%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/","path":"2018/08/06/GCD面试要点/","title":"GCD"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>GCD | 须知少时凌云志，曾许人间第一流</title>
+  <title>GCD | 须知少时凌云志，曾许人间第一流</title>
   
 
 
 
 
+
+
   <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
 
-  <main class="main">
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">须知少时凌云志，曾许人间第一流</p>
-      <i class="logo-line"></i>
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">须知少时凌云志，曾许人间第一流</h1>
+      <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">iOSer,life,and Cat</p>
   </div>
@@ -88,94 +121,55 @@
 
 
 
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
 
 
 
 </div>
-        
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFGCD"><span class="nav-number">1.</span> <span class="nav-text">什么是GCD</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%9F%E5%88%97%E5%92%8C%E4%BB%BB%E5%8A%A1"><span class="nav-number">2.</span> <span class="nav-text">队列和任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%9F%E5%88%97"><span class="nav-number">2.1.</span> <span class="nav-text">队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1"><span class="nav-number">2.2.</span> <span class="nav-text">任务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%9F%E5%88%97-1"><span class="nav-number">3.</span> <span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%98%9F%E5%88%97"><span class="nav-number">3.1.</span> <span class="nav-text">创建队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E9%98%9F%E5%88%97%E5%92%8C%E5%85%A8%E5%B1%80%E9%98%9F%E5%88%97"><span class="nav-number">3.2.</span> <span class="nav-text">主队列和全局队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E5%BD%93%E5%89%8D%E4%BB%A3%E7%A0%81%E8%BF%90%E8%A1%8C%E5%9C%A8%E6%9F%90%E4%B8%AA%E9%98%9F%E5%88%97"><span class="nav-number">3.3.</span> <span class="nav-text">如何判断当前代码运行在某个队列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1"><span class="nav-number">4.</span> <span class="nav-text">同步任务、异步任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-sync%E5%92%8Cdispatch-async"><span class="nav-number">4.1.</span> <span class="nav-text">dispatch_sync和dispatch_async</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%88%B6"><span class="nav-number">4.2.</span> <span class="nav-text">同步任务，异步任务线程创建机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E5%B9%B6%E5%8F%91%E9%98%9F%E5%88%97"><span class="nav-number">4.2.1.</span> <span class="nav-text">同步任务+并发队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E5%B9%B6%E5%8F%91%E9%98%9F%E5%88%97"><span class="nav-number">4.2.2.</span> <span class="nav-text">异步任务+并发队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E4%B8%B2%E8%A1%8C%E9%98%9F%E5%88%97"><span class="nav-number">4.2.3.</span> <span class="nav-text">同步任务+串行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E4%B8%B2%E8%A1%8C%E9%98%9F%E5%88%97"><span class="nav-number">4.2.4.</span> <span class="nav-text">异步任务+串行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E4%B8%BB%E9%98%9F%E5%88%97"><span class="nav-number">4.2.5.</span> <span class="nav-text">同步任务+主队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E4%B8%BB%E7%BA%BF%E7%A8%8B%E4%B8%AD%E8%B0%83%E7%94%A8-%E3%80%8E%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E4%B8%BB%E9%98%9F%E5%88%97%E5%88%97%E3%80%8F"><span class="nav-number">4.2.5.1.</span> <span class="nav-text">在主线程中调用 『同步任务+主队列列』</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E5%85%B6%E4%BB%96%E7%BA%BF%E7%A8%8B%E4%B8%AD%E8%B0%83%E7%94%A8%E3%80%8E%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E4%B8%BB%E9%98%9F%E5%88%97%E3%80%8F"><span class="nav-number">4.2.5.2.</span> <span class="nav-text">在其他线程中调用『同步任务+主队列』</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E4%B8%BB%E9%98%9F%E5%88%97"><span class="nav-number">4.2.6.</span> <span class="nav-text">异步任务+主队列</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GCD%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">5.</span> <span class="nav-text">GCD线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E5%87%A0%E4%B8%AAroot%E9%98%9F%E5%88%97%EF%BC%9F"><span class="nav-number">5.1.</span> <span class="nav-text">有几个root队列？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E5%87%A0%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="nav-number">5.2.</span> <span class="nav-text">有几个线程池？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E9%98%9F%E5%88%97%E6%9C%80%E5%A4%9A%E6%94%AF%E6%8C%81%E5%87%A0%E4%B8%AA%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%97%B6%E5%B7%A5%E4%BD%9C%EF%BC%9F"><span class="nav-number">5.3.</span> <span class="nav-text">一个队列最多支持几个线程同时工作？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E9%98%9F%E5%88%97%EF%BC%8C%E5%85%81%E8%AE%B8%E6%9C%80%E5%A4%9A%E5%87%A0%E4%B8%AA%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%97%B6%E5%B7%A5%E4%BD%9C%EF%BC%9F"><span class="nav-number">5.4.</span> <span class="nav-text">多个队列，允许最多几个线程同时工作？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-once"><span class="nav-number">6.</span> <span class="nav-text">dispatch_once</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E9%97%AE%E9%A2%98"><span class="nav-number">6.1.</span> <span class="nav-text">死锁问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-after"><span class="nav-number">7.</span> <span class="nav-text">dispatch_after</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-group"><span class="nav-number">8.</span> <span class="nav-text">dispatch_group</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-semaphore-t"><span class="nav-number">9.</span> <span class="nav-text">dispatch_semaphore_t</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%9D%A5%E8%AE%A1%E6%95%B0"><span class="nav-number">9.1.</span> <span class="nav-text">用来计数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E5%81%9A%E9%94%81%EF%BC%8C%E6%95%88%E7%8E%87%E6%AF%94%E8%BE%83%E9%AB%98"><span class="nav-number">9.2.</span> <span class="nav-text">用做锁，效率比较高</span></a></li></ol></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">CodeoPerryH</p>
-  <div class="site-description" itemprop="description">ios</div>
-</div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">16</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-        </div>
-      </div>
-    </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
     </header>
 
     
-  <div class="back-to-top" role="button" aria-label="Back to top">
+  <div class="back-to-top">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
 
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    <div class="main-inner post posts-expand">
+          <div class="content post posts-expand">
+            
 
-
-  
-
-
-<div class="post-block">
+    
   
   
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/06/GCD%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/headerimage.jpeg">
       <meta itemprop="name" content="CodeoPerryH">
       <meta itemprop="description" content="ios">
     </span>
@@ -188,26 +182,24 @@
           GCD
         </h1>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2018-08-06 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-06T17:19:03+08:00">2018-08-06</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-27 14:28:43" itemprop="dateModified" datetime="2022-01-27T14:28:43+08:00">2022-01-27</time>
-    </span>
+              <time title="Created: 2018-08-06 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-06T17:19:03+08:00">2018-08-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-01-27 14:28:43" itemprop="dateModified" datetime="2022-01-27T14:28:43+08:00">2022-01-27</time>
+              </span>
 
-  
-</div>
+          
 
         </div>
       </header>
@@ -216,6 +208,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
+
+      
         <meta name="referrer" content="no-referrer"/>
 
 <p>GCD在iOS中应该是最常使用的并发编程技术了，GCD接口设计得很简洁，使用起来也很方便，由于苹果做了高度的封装，所以很多人对GCD的原理并不是很了解，本文来总结一下GCD常用面试要点。</p>
@@ -294,42 +288,129 @@
     
     
 
-    <footer class="post-footer">
+      <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/OC%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag"># OC知识点</a>
           </div>
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2018/08/05/RunLoop%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="prev" title="RunLoop">
-                  <i class="fa fa-chevron-left"></i> RunLoop
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2018/08/07/block%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="next" title="Block">
-                  Block <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/05/RunLoop%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="prev" title="RunLoop">
+      <i class="fa fa-chevron-left"></i> RunLoop
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/07/block%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="next" title="Block">
+      Block <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFGCD"><span class="nav-number">1.</span> <span class="nav-text">什么是GCD</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%9F%E5%88%97%E5%92%8C%E4%BB%BB%E5%8A%A1"><span class="nav-number">2.</span> <span class="nav-text">队列和任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%98%9F%E5%88%97"><span class="nav-number">2.1.</span> <span class="nav-text">队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1"><span class="nav-number">2.2.</span> <span class="nav-text">任务</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%98%9F%E5%88%97-1"><span class="nav-number">3.</span> <span class="nav-text">队列</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%98%9F%E5%88%97"><span class="nav-number">3.1.</span> <span class="nav-text">创建队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%BB%E9%98%9F%E5%88%97%E5%92%8C%E5%85%A8%E5%B1%80%E9%98%9F%E5%88%97"><span class="nav-number">3.2.</span> <span class="nav-text">主队列和全局队列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%88%A4%E6%96%AD%E5%BD%93%E5%89%8D%E4%BB%A3%E7%A0%81%E8%BF%90%E8%A1%8C%E5%9C%A8%E6%9F%90%E4%B8%AA%E9%98%9F%E5%88%97"><span class="nav-number">3.3.</span> <span class="nav-text">如何判断当前代码运行在某个队列</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1%E3%80%81%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1"><span class="nav-number">4.</span> <span class="nav-text">同步任务、异步任务</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dispatch-sync%E5%92%8Cdispatch-async"><span class="nav-number">4.1.</span> <span class="nav-text">dispatch_sync和dispatch_async</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1%EF%BC%8C%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1%E7%BA%BF%E7%A8%8B%E5%88%9B%E5%BB%BA%E6%9C%BA%E5%88%B6"><span class="nav-number">4.2.</span> <span class="nav-text">同步任务，异步任务线程创建机制</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E5%B9%B6%E5%8F%91%E9%98%9F%E5%88%97"><span class="nav-number">4.2.1.</span> <span class="nav-text">同步任务+并发队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E5%B9%B6%E5%8F%91%E9%98%9F%E5%88%97"><span class="nav-number">4.2.2.</span> <span class="nav-text">异步任务+并发队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E4%B8%B2%E8%A1%8C%E9%98%9F%E5%88%97"><span class="nav-number">4.2.3.</span> <span class="nav-text">同步任务+串行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E4%B8%B2%E8%A1%8C%E9%98%9F%E5%88%97"><span class="nav-number">4.2.4.</span> <span class="nav-text">异步任务+串行队列</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E4%B8%BB%E9%98%9F%E5%88%97"><span class="nav-number">4.2.5.</span> <span class="nav-text">同步任务+主队列</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E4%B8%BB%E7%BA%BF%E7%A8%8B%E4%B8%AD%E8%B0%83%E7%94%A8-%E3%80%8E%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E4%B8%BB%E9%98%9F%E5%88%97%E5%88%97%E3%80%8F"><span class="nav-number">4.2.5.1.</span> <span class="nav-text">在主线程中调用 『同步任务+主队列列』</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E5%85%B6%E4%BB%96%E7%BA%BF%E7%A8%8B%E4%B8%AD%E8%B0%83%E7%94%A8%E3%80%8E%E5%90%8C%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E4%B8%BB%E9%98%9F%E5%88%97%E3%80%8F"><span class="nav-number">4.2.5.2.</span> <span class="nav-text">在其他线程中调用『同步任务+主队列』</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E4%BB%BB%E5%8A%A1-%E4%B8%BB%E9%98%9F%E5%88%97"><span class="nav-number">4.2.6.</span> <span class="nav-text">异步任务+主队列</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#GCD%E7%BA%BF%E7%A8%8B%E6%B1%A0"><span class="nav-number">5.</span> <span class="nav-text">GCD线程池</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E5%87%A0%E4%B8%AAroot%E9%98%9F%E5%88%97%EF%BC%9F"><span class="nav-number">5.1.</span> <span class="nav-text">有几个root队列？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9C%89%E5%87%A0%E4%B8%AA%E7%BA%BF%E7%A8%8B%E6%B1%A0%EF%BC%9F"><span class="nav-number">5.2.</span> <span class="nav-text">有几个线程池？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E9%98%9F%E5%88%97%E6%9C%80%E5%A4%9A%E6%94%AF%E6%8C%81%E5%87%A0%E4%B8%AA%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%97%B6%E5%B7%A5%E4%BD%9C%EF%BC%9F"><span class="nav-number">5.3.</span> <span class="nav-text">一个队列最多支持几个线程同时工作？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E4%B8%AA%E9%98%9F%E5%88%97%EF%BC%8C%E5%85%81%E8%AE%B8%E6%9C%80%E5%A4%9A%E5%87%A0%E4%B8%AA%E7%BA%BF%E7%A8%8B%E5%90%8C%E6%97%B6%E5%B7%A5%E4%BD%9C%EF%BC%9F"><span class="nav-number">5.4.</span> <span class="nav-text">多个队列，允许最多几个线程同时工作？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-once"><span class="nav-number">6.</span> <span class="nav-text">dispatch_once</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E9%97%AE%E9%A2%98"><span class="nav-number">6.1.</span> <span class="nav-text">死锁问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-after"><span class="nav-number">7.</span> <span class="nav-text">dispatch_after</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-group"><span class="nav-number">8.</span> <span class="nav-text">dispatch_group</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#dispatch-semaphore-t"><span class="nav-number">9.</span> <span class="nav-text">dispatch_semaphore_t</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E6%9D%A5%E8%AE%A1%E6%95%B0"><span class="nav-number">9.1.</span> <span class="nav-text">用来计数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%A8%E5%81%9A%E9%94%81%EF%BC%8C%E6%95%88%E7%8E%87%E6%AF%94%E8%BE%83%E9%AB%98"><span class="nav-number">9.2.</span> <span class="nav-text">用做锁，效率比较高</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CodeoPerryH"
+      src="/images/headerimage.jpeg">
+  <p class="site-author-name" itemprop="name">CodeoPerryH</p>
+  <div class="site-description" itemprop="description">ios</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
 </div>
 
 
 
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
 
 
+      </div>
+    </main>
 
-</div>
-  </main>
+    <footer class="footer">
+      <div class="footer-inner">
+        
 
-  <footer class="footer">
-    <div class="footer-inner">
-
+        
 
 <div class="copyright">
+  
   &copy; 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
@@ -337,15 +418,39 @@
   </span>
   <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
   </div>
 
-    </div>
-  </footer>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
 
   
 
@@ -353,11 +458,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
   
 
-
-
-
+  
 
 </body>
 </html>

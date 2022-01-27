@@ -2,12 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-
-
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -16,12 +13,14 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="ios">
+  <meta name="description" content="ios">
 <meta property="og:type" content="website">
 <meta property="og:title" content="须知少时凌云志，曾许人间第一流">
 <meta property="og:url" content="http://example.com/index.html">
@@ -31,42 +30,76 @@
 <meta property="article:author" content="CodeoPerryH">
 <meta name="twitter:card" content="summary">
 
-
 <link rel="canonical" href="http://example.com/">
 
 
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : true,
+    isPost : false,
+    lang   : 'en'
+  };
+</script>
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":true,"isPost":false,"lang":"en","comments":"","permalink":"","path":"index.html","title":""}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>须知少时凌云志，曾许人间第一流</title>
+  <title>须知少时凌云志，曾许人间第一流</title>
   
 
 
 
 
+
+
   <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
 
-  <main class="main">
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
+      <span class="logo-line-before"><i></i></span>
       <h1 class="site-title">须知少时凌云志，曾许人间第一流</h1>
-      <i class="logo-line"></i>
+      <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">iOSer,life,and Cat</p>
   </div>
@@ -80,92 +113,54 @@
 
 
 
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
 
 
 
 </div>
-        
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-overview-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">CodeoPerryH</p>
-  <div class="site-description" itemprop="description">ios</div>
-</div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">16</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-        </div>
-      </div>
-    </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
     </header>
 
     
-  <div class="back-to-top" role="button" aria-label="Back to top">
+  <div class="back-to-top">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
 
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    <div class="main-inner index posts-expand">
-
-    
-
-
-<div class="post-block">
+          <div class="content index posts-expand">
+            
+      
   
   
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2021/12/31/hexo%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/headerimage.jpeg">
       <meta itemprop="name" content="CodeoPerryH">
       <meta itemprop="description" content="ios">
     </span>
@@ -175,29 +170,28 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/12/31/hexo%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">2021年总结</a>
+          
+            <a href="/2021/12/31/hexo%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8D%9A%E5%AE%A2/" class="post-title-link" itemprop="url">2021年总结</a>
         </h2>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2021-12-31 17:19:03" itemprop="dateCreated datePublished" datetime="2021-12-31T17:19:03+08:00">2021-12-31</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-27 14:28:47" itemprop="dateModified" datetime="2022-01-27T14:28:47+08:00">2022-01-27</time>
-    </span>
+              <time title="Created: 2021-12-31 17:19:03" itemprop="dateCreated datePublished" datetime="2021-12-31T17:19:03+08:00">2021-12-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-01-27 14:28:47" itemprop="dateModified" datetime="2022-01-27T14:28:47+08:00">2022-01-27</time>
+              </span>
 
-  
-</div>
+          
 
         </div>
       </header>
@@ -206,6 +200,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
+
+      
           <meta name="referrer" content="no-referrer"/>
 
 <p>  过了今天，就是2022年了，30岁了，感叹有很多，最大就是时间过得真快呀！</p>
@@ -224,29 +220,22 @@
     
     
     
-
-    <footer class="post-footer">
+      <footer class="post-footer">
         <div class="post-eof"></div>
-      
-    </footer>
+      </footer>
   </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
+  
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2018/09/01/%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A6%81%E7%82%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/headerimage.jpeg">
       <meta itemprop="name" content="CodeoPerryH">
       <meta itemprop="description" content="ios">
     </span>
@@ -256,29 +245,28 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/09/01/%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">网络性能优化</a>
+          
+            <a href="/2018/09/01/%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">网络性能优化</a>
         </h2>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2018-09-01 17:19:03" itemprop="dateCreated datePublished" datetime="2018-09-01T17:19:03+08:00">2018-09-01</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-27 14:28:23" itemprop="dateModified" datetime="2022-01-27T14:28:23+08:00">2022-01-27</time>
-    </span>
+              <time title="Created: 2018-09-01 17:19:03" itemprop="dateCreated datePublished" datetime="2018-09-01T17:19:03+08:00">2018-09-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-01-27 14:28:23" itemprop="dateModified" datetime="2022-01-27T14:28:23+08:00">2022-01-27</time>
+              </span>
 
-  
-</div>
+          
 
         </div>
       </header>
@@ -287,6 +275,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
+
+      
           <meta name="referrer" content="no-referrer"/>
 
 <h1 id="网络性能优化指导原则"><a href="#网络性能优化指导原则" class="headerlink" title="网络性能优化指导原则"></a>网络性能优化指导原则</h1><p>移动端开发，接口联调是工作中的主要内容。项目中网络库一般都是直接封装好的，对于大部分同学来说，都是直接发请求，然后网络请求回来后直接转下model，再去更新UI。笔者在面试的过程中，发现很多同学不清楚怎么做网络性能优化。本文就给大家分享下网络性能优化的整体方案。<br>网络性能优化，最根本的指导原则为：减少网络请求次数，减少数据传输量。</p>
@@ -317,29 +307,22 @@
     
     
     
-
-    <footer class="post-footer">
+      <footer class="post-footer">
         <div class="post-eof"></div>
-      
-    </footer>
+      </footer>
   </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
+  
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/headerimage.jpeg">
       <meta itemprop="name" content="CodeoPerryH">
       <meta itemprop="description" content="ios">
     </span>
@@ -349,29 +332,28 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/08/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">网络编程</a>
+          
+            <a href="/2018/08/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">网络编程</a>
         </h2>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2018-08-21 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-21T17:19:03+08:00">2018-08-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-27 14:26:57" itemprop="dateModified" datetime="2022-01-27T14:26:57+08:00">2022-01-27</time>
-    </span>
+              <time title="Created: 2018-08-21 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-21T17:19:03+08:00">2018-08-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-01-27 14:26:57" itemprop="dateModified" datetime="2022-01-27T14:26:57+08:00">2022-01-27</time>
+              </span>
 
-  
-</div>
+          
 
         </div>
       </header>
@@ -380,6 +362,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
+
+      
           <meta name="referrer" content="no-referrer"/>
 
 <h1 id="tcp与udp"><a href="#tcp与udp" class="headerlink" title="tcp与udp"></a>tcp与udp</h1><h2 id="网络协议分层"><a href="#网络协议分层" class="headerlink" title="网络协议分层"></a>网络协议分层</h2><ul>
@@ -490,29 +474,22 @@
     
     
     
-
-    <footer class="post-footer">
+      <footer class="post-footer">
         <div class="post-eof"></div>
-      
-    </footer>
+      </footer>
   </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
+  
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/19/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/headerimage.jpeg">
       <meta itemprop="name" content="CodeoPerryH">
       <meta itemprop="description" content="ios">
     </span>
@@ -522,29 +499,28 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/08/19/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">数据存储</a>
+          
+            <a href="/2018/08/19/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">数据存储</a>
         </h2>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2018-08-19 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-19T17:19:03+08:00">2018-08-19</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-27 14:28:16" itemprop="dateModified" datetime="2022-01-27T14:28:16+08:00">2022-01-27</time>
-    </span>
+              <time title="Created: 2018-08-19 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-19T17:19:03+08:00">2018-08-19</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-01-27 14:28:16" itemprop="dateModified" datetime="2022-01-27T14:28:16+08:00">2022-01-27</time>
+              </span>
 
-  
-</div>
+          
 
         </div>
       </header>
@@ -553,6 +529,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
+
+      
           <meta name="referrer" content="no-referrer"/>
 
 <h1 id="NSUserDefaults"><a href="#NSUserDefaults" class="headerlink" title="NSUserDefaults"></a>NSUserDefaults</h1><h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul>
@@ -601,29 +579,22 @@
     
     
     
-
-    <footer class="post-footer">
+      <footer class="post-footer">
         <div class="post-eof"></div>
-      
-    </footer>
+      </footer>
   </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
+  
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/headerimage.jpeg">
       <meta itemprop="name" content="CodeoPerryH">
       <meta itemprop="description" content="ios">
     </span>
@@ -633,29 +604,28 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/08/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">软件设计模式</a>
+          
+            <a href="/2018/08/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">软件设计模式</a>
         </h2>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2018-08-17 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-17T17:19:03+08:00">2018-08-17</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-27 14:28:11" itemprop="dateModified" datetime="2022-01-27T14:28:11+08:00">2022-01-27</time>
-    </span>
+              <time title="Created: 2018-08-17 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-17T17:19:03+08:00">2018-08-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-01-27 14:28:11" itemprop="dateModified" datetime="2022-01-27T14:28:11+08:00">2022-01-27</time>
+              </span>
 
-  
-</div>
+          
 
         </div>
       </header>
@@ -664,6 +634,8 @@
     
     
     <div class="post-body" itemprop="articleBody">
+
+      
           <meta name="referrer" content="no-referrer"/>
 
 <p>软件设计模式（Design pattern），又称设计模式，是一套被反复使用、多数人知晓的、经过分类编目的、代码设计经验的总结。使用设计模式是为了可重用代码、让代码更容易被他人理解、保证代码可靠性、程序的重用性。<br>软件设计模式建立在七大设计原则基础上，本文为大家梳理下设计原则和常用设计模式。</p>
@@ -887,778 +859,116 @@
     
     
     
-
-    <footer class="post-footer">
+      <footer class="post-footer">
         <div class="post-eof"></div>
-      
-    </footer>
+      </footer>
   </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
+  
   
   
 
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/15/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CodeoPerryH">
-      <meta itemprop="description" content="ios">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="须知少时凌云志，曾许人间第一流">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/08/15/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">内存管理</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-08-15 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-15T17:19:03+08:00">2018-08-15</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-27 14:28:08" itemprop="dateModified" datetime="2022-01-27T14:28:08+08:00">2022-01-27</time>
-    </span>
 
   
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <meta name="referrer" content="no-referrer"/>
-
-<h1 id="内存存储区"><a href="#内存存储区" class="headerlink" title="内存存储区"></a>内存存储区</h1><p>iOS内存存储区分为栈、堆、全局和静态变量存储区、常量存储区、代码区。<br>代码区-&gt;常量存储区-&gt;全局和静态变量存储区-&gt;堆-&gt;栈在内存中的地址从低往高。<br>栈的生长方向为向低地址生长，堆的生长方向为向高地址生长。<br>栈和堆在程序运行时会动态增长，其他区在编译期确定</p>
-<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p>用来存放局部变量、函数参数等。底层实现数据结构为栈，后申请的变量先释放。</p>
-<h2 id="堆"><a href="#堆" class="headerlink" title="堆"></a>堆</h2><p>程序通过malloc，new创建出来的对象存放在堆中。</p>
-<h2 id="全局、静态变量存储区"><a href="#全局、静态变量存储区" class="headerlink" title="全局、静态变量存储区"></a>全局、静态变量存储区</h2><p>全局，静态变量存储在该区。该区在编译期就确定了。</p>
-<h2 id="常量存储区"><a href="#常量存储区" class="headerlink" title="常量存储区"></a>常量存储区</h2><p>常量存储在该区。该区在编译期就确定了。</p>
-<h2 id="代码区"><a href="#代码区" class="headerlink" title="代码区"></a>代码区</h2><p>二进制代码存储在该区。该区在编译器就确定了。</p>
-<h1 id="引用计数规则"><a href="#引用计数规则" class="headerlink" title="引用计数规则"></a>引用计数规则</h1><h2 id="MRC"><a href="#MRC" class="headerlink" title="MRC"></a>MRC</h2><table>
-<thead>
-<tr>
-<th>对象操作</th>
-<th>OC中对应的方法</th>
-<th>对应的 retainCount 变化｜</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>生成并持有对象</td>
-<td>alloc/new/copy/mutableCopy等</td>
-<td>+1</td>
-</tr>
-<tr>
-<td>持有对象</td>
-<td>retain</td>
-<td>+1</td>
-</tr>
-<tr>
-<td>释放对象</td>
-<td>release</td>
-<td>-1</td>
-</tr>
-<tr>
-<td>废弃对象</td>
-<td>dealloc</td>
-<td>0</td>
-</tr>
-</tbody></table>
-<p>一、规则<br>1、四个法则</p>
-<ul>
-<li>  自己生成的对象，自己持有。</li>
-<li>  非自己生成的对象，自己也能持有。</li>
-<li>  不在需要自己持有对象的时候，释放。</li>
-<li>  非自己持有的对象无需释放。</li>
-</ul>
-<p>2、任何以下列名称为前缀的方法，若其返回值为 object，则方法调用者持有该 object：</p>
-<ul>
-<li>  alloc</li>
-<li>  new</li>
-<li>  copy</li>
-<li>  mutableCopy</li>
-</ul>
-<p>3、还有一个更为严格的规则：任何以 init 为前缀的方法必须遵守下列规则：</p>
-<ul>
-<li>  该方法必须是实例方法；</li>
-<li>  该方法必须返回类型为id或其所属class、superclass、subclass 的对象；</li>
-<li>  该方法返回的 object 不能是 autorelese，即方法调用者持有返回的 object。</li>
-</ul>
-<p>4、『方法调用者持有该 object』也就意味着该 object 的内存问题需要调用方管理。<br>在此之外的任何方法返回的 object，其调用方都不持有，即返回的应该是 autorelease object。</p>
-<h2 id="ARC"><a href="#ARC" class="headerlink" title="ARC"></a>ARC</h2><p>ARC 是苹果引入的一种自动内存管理机制，会根据引用计数自动监视对象的生存周期，实现方式是在编译时期自动在已有代码中插入合适的内存管理代码以及在 Runtime 做一些优化。</p>
-<h1 id="引用计数实现原理"><a href="#引用计数实现原理" class="headerlink" title="引用计数实现原理"></a>引用计数实现原理</h1><p>有两种实现方式<br>1、在对象内部保持引用计数。<br>2、在全局表里保持引用计数，key为对象，value为对象的引用计数。<br>iOS采用的第二种方式，在调用retain方法的时候，在全局表里面查找对象并增加引用计数；调用release方法的时候，在全局表里面查找对象并减少引用计数，如果引用计数为0，释放掉对象，并且从表里面移除该项数据。</p>
-<h1 id="weak实现原理"><a href="#weak实现原理" class="headerlink" title="weak实现原理"></a>weak实现原理</h1><p>iOS在底层用了一个全局表来实现weak，表的key为引用对象，value为一个数组，代表了所有weak指针。对用weak指针引用对象时，如果不存在那就往weak指针数组里面插入该weak指针。 当weak指针销毁时候，会从weak指针数组里面移除该weak指针。 当引用对象销毁的时候，会自动地把weak指针数组置为nil。<br>weak跟assign、__unsafe_unretained区别在于引用对象销毁时，weak会自动置为nil，其他的不会，因此用weak不会造成野指针，因此不会崩溃。<br>assign与__unsafe_unretained差不多，最好不要用assign修饰对象。</p>
-<h1 id="Autorelease实现原理"><a href="#Autorelease实现原理" class="headerlink" title="Autorelease实现原理"></a>Autorelease实现原理</h1><p>如果对一个对象调用Autorelease，该对象会加入到自动释放池，当自动释放池释放的时候，会对该对象调用release。</p>
-<h1 id="bridge、-bridge-retained、-bridge-transfer"><a href="#bridge、-bridge-retained、-bridge-transfer" class="headerlink" title="_bridge、__bridge_retained、__bridge_transfer"></a>_bridge、__bridge_retained、__bridge_transfer</h1><h2 id="bridge"><a href="#bridge" class="headerlink" title="_bridge"></a>_bridge</h2><p>_bridge直接转换，不进行任何内存转移操作</p>
-<h2 id="bridge-retained"><a href="#bridge-retained" class="headerlink" title="__bridge_retained"></a>__bridge_retained</h2><p>__bridge_retained 的作用是使得被赋值变量持有赋值 object。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">ARC如下代码：</span><br><span class="line">id obj = [[NSObjcet alloc] init];</span><br><span class="line">void* p = (__bridge_retained void*)obj;</span><br><span class="line">相当于MRC：</span><br><span class="line">id obj = [[NSObjcet alloc] init];</span><br><span class="line">void* p = (void*)obj;</span><br><span class="line">[p retain];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="bridge-transfer"><a href="#bridge-transfer" class="headerlink" title="__bridge_transfer"></a>__bridge_transfer</h2><p>__bridge_transfer,转移控制权，它的作用是使得赋值 object 在赋值后被 release。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ARC如下代码：</span><br><span class="line">id obj = [[NSObjcet alloc] init];</span><br><span class="line">void* p = (__bridge_transfer void*)obj;</span><br><span class="line">相当于MRC：</span><br><span class="line">id obj = [[NSObjcet alloc] init];</span><br><span class="line">void* p = (void*)obj;</span><br><span class="line">[p retain];</span><br><span class="line">[obj release];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>`</p>
-<h1 id="Tagged-Pointer"><a href="#Tagged-Pointer" class="headerlink" title="Tagged Pointer"></a>Tagged Pointer</h1><p>2013年9月，苹果推出了iPhone5s，与此同时，iPhone5s配备了首个采用64位架构的A7双核处理器，为了节省内存和提高执行效率，苹果提出了Tagged Pointer<br>的概念。对于64位程序，引入Tagged Pointer后，相关逻辑能减少一半的内存占用，以及3倍的访问速度提升，100倍的创建、销毁速度提升。<br>Tagged Pointer通过在其最后一个bit位设置一个特殊标记，用于将数据直接保存在指针本身中。因为Tagged Pointer并不是真正的对象，我们在使用时需要注意不要直接访问其isa变量。<br>具体可以参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c9089494fb6c">深入理解Tagged Pointer</a></p>
-<h1 id="copy原理"><a href="#copy原理" class="headerlink" title="copy原理"></a>copy原理</h1><h2 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h2><p>浅拷贝不会生成新对象，只是引用拷贝对象，指向的是同一块内存，两个对象任何一个发生变化都是互相影响。深拷贝新生成一个对象，把原来对象的内容复制过来了，两个对象毫不相关了。</p>
-<h2 id="数组拷贝操作"><a href="#数组拷贝操作" class="headerlink" title="数组拷贝操作"></a>数组拷贝操作</h2><h3 id="数组拷贝"><a href="#数组拷贝" class="headerlink" title="数组拷贝"></a>数组拷贝</h3><ul>
-<li>  [NSArray copy] 浅copy</li>
-<li>  [NSArray mutableCopy] 深copy</li>
-<li>  [NSMutableArray copy] 深copy</li>
-<li>  [NSMutableArray mutableCopy] 深copy</li>
-</ul>
-<h3 id="数组保存的对象"><a href="#数组保存的对象" class="headerlink" title="数组保存的对象"></a>数组保存的对象</h3><ul>
-<li>  数组会对保存的对象内存引用计数+1。</li>
-<li>  数组保存的是对象的指针对象。</li>
-<li>  如果数组copy时，保存的对象也想同时copy，可以用initWithArray:copyItems:函数。</li>
-</ul>
-<h2 id="copy修饰NSArray-strong修饰NSMutableArray"><a href="#copy修饰NSArray-strong修饰NSMutableArray" class="headerlink" title="copy修饰NSArray strong修饰NSMutableArray"></a>copy修饰NSArray strong修饰NSMutableArray</h2><ul>
-<li>  用copy修饰NSMutableArray，可能引发崩溃，因为执行copy后，数组变成了不可变数组。</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSMutableArray *arr = [NSMutableArray arrayWithObjects:@1, @2, @3, nil];</span><br><span class="line">self.copyedMutableArr = arr;</span><br><span class="line"> [self.copyedMutableArr removeObject:@1]; // 崩溃，错位信息为：Terminating app due to uncaught exception &#x27;NSInvalidArgumentException&#x27;, reason: &#x27;-[__NSArrayI removeObject:]: unrecognized selector sent to instance 0x600000c1a190&#x27;。因为copyedMutableArr为不可变对象</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>参考资料：[copy修饰NSArray strong修饰NSMutableArray]<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2008e585c1a0">https://www.jianshu.com/p/2008e585c1a0</a></p>
-<h2 id="自定义拷贝"><a href="#自定义拷贝" class="headerlink" title="自定义拷贝"></a>自定义拷贝</h2><p>实现NSCopying和NSMutableCopying协议来进行copy和mutableCopy</p>
-<h1 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h1><p>NSArray和NSDictionary是线程安全的。<br>NSMutableArray和NSMutableDictionary是线程不安全的。<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/iosswift/article/details/44597759">线程安全总结</a></p>
-<p>参考资料：<br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904004669931533#heading-9">深入理解 iOS 内存管理</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/12/%E6%B7%B7%E7%BC%96%E6%8A%80%E6%9C%AF%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CodeoPerryH">
-      <meta itemprop="description" content="ios">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="须知少时凌云志，曾许人间第一流">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/08/12/%E6%B7%B7%E7%BC%96%E6%8A%80%E6%9C%AF%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">关于客服端混编技术的一些知识点</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-08-12 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-12T17:19:03+08:00">2018-08-12</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-27 14:28:03" itemprop="dateModified" datetime="2022-01-27T14:28:03+08:00">2022-01-27</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <meta name="referrer" content="no-referrer"/>
-
-<p>移动开发已经进入大前端时代。对于混编技术，目前业界流行的方案是H5、React Native、Weex、Flutter。</p>
-<h1 id="Hybrid-H5混编"><a href="#Hybrid-H5混编" class="headerlink" title="Hybrid H5混编"></a>Hybrid H5混编</h1><p>相对于rn、weex、flutter等混编技术，在App里面内嵌H5实现成本较低，所以目前市面上H5混编仍是主流。</p>
-<h2 id="JS与Native通信方式实现"><a href="#JS与Native通信方式实现" class="headerlink" title="JS与Native通信方式实现"></a>JS与Native通信方式实现</h2><h3 id="伪协议"><a href="#伪协议" class="headerlink" title="伪协议"></a>伪协议</h3><p>伪协议指的是自己自定义的url协议，通过webview的代理拦截到url的加载，识别出伪协议，然后调用native的方法。伪协议可以这样定义：AKJS:// functionName? param1=value1&amp;param2=value2。 其中AKJS代表我们自己定义的协议，functionName代表要调用的App方法，?后面代表传入的参数。<br>1、UIWebView通过UIWebViewDelegate的代理方法-webView: shouldStartLoadWithRequest:navigationType:进行伪协议拦截。<br>2、WKWebView通过WKNavigationDelegate代理方法实现- webView:decidePolicyForNavigationAction:decisionHandler:进行伪协议拦截。<br>3、优缺点<br>优点：实现简单。<br>缺点：</p>
-<ul>
-<li>  由于url长度大小有限制，导致传参大小有限制，比如h5如果要传一个图片的base64字符串过来，这种方式就无能为力了。</li>
-<li>  需要在代理拦截方法里面写一系列if else处理，难以维护。</li>
-<li>  如果App要兼容UIWebView和WKWebView，需要有两套实现，难以维护。</li>
-</ul>
-<h3 id="JSContext"><a href="#JSContext" class="headerlink" title="JSContext"></a>JSContext</h3><p>为了解决伪协议实现的缺点，我们可以往webview里面注入OC对象，不过这种方案只能用于UIWebView中。此种方式的实现步骤如下：<br>1、在webViewDidFinishLoad方法中通过JSContext注入JS对象</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">self.jsContext = [self.webView valueForKeyPath:@&quot;documentView.webView.mainFrame.javaScriptContext&quot;];</span><br><span class="line">self.jsContext[@&quot;AK_JSBridge&quot;] = self.bridgeAdapter; //往JS中注入OC对象</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2、OC对象实现JSExport协议，这样JS就可以调用OC对象的方法了</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@interface AKBridgeAdapter : NSOject&lt; JSExport &gt;</span><br><span class="line">- (void)getUID;  // 获取用户ID</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>此种方案的优点是：实现简单、通过暴露类给js实现js调用原生，简洁清晰。缺点是：只能用在UIWebView。</p>
-<h3 id="WKScriptMessageHandler"><a href="#WKScriptMessageHandler" class="headerlink" title="WKScriptMessageHandler"></a>WKScriptMessageHandler</h3><p>WKWebView可以通过提供实现了WKScriptMessageHandler协议的类来实现JS调用OC，实现步骤如下：<br>1、往webview注入OC对象。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[self.configuration.userContentController addScriptMessageHandler:self.adapter name:@&quot;AK_JSBridge&quot;]</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2、实现- userContentController:didReceiveScriptMessage:获取方法调用名和参数</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message &#123;</span><br><span class="line">    if ([message.body isKindOfClass:[NSDictionary class]]) &#123;</span><br><span class="line">        NSDictionary *dicMessage = message.body;</span><br><span class="line"></span><br><span class="line">        NSString *funcName = [dicMessage stringForKey:@&quot;funcName&quot;];</span><br><span class="line">        NSString *parameter = [dicMessage stringForKey:@&quot;parameter&quot;];</span><br><span class="line">       //进行逻辑处理</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>此种方案的优点是：实现简单，缺点是：不支持UIWebView。</p>
-<h3 id="第三方库WKWebViewJavascriptBridge"><a href="#第三方库WKWebViewJavascriptBridge" class="headerlink" title="第三方库WKWebViewJavascriptBridge"></a>第三方库WKWebViewJavascriptBridge</h3><p><a target="_blank" rel="noopener" href="https://github.com/marcuswestin/WebViewJavascriptBridge">WKWebViewJavascriptBridge</a>是iOS使用最广泛的JSBridge库，该库通过伪协议+JS消息队列实现了JS与OC交互，此种方案兼容UIWebView和WKWebView。</p>
-<h2 id="webview安全"><a href="#webview安全" class="headerlink" title="webview安全"></a>webview安全</h2><h3 id="域名黑白名单"><a href="#域名黑白名单" class="headerlink" title="域名黑白名单"></a>域名黑白名单</h3><ul>
-<li>  通过黑名单url，防止黑名单url加载。</li>
-<li>  通过白名单url，只允许白名单url加载。</li>
-</ul>
-<h3 id="JSBridge方法黑白名单"><a href="#JSBridge方法黑白名单" class="headerlink" title="JSBridge方法黑白名单"></a>JSBridge方法黑白名单</h3><ul>
-<li>  对于自己公司的白名单url，允许访问所有JSBridge方法。</li>
-<li>  对于第三方白名单url，不允许访问JSBridge任何方法。</li>
-<li>  对于黑名单url，不允许访问JSBridge任何方法。</li>
-</ul>
-<h3 id="httpdns"><a href="#httpdns" class="headerlink" title="httpdns"></a>httpdns</h3><p>通过httpdns方式防止url劫持。</p>
-<h3 id="页面采用https"><a href="#页面采用https" class="headerlink" title="页面采用https"></a>页面采用https</h3><p>HTTPS可以防止页面被劫持或者注入，然而其副作用也是明显的，网络传输的性能和成功率都会下降，而且HTTPS的页面会要求页面内所有引用的资源也是HTTPS的，对于大型网站其迁移成本并不算低。</p>
-<h3 id="页面网络请求走原生"><a href="#页面网络请求走原生" class="headerlink" title="页面网络请求走原生"></a>页面网络请求走原生</h3><p>页面post请求走原生的网络请求。</p>
-<h2 id="webview优化"><a href="#webview优化" class="headerlink" title="webview优化"></a>webview优化</h2><p>webview加载页面过程</p>
-<blockquote>
-<p>初始化 webview -&gt; 请求页面 -&gt; 下载数据 -&gt; 解析HTML -&gt; 请求 js/css 资源 -&gt; dom 渲染 -&gt; 解析 JS 执行 -&gt; JS 请求数据 -&gt; 解析渲染 -&gt; 下载渲染图片</p>
-</blockquote>
-<h3 id="全局webview池"><a href="#全局webview池" class="headerlink" title="全局webview池"></a>全局webview池</h3><p>可以在App启动的时候创建全局webview池，webview的大小建议3个以内。后续的webview都重用这些webview。</p>
-<h3 id="DNS解析优化"><a href="#DNS解析优化" class="headerlink" title="DNS解析优化"></a>DNS解析优化</h3><p>DNS会在系统级别进行缓存，对于WebView的地址，如果使用的域名与native的API相同，则可以直接使用缓存的DNS而不用再发起请求。</p>
-<h3 id="客户端提前请求数据"><a href="#客户端提前请求数据" class="headerlink" title="客户端提前请求数据"></a>客户端提前请求数据</h3><ul>
-<li>  在客户端初始化WebView的同时，直接由native开始网络请求数据；</li>
-<li>  当页面初始化完成后，向native获取其代理请求的数据。</li>
-</ul>
-<h3 id="同步渲染采用chunk编码"><a href="#同步渲染采用chunk编码" class="headerlink" title="同步渲染采用chunk编码"></a>同步渲染采用chunk编码</h3><p>同步渲染时如果后端请求时间过长，可以考虑采用chunk编码，将数据放在最后，并优先将静态内容flush。</p>
-<h3 id="资源包预加载"><a href="#资源包预加载" class="headerlink" title="资源包预加载"></a>资源包预加载</h3><p>对于电商app，大促之前先提前下载好资源包，等大促入口放开了，就可以直接加载本地资源。<br>或者直接预加载一个公共h5，把这个公共h5的公共资源缓存下来，下次打开别的页面就能直接使用这些公共资源了。</p>
-<h3 id="资源离线缓存"><a href="#资源离线缓存" class="headerlink" title="资源离线缓存"></a>资源离线缓存</h3><p>可以拦截图片、js等资源的下载，使用本地缓存。</p>
-<h3 id="前端优化"><a href="#前端优化" class="headerlink" title="前端优化"></a>前端优化</h3><p>前端开发同学可以从h5布局，js打包、解析、执行等角度进行优化。</p>
-<h1 id="React-Native"><a href="#React-Native" class="headerlink" title="React Native"></a>React Native</h1><p><a target="_blank" rel="noopener" href="https://github.com/facebook/react-native">React Native</a>是facebook开发的用于统一h5、iOS、Android三端的开源库。其基本原理是通过JSCore实现JS与原生的调用，它的渲染引擎最终会路由到原生的控件上面。目前在业界使用广泛。</p>
-<h1 id="Weex"><a href="#Weex" class="headerlink" title="Weex"></a>Weex</h1><p><a target="_blank" rel="noopener" href="https://github.com/apache/incubator-weex">Weex</a>是阿里开发的用于统一h5、iOS、Android三端的开源库。其基本原理是通过JSCore实现JS与原生的调用，它的渲染引擎最终会路由到原生的控件上面。业内用得相对少点。</p>
-<h1 id="Flutter"><a href="#Flutter" class="headerlink" title="Flutter"></a>Flutter</h1><p><a target="_blank" rel="noopener" href="https://github.com/flutter/flutter">Flutter</a>是google开发的用于统一iOS、Android两端的开源库（不能用在h5）。其基本原理是通过自己的skia渲染引擎实现iOS和Android控件的统一。目前业界使用的越来越多。</p>
-<h1 id="如何抉择"><a href="#如何抉择" class="headerlink" title="如何抉择"></a>如何抉择</h1><ul>
-<li>  如果是小公司，建议只使用h5混编，引入其他的混编技术，学习成本高、维护成本高，招人也比较难。</li>
-<li>  如果是中大型公司。一般都会选用h5、rn、flutter混编。如果要统一三端，那就rn。如果只想统一iOS和Android，flutter是个不错的选择。</li>
-</ul>
-<p>参考资料：<br><a target="_blank" rel="noopener" href="https://tech.meituan.com/2020/09/30/waimai-mobile-architecture-evolution.html">外卖客户端容器化架构的演进</a><br><a target="_blank" rel="noopener" href="https://tech.meituan.com/2017/06/09/webviewperf.html">WebView性能、体验分析与优化</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903809521549320#heading-10">iOS app秒开H5优化探索</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CodeoPerryH">
-      <meta itemprop="description" content="ios">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="须知少时凌云志，曾许人间第一流">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/08/11/%E5%A4%9A%E7%BA%BF%E7%A8%8B%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">多线程</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-08-11 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-11T17:19:03+08:00">2018-08-11</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-27 14:27:53" itemprop="dateModified" datetime="2022-01-27T14:27:53+08:00">2022-01-27</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <meta name="referrer" content="no-referrer"/>
-
-
-<h2 id="多线程创建方式"><a href="#多线程创建方式" class="headerlink" title="多线程创建方式"></a>多线程创建方式</h2><p>iOS创建多线程方式主要有NSThread、NSOperation、GCD，这三种方式创建多线程的优缺点如下：</p>
-<h3 id="NSThread"><a href="#NSThread" class="headerlink" title="NSThread"></a>NSThread</h3><ul>
-<li>  NSThread 封装了一个线程，通过它可以方便的创建一个线程。NSThread 线程之间的并发控制，是需要我们自己来控制的。它的缺点是需要我们自己维护线程的生命周期、线程之间同步等，优点是轻量，灵活。</li>
-</ul>
-<h3 id="NSOperation"><a href="#NSOperation" class="headerlink" title="NSOperation"></a>NSOperation</h3><ul>
-<li>  NSOperation 是一个抽象类，它封装了线程的实现细节，不需要自己管理线程的生命周期和线程的同步等，需要和 NSOperationQueue 一起使用。使用 NSOperation ，你可以方便地控制线程，比如取消线程、暂停线程、设置线程的优先级、设置线程的依赖。NSOperation常用于下载库的实现，比如SDWebImage的实现就用到了NSOperation。</li>
-</ul>
-<h3 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h3><ul>
-<li>GCD(Grand Central Dispatch) 是 Apple 开发的一个多核编程的解决方法。GCD 是一个可以替代 NSThread 的很高效和强大的技术。在平常开发过程中，我们用的最多的就是GCD。哦，对了，NSOperation是基于GCD实现的。<br>  由于GCD是iOS使用最为频繁的，所以GCD面试也经常问到，具体可以阅读笔者写的另外一篇文章<a target="_blank" rel="noopener" href="https://xiaozhuanlan.com/topic/9206813475">GCD面试要点</a>。</li>
-</ul>
-<h2 id="多线程同步"><a href="#多线程同步" class="headerlink" title="多线程同步"></a>多线程同步</h2><p>多线程情况下访问共享资源需要进行线程同步，线程同步一般都用锁实现。从操作系统层面，锁的实现有临界区、事件、互斥量、信号量等。这里讲一下iOS中多线程同步的方式。</p>
-<h3 id="atomic"><a href="#atomic" class="headerlink" title="atomic"></a>atomic</h3><p>使用atomic 修饰属性，编译器会设置默认读写方法为原子读写，底层采用自旋锁（iOS10开始自旋锁改为互斥锁实现了）保证原子操作。<br>单独的原子操作绝对是线程安全的，但是组合一起的操作就不能保证。一般我们在定义属性的时候用nonatomic，避免性能损失。<br>参考资料：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/junhuawang/p/13529814.html">atomic实现原理</a></p>
-<h3 id="synchronized"><a href="#synchronized" class="headerlink" title="@synchronized"></a><a target="_blank" rel="noopener" href="https://xiaozhuanlan.com/u/1294451781">@synchronized</a></h3><p>@synchronized指令是一个对象锁，用起来非常简单。使用obj为该锁的唯一标识，只有当标识相同时，才为满足互斥，如果线程1和线程2中的@synchronized后面的obj不相同，则不会互斥。@synchronized其实是对pthread_mutex递归锁的封装。<br>@synchronized优点是我们不需要在代码中显式的创建锁对象，使用简单; 缺点是@synchronized会隐式的添加一个异常处理程序，该异常处理程序会在异常抛出的时候自动的释放互斥锁，从而带来额外开销。</p>
-<h3 id="NSLock"><a href="#NSLock" class="headerlink" title="NSLock"></a>NSLock</h3><p>最简单的锁，调用lock获取锁，unlock释放锁。如果其它线程已经调用lock获取了锁，当前线程调用lock方法会阻塞当前线程，直到其它线程调用unlock释放锁为止。NSLock使用简单，在项目中用的最多。</p>
-<h3 id="NSRecursiveLock"><a href="#NSRecursiveLock" class="headerlink" title="NSRecursiveLock"></a>NSRecursiveLock</h3><p>递归锁主要用来解决同一个线程频繁获取同一个锁而不造成死锁的问题。注意lock和unlock调用必须配对。</p>
-<h3 id="NSConditionLock"><a href="#NSConditionLock" class="headerlink" title="NSConditionLock"></a>NSConditionLock</h3><p>条件锁，可以设置自定义条件来获取锁。比如生产者消费者模型可以用条件锁来实现。</p>
-<h3 id="NSCondition"><a href="#NSCondition" class="headerlink" title="NSCondition"></a>NSCondition</h3><p>条件，操作系统中信号量的实现，方法- (void)wait和- (BOOL)waitUntilDate:(NSDate *)limit用来等待锁直至锁有信号；方法- (void)signal和- (void)broadcast使condition有信号，通知等待condition的线程，变成非阻塞状态。</p>
-<h3 id="dispatch-semaphore-t"><a href="#dispatch-semaphore-t" class="headerlink" title="dispatch_semaphore_t"></a>dispatch_semaphore_t</h3><p>信号量的实现，可以实现控制GCD队列任务的最大并发量，类似于NSOperationQueue的maxConcurrentOperationCount属性。</p>
-<h3 id="pthread-mutex"><a href="#pthread-mutex" class="headerlink" title="pthread_mutex"></a>pthread_mutex</h3><p>mutex叫做”互斥锁”，等待锁的线程会处于休眠状态。使用pthread_mutex_init创建锁，使用pthread_mutex_lock和pthread_mutex_unlock加锁和解锁。注意：mutex可以通过PTHREAD_MUTEX_RECURSIVE创建递归锁，防止重复获取锁导致死锁</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"> //创建锁，注意：mutex可以通过PTHREAD_MUTEX_RECURSIVE创建递归锁，防止重复获取锁导致死锁</span><br><span class="line"> pthread_mutexattr_t recursiveAttr;</span><br><span class="line"> pthread_mutexattr_init(&amp;recursiveAttr);</span><br><span class="line"> pthread_mutexattr_settype(&amp;recursiveAttr, PTHREAD_MUTEX_RECURSIVE);</span><br><span class="line"> pthread_mutex_init(self.mutex, &amp;recursiveAttr);</span><br><span class="line"> pthread_mutexattr_destroy(&amp;recursiveAttr);</span><br><span class="line"></span><br><span class="line">pthread_mutex_lock(&amp;self.mutex)</span><br><span class="line">//访问共享数据代码</span><br><span class="line">pthread_mutex_unlock(&amp;self.mutex)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="OSSpinLock"><a href="#OSSpinLock" class="headerlink" title="OSSpinLock"></a>OSSpinLock</h3><p>OSSpinLock 是自旋锁，等待锁的线程会处于忙等状态。一直占用着 CPU。自旋锁就好比写了个 while，whil(被加锁了) ; 不断的忙等，重复这样。OSSpinLock是不安全的锁（会造成优先级反转），什么是优先级反转，举个例子：<br>有线程1和线程2,线程1的优先级比较高，那么cpu分配给线程1的时间就比较多，自旋锁可能发生优先级反转问题。如果优先级比较低的线程2先加锁了，紧接着线程1进来了，发现已经被加锁了，那么线程1忙等，while（未解锁）; 不断的等待，由于线程1的优先级比较高，CPU就一直分配之间给线程1，就没有时间分配给线程2，就有可能导致线程2的代码就没有办法往下走，就会造成线程2没有办法解锁，所以这个锁就不安全了。苹果为了修复这个bug，OSSpinLock底层改为互斥锁实现了。<br>建议不要使用OSSpinLock，用os_unfair_lock来代替。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//初始化</span><br><span class="line">OSSpinLock lock = OS_SPINLOCK_INIT;</span><br><span class="line">//加锁</span><br><span class="line">OSSpinLockLock(&amp;lock);</span><br><span class="line">//解锁</span><br><span class="line">OSSpinLockUnlock(&amp;lock);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="os-unfair-lock"><a href="#os-unfair-lock" class="headerlink" title="os_unfair_lock"></a>os_unfair_lock</h3><p>os_unfair_lock用于取代不安全的OSSpinLock，从iOS10开始才支持 从底层调用看，等待os_unfair_lock锁的线程会处于休眠状态，并非忙等</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">//初始化</span><br><span class="line">os_unfair_lock lock = OS_UNFAIR_LOCK_INIT;</span><br><span class="line">//加锁</span><br><span class="line">os_unfair_lock_lock(&amp;lock);</span><br><span class="line">//解锁</span><br><span class="line">os_unfair_lock_unlock(&amp;lock);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="性能"><a href="#性能" class="headerlink" title="性能"></a>性能</h3><p>性能从高到低排序<br>1、os_unfair_lock<br>2、OSSpinLock<br>3、dispatch_semaphore<br>4、pthread_mutex<br>5、NSLock<br>6、NSCondition<br>7、pthread_mutex(recursive)<br>8、NSRecursiveLock<br>9、NSConditionLock<br>10、@synchronized</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/09/%E7%BB%84%E4%BB%B6%E5%8C%96%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CodeoPerryH">
-      <meta itemprop="description" content="ios">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="须知少时凌云志，曾许人间第一流">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/08/09/%E7%BB%84%E4%BB%B6%E5%8C%96%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">组件化</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-08-09 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-09T17:19:03+08:00">2018-08-09</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-27 14:28:30" itemprop="dateModified" datetime="2022-01-27T14:28:30+08:00">2022-01-27</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <meta name="referrer" content="no-referrer"/>
-
-<h1 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>组件化的作用是模块解耦、代码复用。</p>
-<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><h3 id="MGJRouter"><a href="#MGJRouter" class="headerlink" title="MGJRouter"></a>MGJRouter</h3><p><a target="_blank" rel="noopener" href="https://github.com/meili/MGJRouter">MGJRouter</a>通过注册url的方式来实现方法注册和调用<br>1、组件提供方通过registerURLPattern注册方法。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[MGJRouter registerURLPattern:@&quot;mgj://category/travel&quot; toHandler:^(NSDictionary *routerParameters) &#123;</span><br><span class="line">    NSLog(@&quot;routerParameters[MGJRouterParameterUserInfo]:%@&quot;, routerParameters[MGJRouterParameterUserInfo]);</span><br><span class="line">    // @&#123;@&quot;user_id&quot;: @1900&#125;</span><br><span class="line">&#125;];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2、调用方通过openURL调用组件提供的方法。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[MGJRouter openURL:@&quot;mgj://category/travel&quot; withUserInfo:@&#123;@&quot;user_id&quot;: @1900&#125; completion:nil];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>该种方案的缺点有：</p>
-<ul>
-<li>  组件每提供一个方法，需要提供一个url，组件多的话url肯定会很多，需要有一个地方统一管理，比较难维护。</li>
-<li>  参数传入不能直接传model，而是需要传字典，如果方法实现方修改一个字段的类型但没有通知调用方，调用方无法直接知道，有可能导致崩溃。</li>
-<li>  通过字典传参不直观，调用方需要知道字段的名字才能获取字段值，如果字段名不定义为宏，到处拷贝字段名造成难以维护。</li>
-</ul>
-<h3 id="CTMediator"><a href="#CTMediator" class="headerlink" title="CTMediator"></a>CTMediator</h3><p><a target="_blank" rel="noopener" href="https://github.com/casatwy/CTMediator">CTMediator</a>通过CTMediator的类别来实现方法调用。<br>1、组件提供方实现Target、Action。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@interface Target_A : NSObject</span><br><span class="line"></span><br><span class="line">- (UIViewController *)Action_nativeFetchDetailViewController:(NSDictionary *)params;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">- (UIViewController *)Action_nativeFetchDetailViewController:(NSDictionary *)params</span><br><span class="line">&#123;</span><br><span class="line">    // 因为action是从属于ModuleA的，所以action直接可以使用ModuleA里的所有声明</span><br><span class="line">    DemoModuleADetailViewController *viewController = [[DemoModuleADetailViewController alloc] init];</span><br><span class="line">    viewController.valueLabel.text = params[@&quot;key&quot;];</span><br><span class="line">    return viewController;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2、组件提供方实现CTMediator类别暴露接口给使用方。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@interface CTMediator (CTMediatorModuleAActions)</span><br><span class="line"></span><br><span class="line">- (UIViewController *)CTMediator_viewControllerForDetail;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">- (UIViewController *)CTMediator_viewControllerForDetail</span><br><span class="line">&#123;</span><br><span class="line">    UIViewController *viewController = [self performTarget:kCTMediatorTargetA</span><br><span class="line">                                                    action:kCTMediatorActionNativFetchDetailViewController</span><br><span class="line">                                                    params:@&#123;@&quot;key&quot;:@&quot;value&quot;&#125;</span><br><span class="line">                                         shouldCacheTarget:NO</span><br><span class="line">                                        ];</span><br><span class="line">    if ([viewController isKindOfClass:[UIViewController class]]) &#123;</span><br><span class="line">        // view controller 交付出去之后，可以由外界选择是push还是present</span><br><span class="line">        return viewController;</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        // 这里处理异常场景，具体如何处理取决于产品</span><br><span class="line">        return [[UIViewController alloc] init];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3、组件调用方通过引入CTMediator (CTMediatorModuleAActions)来调用组件的接口</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#import &quot;CTMediator +CTMediatorModuleAActions.h&quot;</span><br><span class="line">UIViewController* vc = [[CTMediator sharedInstance] CTMediator_viewControllerForDetail];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>此种方案的优点是通过Targrt-Action实现了组件之间的解耦，通过暴露方法给组件使用方，避免了url直接传递字典带来的问题。<br>缺点是：</p>
-<ul>
-<li>  CTMediator类别实现由于需要通过performTarget方式来实现，需要写一堆方法名、方法参数名字字符串，影响阅读,难以维护；</li>
-<li>  没有组件管理器概念。组件之间的互相调用都是通过直接引用CTMediator类别来实现，没有实现真正的解耦；并且类别暴露了方法的具体实现</li>
-</ul>
-<h3 id="BeeHive"><a href="#BeeHive" class="headerlink" title="BeeHive"></a>BeeHive</h3><p><a target="_blank" rel="noopener" href="https://github.com/alibaba/BeeHive">BeeHive</a>通过url来实现页面路由，通过Protocol来实现方法调用。<br>一、组件提供方注册service</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[BeeHive shareInstance] registerService:@protocol(HomeServiceProtocol) service:[BHViewController class]];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>二、组件调用方调用service</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">id&lt; HomeServiceProtocol &gt; homeVc = [[BeeHive shareInstance] createService:@protocol(HomeServiceProtocol)];</span><br><span class="line"></span><br><span class="line">// use homeVc do invocation</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>笔者强烈推荐使用BeeHive这种方式来做组件化，基于Protocol（面向接口）来实现组件化有如下优点：</p>
-<ul>
-<li>  通过提供接口给调用方，向调用方隐藏了实现，后面如果实现改变了，对调用方也是透明的。</li>
-<li>  能让组件提供方清晰地提供接口声明给使用方。</li>
-<li>  能充分利用编辑器特性，比如如果接口删除了一个参数，能通过编译器编不过来告诉调用方接口发生了变化。</li>
-</ul>
-<h2 id="组件管理与发布"><a href="#组件管理与发布" class="headerlink" title="组件管理与发布"></a>组件管理与发布</h2><p>可以采用私有pod库来管理。笔者采用的是私有远程pod+本地pod结合来管理的</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/07/block%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="CodeoPerryH">
-      <meta itemprop="description" content="ios">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="须知少时凌云志，曾许人间第一流">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2018/08/07/block%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" class="post-title-link" itemprop="url">Block</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2018-08-07 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-07T17:19:03+08:00">2018-08-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-27 14:28:34" itemprop="dateModified" datetime="2022-01-27T14:28:34+08:00">2022-01-27</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <meta name="referrer" content="no-referrer"/>
-
-<p>在iOS中，block编程使用得很频繁，我们不仅要会用block，更需要理解block的底层实现原理。笔者在面试中，block问题是必问的。</p>
-<h1 id="什么是block"><a href="#什么是block" class="headerlink" title="什么是block"></a>什么是block</h1><p>block是iOS中对闭包的实现，什么是闭包呢？闭包（英语：Closure），又称词法闭包（Lexical Closure）或函数闭包（function closures），是在支持头等函数的编程语言中实现词法绑定的一种技术。闭包在实现上是一个结构体，它存储了一个函数（通常是其入口地址）和一个关联的环境（相当于一个符号查找表）。环境里是若干对符号和值的对应关系，它既要包括约束变量（该函数内部绑定的符号），也要包括自由变量（在函数外部定义但在函数内被引用），有些函数也可能没有自由变量。</p>
-<h1 id="block类型"><a href="#block类型" class="headerlink" title="block类型"></a>block类型</h1><p>block是一个OC对象，block类型有__NSStackBlock__、__NSMallocBlock__、__NSGlobalBlock__、，分别分配在栈、堆、全局存储区域中。他们都继承于NSObject。下面代码证明打印了__NSGlobalBlock__的继承链</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void (^block)(void) =  ^&#123;</span><br><span class="line">        NSLog(@&quot;akon&quot;);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;block.class = %@&quot;, [block class]);</span><br><span class="line">    NSLog(@&quot;block.class.superclass = %@&quot;, [[block class] superclass]);</span><br><span class="line">    NSLog(@&quot;block.class.superclass.superclass = %@&quot;, [[[block class] superclass] superclass]);</span><br><span class="line">    NSLog(@&quot;block.class.superclass.superclass.superclass = %@&quot;, [[[[block class] superclass] superclass] superclass]);</span><br><span class="line"></span><br><span class="line">运行结果为：</span><br><span class="line">2020-11-13 18:39:02.919351+0800 BlockTestDemo[86009:2083840] block.class = __NSGlobalBlock__</span><br><span class="line">2020-11-13 18:39:02.919562+0800 BlockTestDemo[86009:2083840] block.class.superclass = NSBlock</span><br><span class="line">2020-11-13 18:39:02.919713+0800 BlockTestDemo[86009:2083840] block.class.superclass.superclass = NSObject</span><br><span class="line">2020-11-13 18:39:02.923424+0800 BlockTestDemo[86009:2083840] block.class.superclass.superclass.superclass = (null)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>下面表格列出了MRC和ARC环境下block类型</p>
-<h2 id="MRC下block类型"><a href="#MRC下block类型" class="headerlink" title="MRC下block类型"></a>MRC下block类型</h2><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>环境</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>NSGlobalBlock</strong></td>
-<td>只访问了静态变量（包括全局静态变量和局部静态变量）和全局变量</td>
-</tr>
-<tr>
-<td><strong>NSStackBlock</strong></td>
-<td>没访问静态变量和全局变量</td>
-</tr>
-<tr>
-<td><strong>NSMallocBlock</strong></td>
-<td>__NSStackBlock__调用了copy</td>
-</tr>
-</tbody></table>
-<p>执行如下代码，打印结果符合预期</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> __weak typeof(self)weakSelf = self;</span><br><span class="line"></span><br><span class="line">    static int a = 0;</span><br><span class="line">    void (^block1)(void) =  ^&#123;</span><br><span class="line">        a = 1;</span><br><span class="line">        b = 1; //b为全局变量</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    __block int c = 0;</span><br><span class="line">    void (^block2)(void) =  ^&#123;</span><br><span class="line">        NSLog(@&quot;age:%d&quot;, weakSelf.age);</span><br><span class="line">        c = 1;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;block1.class = %@&quot;, [block1 class]);</span><br><span class="line">    NSLog(@&quot;block2.class = %@&quot;, [block2 class]);</span><br><span class="line">    NSLog(@&quot;block2 copy.class = %@&quot;, [[block2 copy] class]);</span><br><span class="line"></span><br><span class="line">运行结果如下：</span><br><span class="line">2020-11-14 22:45:54.457496+0800 BlockTestDemo[13178:426318] block1.class = __NSGlobalBlock__</span><br><span class="line">2020-11-14 22:45:54.457616+0800 BlockTestDemo[13178:426318] block2.class = __NSStackBlock__</span><br><span class="line">2020-11-14 22:45:54.457720+0800 BlockTestDemo[13178:426318] block2 copy.class = __NSMallocBlock__</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="ARC下block类型"><a href="#ARC下block类型" class="headerlink" title="ARC下block类型"></a>ARC下block类型</h2><table>
-<thead>
-<tr>
-<th>类型</th>
-<th>环境</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>NSGlobalBlock</strong></td>
-<td>只访问了静态变量（包括全局静态变量和局部静态变量）和全局变量</td>
-</tr>
-<tr>
-<td><strong>NSMallocBlock</strong></td>
-<td>没访问静态变量和全局变量</td>
-</tr>
-</tbody></table>
-<p>运行上面的代码，结果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2020-11-14 22:45:54.457052+0800 BlockTestDemo[13178:426318] block1.class = __NSGlobalBlock__</span><br><span class="line">2020-11-14 22:45:54.457211+0800 BlockTestDemo[13178:426318] block2.class = __NSMallocBlock__</span><br><span class="line">2020-11-14 22:45:54.457356+0800 BlockTestDemo[13178:426318] block2 copy.class = __NSMallocBlock__</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="ARC下自动copy"><a href="#ARC下自动copy" class="headerlink" title="ARC下自动copy"></a>ARC下自动copy</h2><ul>
-<li>  我们看到block2为__NSMallocBlock__，这是因为编译器做了优化，在ARC下除了_NSGlobalBlock__就是__NSMallocBlock__，没有__NSStackBlock__；在MRC __NSMallocBlock__生成的条件是对block调用了copy操作。</li>
-<li>在ARC环境下，编译器会根据情况自动将栈上的block复制到堆上，copy的情况如下：<br>  1、block作为函数返回值时<br>  2、 将block赋值给__strong指针时<br>  3、block作为Cocoa API中方法名含有usingBlock的方法参数时<br>  4、block作为GCD API的方法参数时<br>  在ARC中对__NSStackBlock__调用copy变成__NSMallocBlock__，__NSMallocBlock__调用copy还是__NSMallocBlock__，引用计数+1，_NSGlobalBlock__调用copy啥都不做。</li>
-<li>copy底层原理<br>  1、通过_Block_object_assign来对OC对象进行强引用或弱引用<br>  2、通过_Block_object_dispose对OC进行清理</li>
-</ul>
-<h1 id="block数据结构和变量捕获"><a href="#block数据结构和变量捕获" class="headerlink" title="block数据结构和变量捕获"></a>block数据结构和变量捕获</h1><h2 id="block数据结构"><a href="#block数据结构" class="headerlink" title="block数据结构"></a>block数据结构</h2><p>写下如下代码，然后在终端进入.m文件所在目录，执行命令xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc ArcClass.m 我们可以看到在当前目录生成ArcClass.cpp文件。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int age = 18;</span><br><span class="line">void (^block)(void) =  ^&#123;</span><br><span class="line">     NSLog(@&quot;age is %d&quot;,age);</span><br><span class="line"> &#125;;</span><br><span class="line"></span><br><span class="line">block();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>我们可以看到上面的代码变成了</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> int age = 18;</span><br><span class="line">// block定义</span><br><span class="line">    void (*block)(void) = ((void (*)())&amp;__ArcClass__TestArc_block_impl_0((void *)__ArcClass__TestArc_block_func_0, &amp;__ArcClass__TestArc_block_desc_0_DATA, age));</span><br><span class="line">// block调用</span><br><span class="line">    ((void (*)(__block_impl *))((__block_impl *)block)-&gt;FuncPtr)((__block_impl *)block);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>上面代码删除掉一些强制转换的代码简化如下</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int age = 18;</span><br><span class="line">// block定义</span><br><span class="line">void (*block)(void) = &amp; __ArcClass__TestArc_block_impl_0(</span><br><span class="line">                        &amp;__ArcClass__TestArc_block_func_0, </span><br><span class="line">                        &amp; __ArcClass__TestArc_block_desc_0_DATA, </span><br><span class="line">                        age</span><br><span class="line">                        );</span><br><span class="line">// block调用</span><br><span class="line">block-&gt;FuncPtr(block);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>我们可以看到block是指向__ArcClass__TestArc_block_impl_0对象的指针，结构体__ArcClass__TestArc_block_impl_0定义如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">struct __ArcClass__TestArc_block_impl_0 &#123;</span><br><span class="line">  struct __block_impl impl;</span><br><span class="line">  struct __ArcClass__TestArc_block_desc_0* Desc;</span><br><span class="line">  int age;</span><br><span class="line">  __ArcClass__TestArc_block_impl_0(void *fp, struct __ArcClass__TestArc_block_desc_0 *desc, int _age, int flags=0) : age(_age) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.Flags = flags;</span><br><span class="line">    impl.FuncPtr = fp;</span><br><span class="line">    Desc = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>该结构体把age直接赋值给了_age,执行的是拷贝操作。</p>
-<ul>
-<li>  结构体中第一个成员变量是struct __block_impl impl;</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct __block_impl &#123;</span><br><span class="line">      void *isa;</span><br><span class="line">      int Flags;</span><br><span class="line">      int Reserved;</span><br><span class="line">      void *FuncPtr;</span><br><span class="line">&#125;;       </span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>__block_impl 的成员变量isa代表了该block属于啥类型，本例中为_NSConcreteStackBlock ，FuncPtr代表block的调用方法，本例中为__ArcClass__TestArc_block_func_0</p>
-<ul>
-<li>  第二个成员变量是struct __ArcClass__TestArc_block_desc_0* Desc;</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static struct __ArcClass__TestArc_block_desc_0 &#123;</span><br><span class="line">  size_t reserved;</span><br><span class="line">  size_t Block_size;</span><br><span class="line">&#125; __ArcClass__TestArc_block_desc_0_DATA = &#123; 0, sizeof(struct __ArcClass__TestArc_block_impl_0)&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>desc描述了__ArcClass__TestArc_block_impl_0的大小</p>
-<ul>
-<li><p>结构体中第三个是成员变量age<br>  该结构体把age直接赋值给了_age,执行的是拷贝操作。</p>
-</li>
-<li><p>block调用实际上执行的是__ArcClass__TestArc_block_func_0方法<br>  下面为 block方法代码NSLog(@”age is %d”,age);的实现</p>
-</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">static void __ArcClass__TestArc_block_func_0(struct __ArcClass__TestArc_block_impl_0 *__cself) &#123;</span><br><span class="line"></span><br><span class="line">//这里访问age是bound by copy ，即拷贝。</span><br><span class="line">  int age = __cself-&gt;age; // bound by copy </span><br><span class="line">         NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_x0_cw796jjd255431nlsdwjt9840000gn_T_ArcClass_6c36ef_mi_0,age);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>从上面的分析可以看到，定义一个block的时候，底层生成了一个代表block的结构体__ArcClass__TestArc_block_impl_0，该结构体有一个__block_impl类型的impl成员变量和代表捕获变量的成员变量。其中impl的isa 代表了block的类型，FuncPtr代表了block的实际调用方法，该方法的参数为__ArcClass__TestArc_block_impl_0。</p>
-<h2 id="变量捕获"><a href="#变量捕获" class="headerlink" title="变量捕获"></a>变量捕获</h2><p>可以按照上面分析思路，得出结论</p>
-<table>
-<thead>
-<tr>
-<th>变量类型</th>
-<th>捕获到block内部</th>
-<th>变量类型</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>局部非OC变量</td>
-<td>√</td>
-<td>值传递</td>
-</tr>
-<tr>
-<td>局部变量 static、OC对象</td>
-<td>√</td>
-<td>指针传递</td>
-</tr>
-<tr>
-<td>全局变量</td>
-<td>×</td>
-<td>直接访问</td>
-</tr>
-</tbody></table>
-<p>可以看到全局变量，b<br>lock内部不会直接捕获，其他变量会捕获。</p>
-<h1 id="block变量"><a href="#block变量" class="headerlink" title="__block变量"></a>__block变量</h1><h2 id="block作用"><a href="#block作用" class="headerlink" title="__block作用"></a>__block作用</h2><ul>
-<li>  __block只能修饰非静态局部变量，不能修饰静态变量和全局变量，否则编译器报错。</li>
-<li>  当需要在block内部修改一个局部变量时，需要加__block ,否则，编译不过。下面的代码，编译报错：Variable is not assignable (missing __block type specifier)。加上__block编译通过，name会变成lbj</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSString* name = @&quot;akon&quot;;</span><br><span class="line">   void (^block)(void) =  ^&#123;</span><br><span class="line">       name = @&quot;lbj&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">   block();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="底层实现"><a href="#底层实现" class="headerlink" title="底层实现"></a>底层实现</h2><ul>
-<li><p>类似刚才的转成cpp思路，分析得出结论如下图。总结就是对于__block变量，底层会封装成一个对象，其中通过__forwarding指向自己，来访问真实的变量。<br>  <img src="https://upload-images.jianshu.io/upload_images/22877992-0fb09113c7ebc460.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-</li>
-<li><p>为什么要通过__forwarding访问？<br>  这是因为，如果__block变量在栈上，就可以直接访问，但是如果已经拷贝到了堆上，访问的时候，还去访问栈上的，就会出问题，所以，先根据__forwarding找到堆上的地址，然后再取值</p>
-</li>
-</ul>
-<h1 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h1><h2 id="循环引用原因"><a href="#循环引用原因" class="headerlink" title="循环引用原因"></a>循环引用原因</h2><p>当对象A和对象B互相引用时会造成循环引用。</p>
-<h2 id="循环引用解决方案"><a href="#循环引用解决方案" class="headerlink" title="循环引用解决方案"></a>循环引用解决方案</h2><p>竟然对象A和对象B互相引用会造成循环引用，那就要断开这个循环引用，可以通过__weak或者__unsafe_unretained，这两者的区别是__unsafe_unretained当引用对象变为nil时__unsafe_unretained对象不会自动置为nil，导致变为野指针，再次使用会崩溃。</p>
-<h3 id="常见循环引用及解决"><a href="#常见循环引用及解决" class="headerlink" title="常见循环引用及解决"></a>常见循环引用及解决</h3><p>1） 在VC的cellForRowAtIndexPath方法中cell的block直接引用self或者直接以_形式引用属性造成循环引用。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> cell.clickBlock = ^&#123;</span><br><span class="line">        self.name = @&quot;akon&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">cell.clickBlock = ^&#123;</span><br><span class="line">        _name = @&quot;akon&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>解决方案：把self改成weakSelf；</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__weak typeof(self)weakSelf = self;</span><br><span class="line">    cell.clickBlock = ^&#123;</span><br><span class="line">        weakSelf.name = @&quot;akon&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>注意有的时候我们会在block里面写成__strong typeof(weakSelf) strongSelf = weakSelf，然后再用strongSelf调用方案，这样做的原因是防止在block执行过程中weakSelf突然变成nil。<br>2）在cell的block中直接引用VC的成员变量造成循环引用。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//假设 _age为VC的成员变量</span><br><span class="line">@interface TestVC()&#123;</span><br><span class="line"></span><br><span class="line">    int _age;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">cell.clickBlock = ^&#123;</span><br><span class="line">       _age = 18;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>解决方案有两种：</p>
-<ul>
-<li>  用weak-strong dance</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__weak typeof(self)weakSelf = self;</span><br><span class="line">cell.clickBlock = ^&#123;</span><br><span class="line">      __strong typeof(weakSelf) strongSelf = weakSelf;</span><br><span class="line">       strongSelf-&gt;age = 18;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>  把成员变量改成属性</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//假设 _age为VC的成员变量</span><br><span class="line">@interface TestVC()</span><br><span class="line"></span><br><span class="line">@property(nonatomic, assign)int age;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">__weak typeof(self)weakSelf = self;</span><br><span class="line">cell.clickBlock = ^&#123;</span><br><span class="line">       weakSelf.age = 18;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>3）delegate属性声明为strong，造成循环引用。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@interface TestView : UIView</span><br><span class="line"></span><br><span class="line">@property(nonatomic, strong)id&lt;TestViewDelegate&gt; delegate;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface TestVC()&lt;TestViewDelegate&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong)TestView* testView;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"> testView.delegate = self; //造成循环引用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>解决方案：delegate声明为weak</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@interface TestView : UIView</span><br><span class="line"></span><br><span class="line">@property(nonatomic, weak)id&lt;TestViewDelegate&gt; delegate;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>4）在block里面调用super，造成循环引用。</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cell.clickBlock = ^&#123;</span><br><span class="line">       [super goback]; //造成循环应用</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>解决方案，封装goback调用</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__weak typeof(self)weakSelf = self;</span><br><span class="line">cell.clickBlock = ^&#123;</span><br><span class="line">       [weakSelf _callSuperBack];</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">- (void) _callSuperBack&#123;</span><br><span class="line">    [self goback];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>5）block声明为strong<br>解决方案：声明为copy<br>6）NSTimer使用后不invalidate造成循环引用。<br>解决方案：</p>
-<ul>
-<li>  NSTimer用完后invalidate；</li>
-<li>  NSTimer分类封装</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">+ (NSTimer *)ak_scheduledTimerWithTimeInterval:(NSTimeInterval)interval</span><br><span class="line">                                         block:(void(^)(void))block</span><br><span class="line">                                       repeats:(BOOL)repeats&#123;</span><br><span class="line"></span><br><span class="line">    return [self scheduledTimerWithTimeInterval:interval</span><br><span class="line">                                         target:self</span><br><span class="line">                                       selector:@selector(ak_blockInvoke:)</span><br><span class="line">                                       userInfo:[block copy]</span><br><span class="line">                                        repeats:repeats];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (void)ak_blockInvoke:(NSTimer*)timer&#123;</span><br><span class="line"></span><br><span class="line">    void (^block)(void) = timer.userInfo;</span><br><span class="line">    if (block) &#123;</span><br><span class="line">        block();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>  用<a target="_blank" rel="noopener" href="https://github.com/ibireme/YYKit/blob/master/YYKit/Utility/YYWeakProxy.m">YYWeakProxy</a>来创建定时器</li>
-</ul>
-<h3 id="怎么检测循环引用"><a href="#怎么检测循环引用" class="headerlink" title="怎么检测循环引用"></a>怎么检测循环引用</h3><ul>
-<li>  静态代码分析。 通过Xcode-&gt;Product-&gt;Anaylze分析结果来处理；</li>
-<li>  动态分析。用<a target="_blank" rel="noopener" href="https://github.com/Tencent/MLeaksFinder">MLeaksFinder</a>（只能检测OC泄露）或者Instrument或者<a target="_blank" rel="noopener" href="https://github.com/Tencent/OOMDetector">OOMDetector</a>（能检测OC与C++泄露）。</li>
-</ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CodeoPerryH"
+      src="/images/headerimage.jpeg">
+  <p class="site-author-name" itemprop="name">CodeoPerryH</p>
+  <div class="site-description" itemprop="description">ios</div>
 </div>
-  </main>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
 
-  <footer class="footer">
-    <div class="footer-inner">
 
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
 
 <div class="copyright">
+  
   &copy; 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
@@ -1666,15 +976,39 @@
   </span>
   <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
   </div>
 
-    </div>
-  </footer>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
 
   
 
@@ -1682,11 +1016,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
   
 
-
-
-
+  
 
 </body>
 </html>
