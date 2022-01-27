@@ -3,6 +3,7 @@ title: Block
 date: 2018-8-07 17:19:03
 tags: [OC知识点]
 ---
+<meta name="referrer" content="no-referrer"/>
 
 在iOS中，block编程使用得很频繁，我们不仅要会用block，更需要理解block的底层实现原理。笔者在面试中，block问题是必问的。
 

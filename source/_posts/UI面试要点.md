@@ -4,7 +4,7 @@ title: UI相关的知识点
 date: 2018-7-25 17:19:03
 tags: [OC知识点]
 ---
-
+<meta name="referrer" content="no-referrer"/>
 # 事件分发机制及响应者链
 
 ## 事件分发机制

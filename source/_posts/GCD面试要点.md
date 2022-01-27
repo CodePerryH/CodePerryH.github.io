@@ -3,7 +3,7 @@ title: GCD
 date: 2018-8-06 17:19:03
 tags: [OC知识点]
 ---
-
+<meta name="referrer" content="no-referrer"/>
 
 GCD在iOS中应该是最常使用的并发编程技术了，GCD接口设计得很简洁，使用起来也很方便，由于苹果做了高度的封装，所以很多人对GCD的原理并不是很了解，本文来总结一下GCD常用面试要点。
 

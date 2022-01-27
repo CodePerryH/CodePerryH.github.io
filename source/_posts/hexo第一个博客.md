@@ -4,6 +4,7 @@ title: 2021年总结
 date: 2021-12-31 17:19:03
 tags: [left]
 ---
+<meta name="referrer" content="no-referrer"/>
 
   过了今天，就是2022年了，30岁了，感叹有很多，最大就是时间过得真快呀！
 

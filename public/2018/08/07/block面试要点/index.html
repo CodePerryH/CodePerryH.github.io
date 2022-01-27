@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="在iOS中，block编程使用得很频繁，我们不仅要会用block，更需要理解block的底层实现原理。笔者在面试中，block问题是必问的。 什么是blockblock是iOS中对闭包的实现，什么是闭包呢？闭包（英语：Closure），又称词法闭包（Lexical Closure）或函数闭包（function closures），是在支持头等函数的编程语言中实现词法绑定的一种技术。闭包在实现上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Block">
+<meta property="og:url" content="http://example.com/2018/08/07/block%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/index.html">
+<meta property="og:site_name" content="须知少时凌云志，曾许人间第一流">
+<meta property="og:description" content="在iOS中，block编程使用得很频繁，我们不仅要会用block，更需要理解block的底层实现原理。笔者在面试中，block问题是必问的。 什么是blockblock是iOS中对闭包的实现，什么是闭包呢？闭包（英语：Closure），又称词法闭包（Lexical Closure）或函数闭包（function closures），是在支持头等函数的编程语言中实现词法绑定的一种技术。闭包在实现上">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22877992-0fb09113c7ebc460.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2018-08-07T09:19:03.000Z">
+<meta property="article:modified_time" content="2022-01-27T06:28:34.724Z">
+<meta property="article:author" content="CodeoPerryH">
+<meta property="article:tag" content="OC知识点">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/22877992-0fb09113c7ebc460.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+<link rel="canonical" href="http://example.com/2018/08/07/block%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2018/08/07/block%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/","path":"2018/08/07/block面试要点/","title":"Block"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Block | 须知少时凌云志，曾许人间第一流</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">须知少时凌云志，曾许人间第一流</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">iOSer,life,and Cat</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFblock"><span class="nav-number">1.</span> <span class="nav-text">什么是block</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#block%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">block类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MRC%E4%B8%8Bblock%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">MRC下block类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARC%E4%B8%8Bblock%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">ARC下block类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARC%E4%B8%8B%E8%87%AA%E5%8A%A8copy"><span class="nav-number">2.3.</span> <span class="nav-text">ARC下自动copy</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#block%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E5%8F%98%E9%87%8F%E6%8D%95%E8%8E%B7"><span class="nav-number">3.</span> <span class="nav-text">block数据结构和变量捕获</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#block%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">block数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%8D%95%E8%8E%B7"><span class="nav-number">3.2.</span> <span class="nav-text">变量捕获</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#block%E5%8F%98%E9%87%8F"><span class="nav-number">4.</span> <span class="nav-text">__block变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#block%E4%BD%9C%E7%94%A8"><span class="nav-number">4.1.</span> <span class="nav-text">__block作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.2.</span> <span class="nav-text">底层实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">循环引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E5%8E%9F%E5%9B%A0"><span class="nav-number">5.1.</span> <span class="nav-text">循环引用原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">5.2.</span> <span class="nav-text">循环引用解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E5%8F%8A%E8%A7%A3%E5%86%B3"><span class="nav-number">5.2.1.</span> <span class="nav-text">常见循环引用及解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%A3%80%E6%B5%8B%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">5.2.2.</span> <span class="nav-text">怎么检测循环引用</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CodeoPerryH</p>
+  <div class="site-description" itemprop="description">ios</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/07/block%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CodeoPerryH">
+      <meta itemprop="description" content="ios">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="须知少时凌云志，曾许人间第一流">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Block
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-08-07 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-07T17:19:03+08:00">2018-08-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-01-27 14:28:34" itemprop="dateModified" datetime="2022-01-27T14:28:34+08:00">2022-01-27</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <meta name="referrer" content="no-referrer"/>
+
+<p>在iOS中，block编程使用得很频繁，我们不仅要会用block，更需要理解block的底层实现原理。笔者在面试中，block问题是必问的。</p>
+<h1 id="什么是block"><a href="#什么是block" class="headerlink" title="什么是block"></a>什么是block</h1><p>block是iOS中对闭包的实现，什么是闭包呢？闭包（英语：Closure），又称词法闭包（Lexical Closure）或函数闭包（function closures），是在支持头等函数的编程语言中实现词法绑定的一种技术。闭包在实现上是一个结构体，它存储了一个函数（通常是其入口地址）和一个关联的环境（相当于一个符号查找表）。环境里是若干对符号和值的对应关系，它既要包括约束变量（该函数内部绑定的符号），也要包括自由变量（在函数外部定义但在函数内被引用），有些函数也可能没有自由变量。</p>
+<h1 id="block类型"><a href="#block类型" class="headerlink" title="block类型"></a>block类型</h1><p>block是一个OC对象，block类型有__NSStackBlock__、__NSMallocBlock__、__NSGlobalBlock__、，分别分配在栈、堆、全局存储区域中。他们都继承于NSObject。下面代码证明打印了__NSGlobalBlock__的继承链</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void (^block)(void) =  ^&#123;</span><br><span class="line">        NSLog(@&quot;akon&quot;);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;block.class = %@&quot;, [block class]);</span><br><span class="line">    NSLog(@&quot;block.class.superclass = %@&quot;, [[block class] superclass]);</span><br><span class="line">    NSLog(@&quot;block.class.superclass.superclass = %@&quot;, [[[block class] superclass] superclass]);</span><br><span class="line">    NSLog(@&quot;block.class.superclass.superclass.superclass = %@&quot;, [[[[block class] superclass] superclass] superclass]);</span><br><span class="line"></span><br><span class="line">运行结果为：</span><br><span class="line">2020-11-13 18:39:02.919351+0800 BlockTestDemo[86009:2083840] block.class = __NSGlobalBlock__</span><br><span class="line">2020-11-13 18:39:02.919562+0800 BlockTestDemo[86009:2083840] block.class.superclass = NSBlock</span><br><span class="line">2020-11-13 18:39:02.919713+0800 BlockTestDemo[86009:2083840] block.class.superclass.superclass = NSObject</span><br><span class="line">2020-11-13 18:39:02.923424+0800 BlockTestDemo[86009:2083840] block.class.superclass.superclass.superclass = (null)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>下面表格列出了MRC和ARC环境下block类型</p>
+<h2 id="MRC下block类型"><a href="#MRC下block类型" class="headerlink" title="MRC下block类型"></a>MRC下block类型</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>环境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>NSGlobalBlock</strong></td>
+<td>只访问了静态变量（包括全局静态变量和局部静态变量）和全局变量</td>
+</tr>
+<tr>
+<td><strong>NSStackBlock</strong></td>
+<td>没访问静态变量和全局变量</td>
+</tr>
+<tr>
+<td><strong>NSMallocBlock</strong></td>
+<td>__NSStackBlock__调用了copy</td>
+</tr>
+</tbody></table>
+<p>执行如下代码，打印结果符合预期</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"> __weak typeof(self)weakSelf = self;</span><br><span class="line"></span><br><span class="line">    static int a = 0;</span><br><span class="line">    void (^block1)(void) =  ^&#123;</span><br><span class="line">        a = 1;</span><br><span class="line">        b = 1; //b为全局变量</span><br><span class="line"></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    __block int c = 0;</span><br><span class="line">    void (^block2)(void) =  ^&#123;</span><br><span class="line">        NSLog(@&quot;age:%d&quot;, weakSelf.age);</span><br><span class="line">        c = 1;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;block1.class = %@&quot;, [block1 class]);</span><br><span class="line">    NSLog(@&quot;block2.class = %@&quot;, [block2 class]);</span><br><span class="line">    NSLog(@&quot;block2 copy.class = %@&quot;, [[block2 copy] class]);</span><br><span class="line"></span><br><span class="line">运行结果如下：</span><br><span class="line">2020-11-14 22:45:54.457496+0800 BlockTestDemo[13178:426318] block1.class = __NSGlobalBlock__</span><br><span class="line">2020-11-14 22:45:54.457616+0800 BlockTestDemo[13178:426318] block2.class = __NSStackBlock__</span><br><span class="line">2020-11-14 22:45:54.457720+0800 BlockTestDemo[13178:426318] block2 copy.class = __NSMallocBlock__</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="ARC下block类型"><a href="#ARC下block类型" class="headerlink" title="ARC下block类型"></a>ARC下block类型</h2><table>
+<thead>
+<tr>
+<th>类型</th>
+<th>环境</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>NSGlobalBlock</strong></td>
+<td>只访问了静态变量（包括全局静态变量和局部静态变量）和全局变量</td>
+</tr>
+<tr>
+<td><strong>NSMallocBlock</strong></td>
+<td>没访问静态变量和全局变量</td>
+</tr>
+</tbody></table>
+<p>运行上面的代码，结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2020-11-14 22:45:54.457052+0800 BlockTestDemo[13178:426318] block1.class = __NSGlobalBlock__</span><br><span class="line">2020-11-14 22:45:54.457211+0800 BlockTestDemo[13178:426318] block2.class = __NSMallocBlock__</span><br><span class="line">2020-11-14 22:45:54.457356+0800 BlockTestDemo[13178:426318] block2 copy.class = __NSMallocBlock__</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="ARC下自动copy"><a href="#ARC下自动copy" class="headerlink" title="ARC下自动copy"></a>ARC下自动copy</h2><ul>
+<li>  我们看到block2为__NSMallocBlock__，这是因为编译器做了优化，在ARC下除了_NSGlobalBlock__就是__NSMallocBlock__，没有__NSStackBlock__；在MRC __NSMallocBlock__生成的条件是对block调用了copy操作。</li>
+<li>在ARC环境下，编译器会根据情况自动将栈上的block复制到堆上，copy的情况如下：<br>  1、block作为函数返回值时<br>  2、 将block赋值给__strong指针时<br>  3、block作为Cocoa API中方法名含有usingBlock的方法参数时<br>  4、block作为GCD API的方法参数时<br>  在ARC中对__NSStackBlock__调用copy变成__NSMallocBlock__，__NSMallocBlock__调用copy还是__NSMallocBlock__，引用计数+1，_NSGlobalBlock__调用copy啥都不做。</li>
+<li>copy底层原理<br>  1、通过_Block_object_assign来对OC对象进行强引用或弱引用<br>  2、通过_Block_object_dispose对OC进行清理</li>
+</ul>
+<h1 id="block数据结构和变量捕获"><a href="#block数据结构和变量捕获" class="headerlink" title="block数据结构和变量捕获"></a>block数据结构和变量捕获</h1><h2 id="block数据结构"><a href="#block数据结构" class="headerlink" title="block数据结构"></a>block数据结构</h2><p>写下如下代码，然后在终端进入.m文件所在目录，执行命令xcrun -sdk iphoneos clang -arch arm64 -rewrite-objc ArcClass.m 我们可以看到在当前目录生成ArcClass.cpp文件。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">int age = 18;</span><br><span class="line">void (^block)(void) =  ^&#123;</span><br><span class="line">     NSLog(@&quot;age is %d&quot;,age);</span><br><span class="line"> &#125;;</span><br><span class="line"></span><br><span class="line">block();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到上面的代码变成了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"> int age = 18;</span><br><span class="line">// block定义</span><br><span class="line">    void (*block)(void) = ((void (*)())&amp;__ArcClass__TestArc_block_impl_0((void *)__ArcClass__TestArc_block_func_0, &amp;__ArcClass__TestArc_block_desc_0_DATA, age));</span><br><span class="line">// block调用</span><br><span class="line">    ((void (*)(__block_impl *))((__block_impl *)block)-&gt;FuncPtr)((__block_impl *)block);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>上面代码删除掉一些强制转换的代码简化如下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">int age = 18;</span><br><span class="line">// block定义</span><br><span class="line">void (*block)(void) = &amp; __ArcClass__TestArc_block_impl_0(</span><br><span class="line">                        &amp;__ArcClass__TestArc_block_func_0, </span><br><span class="line">                        &amp; __ArcClass__TestArc_block_desc_0_DATA, </span><br><span class="line">                        age</span><br><span class="line">                        );</span><br><span class="line">// block调用</span><br><span class="line">block-&gt;FuncPtr(block);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们可以看到block是指向__ArcClass__TestArc_block_impl_0对象的指针，结构体__ArcClass__TestArc_block_impl_0定义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">struct __ArcClass__TestArc_block_impl_0 &#123;</span><br><span class="line">  struct __block_impl impl;</span><br><span class="line">  struct __ArcClass__TestArc_block_desc_0* Desc;</span><br><span class="line">  int age;</span><br><span class="line">  __ArcClass__TestArc_block_impl_0(void *fp, struct __ArcClass__TestArc_block_desc_0 *desc, int _age, int flags=0) : age(_age) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.Flags = flags;</span><br><span class="line">    impl.FuncPtr = fp;</span><br><span class="line">    Desc = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>该结构体把age直接赋值给了_age,执行的是拷贝操作。</p>
+<ul>
+<li>  结构体中第一个成员变量是struct __block_impl impl;</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">struct __block_impl &#123;</span><br><span class="line">      void *isa;</span><br><span class="line">      int Flags;</span><br><span class="line">      int Reserved;</span><br><span class="line">      void *FuncPtr;</span><br><span class="line">&#125;;       </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>__block_impl 的成员变量isa代表了该block属于啥类型，本例中为_NSConcreteStackBlock ，FuncPtr代表block的调用方法，本例中为__ArcClass__TestArc_block_func_0</p>
+<ul>
+<li>  第二个成员变量是struct __ArcClass__TestArc_block_desc_0* Desc;</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">static struct __ArcClass__TestArc_block_desc_0 &#123;</span><br><span class="line">  size_t reserved;</span><br><span class="line">  size_t Block_size;</span><br><span class="line">&#125; __ArcClass__TestArc_block_desc_0_DATA = &#123; 0, sizeof(struct __ArcClass__TestArc_block_impl_0)&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>desc描述了__ArcClass__TestArc_block_impl_0的大小</p>
+<ul>
+<li><p>结构体中第三个是成员变量age<br>  该结构体把age直接赋值给了_age,执行的是拷贝操作。</p>
+</li>
+<li><p>block调用实际上执行的是__ArcClass__TestArc_block_func_0方法<br>  下面为 block方法代码NSLog(@”age is %d”,age);的实现</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">static void __ArcClass__TestArc_block_func_0(struct __ArcClass__TestArc_block_impl_0 *__cself) &#123;</span><br><span class="line"></span><br><span class="line">//这里访问age是bound by copy ，即拷贝。</span><br><span class="line">  int age = __cself-&gt;age; // bound by copy </span><br><span class="line">         NSLog((NSString *)&amp;__NSConstantStringImpl__var_folders_x0_cw796jjd255431nlsdwjt9840000gn_T_ArcClass_6c36ef_mi_0,age);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>从上面的分析可以看到，定义一个block的时候，底层生成了一个代表block的结构体__ArcClass__TestArc_block_impl_0，该结构体有一个__block_impl类型的impl成员变量和代表捕获变量的成员变量。其中impl的isa 代表了block的类型，FuncPtr代表了block的实际调用方法，该方法的参数为__ArcClass__TestArc_block_impl_0。</p>
+<h2 id="变量捕获"><a href="#变量捕获" class="headerlink" title="变量捕获"></a>变量捕获</h2><p>可以按照上面分析思路，得出结论</p>
+<table>
+<thead>
+<tr>
+<th>变量类型</th>
+<th>捕获到block内部</th>
+<th>变量类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>局部非OC变量</td>
+<td>√</td>
+<td>值传递</td>
+</tr>
+<tr>
+<td>局部变量 static、OC对象</td>
+<td>√</td>
+<td>指针传递</td>
+</tr>
+<tr>
+<td>全局变量</td>
+<td>×</td>
+<td>直接访问</td>
+</tr>
+</tbody></table>
+<p>可以看到全局变量，b<br>lock内部不会直接捕获，其他变量会捕获。</p>
+<h1 id="block变量"><a href="#block变量" class="headerlink" title="__block变量"></a>__block变量</h1><h2 id="block作用"><a href="#block作用" class="headerlink" title="__block作用"></a>__block作用</h2><ul>
+<li>  __block只能修饰非静态局部变量，不能修饰静态变量和全局变量，否则编译器报错。</li>
+<li>  当需要在block内部修改一个局部变量时，需要加__block ,否则，编译不过。下面的代码，编译报错：Variable is not assignable (missing __block type specifier)。加上__block编译通过，name会变成lbj</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NSString* name = @&quot;akon&quot;;</span><br><span class="line">   void (^block)(void) =  ^&#123;</span><br><span class="line">       name = @&quot;lbj&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">   block();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="底层实现"><a href="#底层实现" class="headerlink" title="底层实现"></a>底层实现</h2><ul>
+<li><p>类似刚才的转成cpp思路，分析得出结论如下图。总结就是对于__block变量，底层会封装成一个对象，其中通过__forwarding指向自己，来访问真实的变量。<br>  <img src="https://upload-images.jianshu.io/upload_images/22877992-0fb09113c7ebc460.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+</li>
+<li><p>为什么要通过__forwarding访问？<br>  这是因为，如果__block变量在栈上，就可以直接访问，但是如果已经拷贝到了堆上，访问的时候，还去访问栈上的，就会出问题，所以，先根据__forwarding找到堆上的地址，然后再取值</p>
+</li>
+</ul>
+<h1 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h1><h2 id="循环引用原因"><a href="#循环引用原因" class="headerlink" title="循环引用原因"></a>循环引用原因</h2><p>当对象A和对象B互相引用时会造成循环引用。</p>
+<h2 id="循环引用解决方案"><a href="#循环引用解决方案" class="headerlink" title="循环引用解决方案"></a>循环引用解决方案</h2><p>竟然对象A和对象B互相引用会造成循环引用，那就要断开这个循环引用，可以通过__weak或者__unsafe_unretained，这两者的区别是__unsafe_unretained当引用对象变为nil时__unsafe_unretained对象不会自动置为nil，导致变为野指针，再次使用会崩溃。</p>
+<h3 id="常见循环引用及解决"><a href="#常见循环引用及解决" class="headerlink" title="常见循环引用及解决"></a>常见循环引用及解决</h3><p>1） 在VC的cellForRowAtIndexPath方法中cell的block直接引用self或者直接以_形式引用属性造成循环引用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> cell.clickBlock = ^&#123;</span><br><span class="line">        self.name = @&quot;akon&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">cell.clickBlock = ^&#123;</span><br><span class="line">        _name = @&quot;akon&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>解决方案：把self改成weakSelf；</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">__weak typeof(self)weakSelf = self;</span><br><span class="line">    cell.clickBlock = ^&#123;</span><br><span class="line">        weakSelf.name = @&quot;akon&quot;;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注意有的时候我们会在block里面写成__strong typeof(weakSelf) strongSelf = weakSelf，然后再用strongSelf调用方案，这样做的原因是防止在block执行过程中weakSelf突然变成nil。<br>2）在cell的block中直接引用VC的成员变量造成循环引用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//假设 _age为VC的成员变量</span><br><span class="line">@interface TestVC()&#123;</span><br><span class="line"></span><br><span class="line">    int _age;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">cell.clickBlock = ^&#123;</span><br><span class="line">       _age = 18;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>解决方案有两种：</p>
+<ul>
+<li>  用weak-strong dance</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">__weak typeof(self)weakSelf = self;</span><br><span class="line">cell.clickBlock = ^&#123;</span><br><span class="line">      __strong typeof(weakSelf) strongSelf = weakSelf;</span><br><span class="line">       strongSelf-&gt;age = 18;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>  把成员变量改成属性</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">//假设 _age为VC的成员变量</span><br><span class="line">@interface TestVC()</span><br><span class="line"></span><br><span class="line">@property(nonatomic, assign)int age;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">__weak typeof(self)weakSelf = self;</span><br><span class="line">cell.clickBlock = ^&#123;</span><br><span class="line">       weakSelf.age = 18;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>3）delegate属性声明为strong，造成循环引用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@interface TestView : UIView</span><br><span class="line"></span><br><span class="line">@property(nonatomic, strong)id&lt;TestViewDelegate&gt; delegate;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface TestVC()&lt;TestViewDelegate&gt;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, strong)TestView* testView;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line"> testView.delegate = self; //造成循环引用</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>解决方案：delegate声明为weak</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@interface TestView : UIView</span><br><span class="line"></span><br><span class="line">@property(nonatomic, weak)id&lt;TestViewDelegate&gt; delegate;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>4）在block里面调用super，造成循环引用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cell.clickBlock = ^&#123;</span><br><span class="line">       [super goback]; //造成循环应用</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>解决方案，封装goback调用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">__weak typeof(self)weakSelf = self;</span><br><span class="line">cell.clickBlock = ^&#123;</span><br><span class="line">       [weakSelf _callSuperBack];</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">- (void) _callSuperBack&#123;</span><br><span class="line">    [self goback];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>5）block声明为strong<br>解决方案：声明为copy<br>6）NSTimer使用后不invalidate造成循环引用。<br>解决方案：</p>
+<ul>
+<li>  NSTimer用完后invalidate；</li>
+<li>  NSTimer分类封装</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">+ (NSTimer *)ak_scheduledTimerWithTimeInterval:(NSTimeInterval)interval</span><br><span class="line">                                         block:(void(^)(void))block</span><br><span class="line">                                       repeats:(BOOL)repeats&#123;</span><br><span class="line"></span><br><span class="line">    return [self scheduledTimerWithTimeInterval:interval</span><br><span class="line">                                         target:self</span><br><span class="line">                                       selector:@selector(ak_blockInvoke:)</span><br><span class="line">                                       userInfo:[block copy]</span><br><span class="line">                                        repeats:repeats];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (void)ak_blockInvoke:(NSTimer*)timer&#123;</span><br><span class="line"></span><br><span class="line">    void (^block)(void) = timer.userInfo;</span><br><span class="line">    if (block) &#123;</span><br><span class="line">        block();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>  用<a target="_blank" rel="noopener" href="https://github.com/ibireme/YYKit/blob/master/YYKit/Utility/YYWeakProxy.m">YYWeakProxy</a>来创建定时器</li>
+</ul>
+<h3 id="怎么检测循环引用"><a href="#怎么检测循环引用" class="headerlink" title="怎么检测循环引用"></a>怎么检测循环引用</h3><ul>
+<li>  静态代码分析。 通过Xcode-&gt;Product-&gt;Anaylze分析结果来处理；</li>
+<li>  动态分析。用<a target="_blank" rel="noopener" href="https://github.com/Tencent/MLeaksFinder">MLeaksFinder</a>（只能检测OC泄露）或者Instrument或者<a target="_blank" rel="noopener" href="https://github.com/Tencent/OOMDetector">OOMDetector</a>（能检测OC与C++泄露）。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OC%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag"># OC知识点</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/06/GCD%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="prev" title="GCD">
+                  <i class="fa fa-chevron-left"></i> GCD
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/09/%E7%BB%84%E4%BB%B6%E5%8C%96%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="next" title="组件化">
+                  组件化 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
