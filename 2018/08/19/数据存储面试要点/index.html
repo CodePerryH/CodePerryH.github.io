@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="NSUserDefaults使用场景   NSUserDefaults一般用来存储一些简单的App配置。比如存储用户姓名、uid这类轻量的数据。   用于处于同一App group不同App之间共享数据，用户extension和宿主App之间共享数据。   一般通过调用如下方法实现增删改查功能  1234- (void)setObject:(nullable id)value forKey:(">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据存储">
+<meta property="og:url" content="http://example.com/2018/08/19/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/index.html">
+<meta property="og:site_name" content="须知少时凌云志，曾许人间第一流">
+<meta property="og:description" content="NSUserDefaults使用场景   NSUserDefaults一般用来存储一些简单的App配置。比如存储用户姓名、uid这类轻量的数据。   用于处于同一App group不同App之间共享数据，用户extension和宿主App之间共享数据。   一般通过调用如下方法实现增删改查功能  1234- (void)setObject:(nullable id)value forKey:(">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2018-08-19T09:19:03.000Z">
+<meta property="article:modified_time" content="2022-01-27T06:28:16.537Z">
+<meta property="article:author" content="CodeoPerryH">
+<meta property="article:tag" content="OC知识点">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2018/08/19/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2018/08/19/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/","path":"2018/08/19/数据存储面试要点/","title":"数据存储"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>数据存储 | 须知少时凌云志，曾许人间第一流</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">须知少时凌云志，曾许人间第一流</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">iOSer,life,and Cat</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#NSUserDefaults"><span class="nav-number">1.</span> <span class="nav-text">NSUserDefaults</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">1.1.</span> <span class="nav-text">使用场景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%81%E8%A3%85NSUserDefaults"><span class="nav-number">1.2.</span> <span class="nav-text">封装NSUserDefaults</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Archive"><span class="nav-number">2.</span> <span class="nav-text">Archive</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#plist%E5%AD%98%E5%82%A8%E6%96%B9%E5%BC%8F"><span class="nav-number">3.</span> <span class="nav-text">plist存储方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AD%98%E5%82%A8"><span class="nav-number">4.</span> <span class="nav-text">数据库存储</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CoreData"><span class="nav-number">4.1.</span> <span class="nav-text">CoreData</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#FMDB"><span class="nav-number">4.2.</span> <span class="nav-text">FMDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YTKKeyValueStore"><span class="nav-number">4.3.</span> <span class="nav-text">YTKKeyValueStore</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YYCache"><span class="nav-number">4.4.</span> <span class="nav-text">YYCache</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#WCDB"><span class="nav-number">4.5.</span> <span class="nav-text">WCDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="nav-number">4.6.</span> <span class="nav-text">数据库操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8crud%E8%AF%AD%E5%8F%A5%E4%B9%A6%E5%86%99"><span class="nav-number">4.6.1.</span> <span class="nav-text">常用crud语句书写</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B4%A2%E5%BC%95%E3%80%81%E4%BA%8B%E5%8A%A1%E7%AD%89%E5%B8%B8%E7%94%A8%E4%BC%98%E5%8C%96%E6%8A%80%E5%B7%A7"><span class="nav-number">4.6.2.</span> <span class="nav-text">索引、事务等常用优化技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%98%B2%E6%AD%A2SQL%E6%B3%A8%E5%85%A5"><span class="nav-number">4.6.3.</span> <span class="nav-text">防止SQL注入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E5%8A%A0%E5%AF%86"><span class="nav-number">4.6.4.</span> <span class="nav-text">数据库加密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%89%88%E6%9C%AC%E8%BF%81%E7%A7%BB"><span class="nav-number">4.6.5.</span> <span class="nav-text">数据库版本迁移</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E9%80%89%E6%8B%A9"><span class="nav-number">5.</span> <span class="nav-text">如何选择</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CodeoPerryH</p>
+  <div class="site-description" itemprop="description">ios</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/19/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CodeoPerryH">
+      <meta itemprop="description" content="ios">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="须知少时凌云志，曾许人间第一流">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          数据存储
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-08-19 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-19T17:19:03+08:00">2018-08-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-01-27 14:28:16" itemprop="dateModified" datetime="2022-01-27T14:28:16+08:00">2022-01-27</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <meta name="referrer" content="no-referrer"/>
+
+<h1 id="NSUserDefaults"><a href="#NSUserDefaults" class="headerlink" title="NSUserDefaults"></a>NSUserDefaults</h1><h2 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h2><ul>
+<li>  NSUserDefaults一般用来存储一些简单的App配置。比如存储用户姓名、uid这类轻量的数据。</li>
+<li>  用于处于同一App group不同App之间共享数据，用户extension和宿主App之间共享数据。</li>
+<li>  一般通过调用如下方法实现增删改查功能</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)setObject:(nullable id)value forKey:(NSString *)defaultName; //设置defaultName对应的值为value，如果存在defaultName，则执行更新操作，否则执行增加操作</span><br><span class="line">- (nullable id)objectForKey:(NSString *)defaultName; //查询defaultName对应的值，没有返回nil</span><br><span class="line">- (void)removeObjectForKey:(NSString *)defaultName; //删除defaultName对应的指</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>  NSUserDefaults不能存储自定义Model。</li>
+</ul>
+<h2 id="封装NSUserDefaults"><a href="#封装NSUserDefaults" class="headerlink" title="封装NSUserDefaults"></a>封装NSUserDefaults</h2><ul>
+<li>  在项目中，我们一般会建一个UserDefaults管理类，用来管理存储NSUserDefaults。比如建立一个AppUserDefaultsMgr类</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">@interface AppUserDefaultsMgr : NSObject</span><br><span class="line"></span><br><span class="line">+ (instancetype)sharedInstance;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, copy)NSString* name; //通过@dynamic自定义setter和getter</span><br><span class="line">@property (nonatomic, copy)NSString* uid; //通过@dynamic自定义setter和getter</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@dynamic name; </span><br><span class="line">@dynamic uid;</span><br><span class="line"></span><br><span class="line">@implementation AppUserDefaultsMgr</span><br><span class="line"></span><br><span class="line">+ (instancetype)sharedInstance&#123;</span><br><span class="line"></span><br><span class="line">    static id  s_singleton = nil;</span><br><span class="line"></span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        s_singleton = [[[self class] alloc] init];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return s_singleton;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString*)name&#123;</span><br><span class="line"></span><br><span class="line">    return [NSUserDefaults stringForKey:@&quot;name&quot;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString*)setName:(NSString*)name&#123;</span><br><span class="line"></span><br><span class="line">    return [NSUserDefaults setObject:name forKey:@&quot;name&quot;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString*)uid&#123;</span><br><span class="line"></span><br><span class="line">    return [NSUserDefaults stringForKey:@&quot;uid&quot;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString*)setUid:(NSString*)uid&#123;</span><br><span class="line"></span><br><span class="line">    return [NSUserDefaults setObject:uid forKey:@&quot;uid&quot;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后业务方如下调用：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[AppUserDefaultsMgr sharedInstance].name = @&quot;akon&quot;;</span><br><span class="line">NSLog(@&quot;name&quot;, [AppUserDefaultsMgr.sharedInstance].name);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>此种方式缺点是：每定义一个属性（比如name和uid），都需要手动的去写下setter和getter方法。大量重复而类似的代码，相当难看。能不能不手写setter和getter方法，然后像使用属性一样去操作NSUserDefaults呢？<br>可以借助(GVUserDefaults)<a target="_blank" rel="noopener" href="https://github.com/gangverk/GVUserDefaults]%E6%9D%A5%E5%AE%9E%E7%8E%B0%E3%80%82">[https://github.com/gangverk/GVUserDefaults]来实现。</a>GVUserDefaults的实现思路是通过runtime动态地为属性添加setter和getter方法。让AppUserDefaultsMgr继承GVUserDefaults即可，name和uid不要手写setter和getter方法，节省了大量代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@interface AppUserDefaultsMgr : GVUserDefaults</span><br><span class="line"></span><br><span class="line">+ (instancetype)sharedInstance;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, copy)NSString* name; //通过@dynamic自定义setter和getter</span><br><span class="line">@property (nonatomic, copy)NSString* uid; //通过@dynamic自定义setter和getter</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@dynamic name; </span><br><span class="line">@dynamic uid;</span><br><span class="line"></span><br><span class="line">@implementation AppUserDefaultsMgr</span><br><span class="line"></span><br><span class="line">+ (instancetype)sharedInstance&#123;</span><br><span class="line"></span><br><span class="line">    static id  s_singleton = nil;</span><br><span class="line"></span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        s_singleton = [[[self class] alloc] init];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return s_singleton;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="Archive"><a href="#Archive" class="headerlink" title="Archive"></a>Archive</h1><p>Archive可以用来存储model，如果一个model要用Archive存取，需要实现NSCoding协议。项目中使用的相对少点，如果要存储model，可以先把Model转成json字符串存到NSUserDefaults里面。</p>
+<h1 id="plist存储方式"><a href="#plist存储方式" class="headerlink" title="plist存储方式"></a>plist存储方式</h1><p>像NSString、NSDictionary等类都可以直接存调用writeToFile:atomically:方法存储到plist文件中。存储格式为XML。</p>
+<h1 id="数据库存储"><a href="#数据库存储" class="headerlink" title="数据库存储"></a>数据库存储</h1><h2 id="CoreData"><a href="#CoreData" class="headerlink" title="CoreData"></a>CoreData</h2><p>CoreData是苹果开发的orm数据存储库。CoreData上手成本比较高，具体使用参考<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903805369188366">iOS-CoreData详解与使用</a></p>
+<h2 id="FMDB"><a href="#FMDB" class="headerlink" title="FMDB"></a>FMDB</h2><p><a target="_blank" rel="noopener" href="https://github.com/ccgus/fmdb">FMDB</a>是基于sqlite封装的轻量级数据库，使用简单，用的人很多。</p>
+<h2 id="YTKKeyValueStore"><a href="#YTKKeyValueStore" class="headerlink" title="YTKKeyValueStore"></a>YTKKeyValueStore</h2><p><a target="_blank" rel="noopener" href="https://github.com/yuantiku/YTKKeyValueStore">YTKKeyValueStore</a>基于FMDB封装的k-v存储库。</p>
+<h2 id="YYCache"><a href="#YYCache" class="headerlink" title="YYCache"></a>YYCache</h2><p><a target="_blank" rel="noopener" href="https://github.com/ibireme/YYCache">YYCache</a>基于sqlite封装的cache库，支持内存缓存和磁盘缓存。</p>
+<h2 id="WCDB"><a href="#WCDB" class="headerlink" title="WCDB"></a>WCDB</h2><p><a target="_blank" rel="noopener" href="https://github.com/Tencent/wcdb">WCDB</a>是微信开源的基于sqlite封装的数据存储库。<br>高效、完整、易用的移动数据库框架。基于SQLCipher，支持iOS、macOS、Android。</p>
+<ul>
+<li>  高效。支持多线程高并发：读与读、读与写并发执行，写与写串行执行。</li>
+<li>  完整。支持数据库加密、损坏修复、反注入。</li>
+<li>易用。通过ORM、WINQ，支持一句代码即可将数据取出并组合为object。<br>  强烈推荐使用。</li>
+</ul>
+<h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><h3 id="常用crud语句书写"><a href="#常用crud语句书写" class="headerlink" title="常用crud语句书写"></a>常用crud语句书写</h3><p>创建表、给表增加字段、插入、删除、更新、查询SQL怎么写。尤其是查询操作，可以考察order by， group by ，distinct， where匹配以及联表查询等技巧。</p>
+<h3 id="索引、事务等常用优化技巧"><a href="#索引、事务等常用优化技巧" class="headerlink" title="索引、事务等常用优化技巧"></a>索引、事务等常用优化技巧</h3><p>通过在常用查询列上建立索引来加快查询速度。索引适合在查询多于插入的场景下使用。<br>设计到批量操作，比如批量删除，可以使用事务，这样效率更高，而且事务失败还能回滚</p>
+<h3 id="防止SQL注入"><a href="#防止SQL注入" class="headerlink" title="防止SQL注入"></a>防止SQL注入</h3><p>不要裸写SQL语句，通过使用ORM数据库比如WCDB来操作数据库能防止SQL注入。</p>
+<h3 id="数据库加密"><a href="#数据库加密" class="headerlink" title="数据库加密"></a>数据库加密</h3><p>sqllite原生支持数据库文件加密，如果要对记录进行加密需要自己处理。</p>
+<h3 id="数据库版本迁移"><a href="#数据库版本迁移" class="headerlink" title="数据库版本迁移"></a>数据库版本迁移</h3><p>用CoreData和FMDB，数据迁移需要自己定义数据库版本号，自己实现迁移逻辑。WCDB已经给你实现了数据库迁移。</p>
+<h1 id="如何选择"><a href="#如何选择" class="headerlink" title="如何选择"></a>如何选择</h1><p>强烈建议大家使用NSUserDefaults来存储简单的App配置，使用WCDB进行数据库存储和KV存储。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OC%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag"># OC知识点</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="prev" title="软件设计模式">
+                  <i class="fa fa-chevron-left"></i> 软件设计模式
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="next" title="网络编程">
+                  网络编程 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

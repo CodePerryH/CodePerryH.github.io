@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="tcp与udp网络协议分层   OSI 7层模型：物理层、数据链路层、网络层、传输层、会话层、表示层、应用层。 因特网五层模型：物理层、数据链路层、网络层、传输层、应用层。    tcp 3次握手与4次挥手！ 三次握手的作用?真正确立客户端和服务器建立连接的机制。为了防止已失效的连接请求报文段突然又传送到了服务端，因而产生错误。 为什么是四次挥手而不是三次？为了保证通信双方都能通知对方 需释放">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络编程">
+<meta property="og:url" content="http://example.com/2018/08/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/index.html">
+<meta property="og:site_name" content="须知少时凌云志，曾许人间第一流">
+<meta property="og:description" content="tcp与udp网络协议分层   OSI 7层模型：物理层、数据链路层、网络层、传输层、会话层、表示层、应用层。 因特网五层模型：物理层、数据链路层、网络层、传输层、应用层。    tcp 3次握手与4次挥手！ 三次握手的作用?真正确立客户端和服务器建立连接的机制。为了防止已失效的连接请求报文段突然又传送到了服务端，因而产生错误。 为什么是四次挥手而不是三次？为了保证通信双方都能通知对方 需释放">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22877992-f3995792186aebc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22877992-9f5fc5f6156cabe9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22877992-b890b3342fea7fe1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22877992-1b7fbff5d8e6d4d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22877992-ce674ea03fda0a34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2018-08-21T09:19:03.000Z">
+<meta property="article:modified_time" content="2022-01-27T06:26:57.872Z">
+<meta property="article:author" content="CodeoPerryH">
+<meta property="article:tag" content="OC知识点">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/22877992-f3995792186aebc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+<link rel="canonical" href="http://example.com/2018/08/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2018/08/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/","path":"2018/08/21/网络编程面试要点/","title":"网络编程"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>网络编程 | 须知少时凌云志，曾许人间第一流</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">须知少时凌云志，曾许人间第一流</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">iOSer,life,and Cat</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#tcp%E4%B8%8Eudp"><span class="nav-number">1.</span> <span class="nav-text">tcp与udp</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE%E5%88%86%E5%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">网络协议分层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcp-3%E6%AC%A1%E6%8F%A1%E6%89%8B%E4%B8%8E4%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="nav-number">1.2.</span> <span class="nav-text">tcp 3次握手与4次挥手</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="nav-number">1.2.1.</span> <span class="nav-text">三次握手的作用?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B%E8%80%8C%E4%B8%8D%E6%98%AF%E4%B8%89%E6%AC%A1%EF%BC%9F"><span class="nav-number">1.2.2.</span> <span class="nav-text">为什么是四次挥手而不是三次？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TIME-WAIT%E7%9A%84%E6%97%B6%E9%97%B4%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF2msl-%EF%BC%8C%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E8%B6%85%E6%97%B6%E7%AD%89%E5%BE%85%EF%BC%9F"><span class="nav-number">1.2.3.</span> <span class="nav-text">TIME_WAIT的时间为什么是2msl?，为什么要超时等待？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcp%E7%B2%98%E5%8C%85"><span class="nav-number">1.3.</span> <span class="nav-text">tcp粘包</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tcp%E4%B8%8Eudp%E5%8C%BA%E5%88%AB"><span class="nav-number">1.4.</span> <span class="nav-text">tcp与udp区别</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#http%E4%B8%8Ehttps"><span class="nav-number">2.</span> <span class="nav-text">http与https</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E6%8A%A5%E6%96%87%E4%B8%8E%E5%93%8D%E5%BA%94%E6%8A%A5%E6%96%87"><span class="nav-number">2.1.</span> <span class="nav-text">请求报文与响应报文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Get%E4%B8%8EPost%E5%8C%BA%E5%88%AB"><span class="nav-number">2.2.</span> <span class="nav-text">Get与Post区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#http-2-0"><span class="nav-number">2.3.</span> <span class="nav-text">http 2.0</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#https-ssl%E6%8F%A1%E6%89%8B%E8%BF%87%E7%A8%8B"><span class="nav-number">2.4.</span> <span class="nav-text">https ssl握手过程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E5%90%91%E8%AE%A4%E8%AF%81"><span class="nav-number">2.4.1.</span> <span class="nav-text">单向认证</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8C%E5%90%91%E8%AE%A4%E8%AF%81"><span class="nav-number">2.4.2.</span> <span class="nav-text">双向认证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0%E7%AD%BE%E5%90%8D%E3%80%81%E5%8A%A0%E5%AF%86%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="nav-number">2.5.</span> <span class="nav-text">网络参数签名、加密实现方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0%E7%AD%BE%E5%90%8D"><span class="nav-number">2.5.1.</span> <span class="nav-text">网络参数签名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E5%8F%82%E6%95%B0%E5%8A%A0%E5%AF%86%E6%96%B9%E5%BC%8F"><span class="nav-number">2.5.2.</span> <span class="nav-text">网络参数加密方式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AFNetworking%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">2.6.</span> <span class="nav-text">AFNetworking实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AF%E7%9A%84%E8%AE%BE%E8%AE%A1%E6%9E%B6%E6%9E%84%E5%9B%BE"><span class="nav-number">2.6.1.</span> <span class="nav-text">AF的设计架构图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AF%E5%85%B3%E4%BA%8E%E8%AF%81%E4%B9%A6%E6%A0%A1%E9%AA%8C%E6%98%AF%E5%93%AA%E4%B8%AA%E7%B1%BB%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F%E6%9C%89%E5%93%AA%E5%87%A0%E7%A7%8D%E8%AF%81%E4%B9%A6%E6%A0%A1%E9%AA%8C%E6%96%B9%E5%BC%8F%EF%BC%9F"><span class="nav-number">2.6.2.</span> <span class="nav-text">AF关于证书校验是哪个类实现的？有哪几种证书校验方式？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AF%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E7%BC%96%E7%A0%81%E3%80%81%E5%93%8D%E5%BA%94%E5%8F%82%E6%95%B0%E8%A7%A3%E7%A0%81%E5%88%86%E5%88%AB%E6%98%AF%E5%93%AA%E4%B8%A4%E4%B8%AA%E7%B1%BB%E5%AE%9E%E7%8E%B0%E7%9A%84%EF%BC%9F%E6%94%AF%E6%8C%81%E4%BB%80%E4%B9%88%E6%96%B9%E5%BC%8F%E7%BC%96%E7%A0%81%EF%BC%8C%E8%A7%A3%E7%A0%81%EF%BC%9F"><span class="nav-number">2.6.3.</span> <span class="nav-text">AF请求参数编码、响应参数解码分别是哪两个类实现的？支持什么方式编码，解码？</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SDWebImage%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86"><span class="nav-number">2.7.</span> <span class="nav-text">SDWebImage实现原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%B5%81%E7%A8%8B"><span class="nav-number">2.7.1.</span> <span class="nav-text">下载流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#url%E7%94%9F%E6%88%90key%E7%9A%84%E7%AE%97%E6%B3%95%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">2.7.2.</span> <span class="nav-text">url生成key的算法是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B8%85%E7%BC%93%E5%AD%98%E6%97%B6%E6%9C%BA"><span class="nav-number">2.7.3.</span> <span class="nav-text">清缓存时机</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96"><span class="nav-number">3.</span> <span class="nav-text">网络性能优化</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CodeoPerryH</p>
+  <div class="site-description" itemprop="description">ios</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CodeoPerryH">
+      <meta itemprop="description" content="ios">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="须知少时凌云志，曾许人间第一流">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          网络编程
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-08-21 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-21T17:19:03+08:00">2018-08-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-01-27 14:26:57" itemprop="dateModified" datetime="2022-01-27T14:26:57+08:00">2022-01-27</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <meta name="referrer" content="no-referrer"/>
+
+<h1 id="tcp与udp"><a href="#tcp与udp" class="headerlink" title="tcp与udp"></a>tcp与udp</h1><h2 id="网络协议分层"><a href="#网络协议分层" class="headerlink" title="网络协议分层"></a>网络协议分层</h2><ul>
+<li>  OSI 7层模型：物理层、数据链路层、网络层、传输层、会话层、表示层、应用层。</li>
+<li>因特网五层模型：物理层、数据链路层、网络层、传输层、应用层。<br>  <img src="https://upload-images.jianshu.io/upload_images/22877992-f3995792186aebc3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></li>
+</ul>
+<h2 id="tcp-3次握手与4次挥手"><a href="#tcp-3次握手与4次挥手" class="headerlink" title="tcp 3次握手与4次挥手"></a>tcp 3次握手与4次挥手</h2><p>！<a target="_blank" rel="noopener" href="https://upload-images.jianshu.io/upload_images/22877992-53db6dd748ca6ff9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></a></p>
+<h3 id="三次握手的作用"><a href="#三次握手的作用" class="headerlink" title="三次握手的作用?"></a>三次握手的作用?</h3><p>真正确立客户端和服务器建立连接的机制。为了防止已失效的连接请求报文段突然又传送到了服务端，因而产生错误。</p>
+<h3 id="为什么是四次挥手而不是三次？"><a href="#为什么是四次挥手而不是三次？" class="headerlink" title="为什么是四次挥手而不是三次？"></a>为什么是四次挥手而不是三次？</h3><p>为了保证通信双方都能通知对方 需释放 &amp; 断开连接。<br>关闭连接时，服务端收到客户端的FIN报文时，仅仅表示客户端不再发送数据了但是还能接收数据，服务端也未必全部数据都发送给对方了，所以服务端可以立即close，也可以发送一些数据给对方后，再发送FIN报文给对方来表示同意现在关闭连接，因此，服务端ACK和FIN一般都会分开发送。</p>
+<h3 id="TIME-WAIT的时间为什么是2msl-，为什么要超时等待？"><a href="#TIME-WAIT的时间为什么是2msl-，为什么要超时等待？" class="headerlink" title="TIME_WAIT的时间为什么是2msl?，为什么要超时等待？"></a>TIME_WAIT的时间为什么是2msl?，为什么要超时等待？</h3><p>msl：Maximum Segment Life，表示TCP 对TCP Segment 生存时间的限制。可以理解为，数据包在网络上存活的最长时间，一来一回的话，就是2倍。<br>为什么需要超时等待？<br>如果服务端没有收到第四次挥手的内容，那么服务端会再次发过来，那么，客户端就需要等着，看服务端会不会再次发送数据过来，如果超过这2sml时间服务端还没有发数据过来，那客户端就认为服务端已经接收到第四次挥手发送的数据了，然后连接正式关闭。<br>在进行第四次挥手的时候，客户端会将ACK报文发送给服务端，由于tcp是建立在面向连接的基础上的–“有来有往”，正常情况下，服务端需要返回给客户端一个ACK数据包，告诉客户端，我已经收到你的ACK包了，但是，这样会需要一直一来一回；然而，咱们的四次挥手里面就有这样的机制，就是在被动关闭的一端（本文案例中指的是服务端），服务端在第四次挥手的时候，需要有一个超时时间等待，比如说4s，如果超出4s的超时时间，服务端没有接收到客户端发来的第四次挥手的数据，那么服务端会把第三次挥手的内容再次发送（服务端以为客户端没有收到它发的第三次挥手的内容，所以又发了一次，但是实际上客户端收到并且发送了第四次挥手的数据包），此时，我们的TIME_WAIT就发挥作用了，它是主动发起断开连接的一方的需要进行的等待实际时间，等待的作用就是，如果服务端没有收到第四次挥手的内容，那么服务端会再次发过来，那么，客户端就需要等着，看服务端会不会再次发送数据过来，如果超过这2sml时间服务端还没有发数据过来，那客户端就认为服务端已经接收到第四次挥手发送的数据了。</p>
+<h2 id="tcp粘包"><a href="#tcp粘包" class="headerlink" title="tcp粘包"></a>tcp粘包</h2><ul>
+<li>  tcp粘包指发送方发送的若干包数据到达接收方时粘成了一包，从接收缓冲区来看，后一包数据的头紧接着前一包数据的尾，出现粘包的原因是多方面的，可能是来自发送方，也可能是来自接收方。</li>
+<li>解决方案<br>  1、发送方<br>  对于发送方造成的粘包问题，可以通过关闭Nagle算法来解决，使用TCP_NODELAY选项来关闭算法。<br>  2、接收方<br>  接收方没有办法来处理粘包现象，只能将问题交给应用层来处理。<br>  3、应用层<br>  应用层的解决办法简单可行，不仅能解决接收方的粘包问题，还可以解决发送方的粘包问题。<br>  解决办法：循环处理，应用程序从接收缓存中读取分组时，读完一条数据，就应该循环读取下一条数据，直到所有数据都被处理完成，但是如何判断每条数据的长度呢？<br>  格式化数据：每条数据有固定的格式（开始符，结束符），这种方法简单易行，但是选择开始符和结束符时一定要确保每条数据的内部不包含开始符和结束符。<br>  发送长度：发送每条数据时，将数据的长度一并发送，例如规定数据的前4位是数据的长度，应用层在处理时可以根据长度来判断每个分组的开始和结束位置。</li>
+<li>UDP会粘包吗？<br>  不会。<br>  TCP为了保证可靠传输并减少额外的开销（每次发包都要验证），采用了基于流的传输，基于流的传输不认为消息是一条一条的，是无保护消息边界的（保护消息边界：指传输协议把数据当做一条独立的消息在网上传输，接收端一次只能接受一条独立的消息）。<br>  UDP则是面向消息传输的，是有保护消息边界的，接收方一次只接受一条独立的信息，所以不存在粘包问题。</li>
+</ul>
+<h2 id="tcp与udp区别"><a href="#tcp与udp区别" class="headerlink" title="tcp与udp区别"></a>tcp与udp区别</h2><table>
+<thead>
+<tr>
+<th>特性</th>
+<th>TCP</th>
+<th>UDP</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>是否连接</td>
+<td>面向连接</td>
+<td>面向非连接</td>
+</tr>
+<tr>
+<td>传输可靠性</td>
+<td>可靠(通过三次握手、确认、窗口、重传、拥塞控制、四次挥手等机制等实现</td>
+<td>不可靠</td>
+</tr>
+<tr>
+<td>安全性</td>
+<td>低</td>
+<td>高</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>慢</td>
+<td>快</td>
+</tr>
+<tr>
+<td>应用场合</td>
+<td>少量数据</td>
+<td>传输大量数据</td>
+</tr>
+</tbody></table>
+<p>关于TCP可以参考资料：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/65605622234b">计算机网络：这是一份全面 &amp; 详细 的TCP协议攻略</a><br>关于http协议可以参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/a6d086a3997d">计算机网络：这是一份全面&amp; 详细 HTTP知识讲解</a><br>学习指南:<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/45d27f3e1196">这是一份详细 &amp; 清晰的计算机网络基础 学习指南</a></p>
+<h1 id="http与https"><a href="#http与https" class="headerlink" title="http与https"></a>http与https</h1><p>http与https是应用层协议，他们建立在传输层的tcp协议上。http协议默认端口是80，https默认端口443。</p>
+<h2 id="请求报文与响应报文"><a href="#请求报文与响应报文" class="headerlink" title="请求报文与响应报文"></a>请求报文与响应报文</h2><p>请求报文由请求行、请求头、请求体组成。<br><img src="https://upload-images.jianshu.io/upload_images/22877992-9f5fc5f6156cabe9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>响应报文由状态行、响应头、响应体组成。<br><img src="https://upload-images.jianshu.io/upload_images/22877992-b890b3342fea7fe1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<h2 id="Get与Post区别"><a href="#Get与Post区别" class="headerlink" title="Get与Post区别"></a>Get与Post区别</h2><p>Get请求参数是以kv方式拼在url后面的，虽然http协议对url的长度没有限制，但是浏览器和服务器一般都限制长度；Post请求参数是放在body里面的，对长度没什么限制。</p>
+<h2 id="http-2-0"><a href="#http-2-0" class="headerlink" title="http 2.0"></a>http 2.0</h2><p>http2.0跟1.0最大的提升在于多路复用、头部压缩、服务端push。</p>
+<ul>
+<li>多路复用<br>  http1.0如果不开启keep alive的话，每次发一个http网络请求都会建立一个TCP连接，网络请求结束后会断开连接，而且对于一个host而言，发网络请求是串行的，即使开启了keep alive,也是有限的复用TCP连接。<br>  http2.0直接以stream的方式在一个TCP连接上发包、收包，可以实现并发发网络请求，效率更高。</li>
+<li>头部压缩<br>  http1.0不支持请求头和响应头压缩，http2.0支持。压缩头部，对于一个网络请求，可以节省至少上百个字节，这样更省流量。</li>
+<li>服务端push<br>  http2.0支持后台直接给客户端推送消息。<br>  参考资料：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2e7200bd5b79">关于 iOS HTTP2.0 的一次学习实践</a></li>
+</ul>
+<h2 id="https-ssl握手过程"><a href="#https-ssl握手过程" class="headerlink" title="https ssl握手过程"></a>https ssl握手过程</h2><h3 id="单向认证"><a href="#单向认证" class="headerlink" title="单向认证"></a>单向认证</h3><p><img src="https://upload-images.jianshu.io/upload_images/22877992-1b7fbff5d8e6d4d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<h3 id="双向认证"><a href="#双向认证" class="headerlink" title="双向认证"></a>双向认证</h3><p><img src="https://upload-images.jianshu.io/upload_images/22877992-ce674ea03fda0a34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>参考资料：<a target="_blank" rel="noopener" href="https://blog.csdn.net/Z1591090/article/details/104041998">iOS https证书双向认证的实现机制</a></p>
+<h2 id="网络参数签名、加密实现方式"><a href="#网络参数签名、加密实现方式" class="headerlink" title="网络参数签名、加密实现方式"></a>网络参数签名、加密实现方式</h2><p>除了用https协议传输数据，有些对数据安全要求比较高的App比如金融类App还会对参数进行签名和加密，这样可以防止网络请求参数被篡改以及敏感业务数据泄露</p>
+<h3 id="网络参数签名"><a href="#网络参数签名" class="headerlink" title="网络参数签名"></a>网络参数签名</h3><p>为了防止网络请求被篡改，一般会对请求参数进行hash，一般会有一个sign字段表示签名。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">假定客户端请求参数dic如下：</span><br><span class="line">&#123;</span><br><span class="line">&quot;name&quot;:&quot;akon&quot;,</span><br><span class="line">&quot;city&quot;:&quot;shenzhen&quot;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>那么如何生成sign字段呢？<br>一般通用的做法是把字典按照key的字母升序排序然后拼接起来，然后再进行sha256，再md5。</p>
+<ul>
+<li>  把字典按照key的字母排序拼接生成字符串str = “city=shenzhen&amp;name=akon”。</li>
+<li>对str先进行sha256然后再进行md5生成sign。<br>  值得注意的是，为了增加破解的难度，我们可以在生成的str前面、后面加入一段我们App特有的字符串，然后对str hash可以采用base64、sha256，md5混合来做。</li>
+</ul>
+<h3 id="网络参数加密方式"><a href="#网络参数加密方式" class="headerlink" title="网络参数加密方式"></a>网络参数加密方式</h3><p>为了效率，我们一般会采用对称加密加密数据，DES，3DES，AES这些方式都可以。既然要用对称加密，那就涉及到对称加密的密钥怎么生成，有如下方式：</p>
+<ul>
+<li>  最简单的方式，代码写死密钥。密钥可以用base64或者抑或算法进行简单的加密，用的时候再解密，这种方式比裸写密钥更安全。</li>
+<li>  后台下发密钥。后台可以在登录的时候下发这个密钥，客户端保存这个密钥后续用来做加密。由于客户端要保存这个密钥，所以还是存在泄露的风险。</li>
+<li>  仿照https证书校验过程，客户端生成对称加密的密钥clientKey，对参数进行加密，然后用非对称加密对clientKey进行加密生成cryptKey传给后台；后台获取到cryptKey用密钥解析出clientKey，然后再用clientKey解密出请求参数。这种方式最安全，推荐使用。</li>
+</ul>
+<h2 id="AFNetworking实现原理"><a href="#AFNetworking实现原理" class="headerlink" title="AFNetworking实现原理"></a>AFNetworking实现原理</h2><p>作为iOS使用最广泛的第三方网络库，AFNetworking基本上是面试必问的。笔者面试都会问，通过AF的一些问题，可以了解面试者是否熟练使用AF，以及是否阅读过AF的源代码。</p>
+<h3 id="AF的设计架构图"><a href="#AF的设计架构图" class="headerlink" title="AF的设计架构图"></a>AF的设计架构图</h3><p>如果面试者能把AF的分层架构图清晰地画出来，那至少证明面试者有阅读过AF的源码。</p>
+<h3 id="AF关于证书校验是哪个类实现的？有哪几种证书校验方式？"><a href="#AF关于证书校验是哪个类实现的？有哪几种证书校验方式？" class="headerlink" title="AF关于证书校验是哪个类实现的？有哪几种证书校验方式？"></a>AF关于证书校验是哪个类实现的？有哪几种证书校验方式？</h3><p>AFSecurityPolicy用来做证书校验的。有三种校验方式：</p>
+<ul>
+<li>  AFSSLPinningModeNone 客户端不进行证书校验，完全信任服务端。</li>
+<li>  AFSSLPinningModePublicKey 客户端对证书进行公钥校验。</li>
+<li>  AFSSLPinningModeCertificate 客户端对整个证书进行校验。</li>
+</ul>
+<h3 id="AF请求参数编码、响应参数解码分别是哪两个类实现的？支持什么方式编码，解码？"><a href="#AF请求参数编码、响应参数解码分别是哪两个类实现的？支持什么方式编码，解码？" class="headerlink" title="AF请求参数编码、响应参数解码分别是哪两个类实现的？支持什么方式编码，解码？"></a>AF请求参数编码、响应参数解码分别是哪两个类实现的？支持什么方式编码，解码？</h3><ul>
+<li>  AFHTTPRequestSerializer、AFHTTPResponseSerializer分别用来做编码和解码。</li>
+<li>  编码方式有url query类型（”application/x-www-form-urlencoded”）、 json（”application/json”）、plist（”application/x-plist）、MultipartFormData（”multipart/form-data; boundary=”）方式等。</li>
+<li>  解码支持NSData、json、xml、image类型。</li>
+</ul>
+<p>关于AF如果再深入点可以问问具体实现细节，可以通过细节进一步考察面试者的内功。</p>
+<h2 id="SDWebImage实现原理"><a href="#SDWebImage实现原理" class="headerlink" title="SDWebImage实现原理"></a>SDWebImage实现原理</h2><p>iOS下载图片基本都用SDWebImage，这个库笔者面试基本都会问。</p>
+<h3 id="下载流程"><a href="#下载流程" class="headerlink" title="下载流程"></a>下载流程</h3><p>一、先去内存缓存找，找到了直接返回UIImage，否则走第二步；<br>二、去磁盘缓存里面找，找到了直接返回UIImage，否则走第三步；<br>三、网络下载，下载完成后存入本地磁盘和内存缓存，然后返回UIImage给调用方。</p>
+<h3 id="url生成key的算法是什么？"><a href="#url生成key的算法是什么？" class="headerlink" title="url生成key的算法是什么？"></a>url生成key的算法是什么？</h3><ul>
+<li>  内存缓存key是url</li>
+<li>  磁盘缓存key是对url进行md5生成的。</li>
+</ul>
+<h3 id="清缓存时机"><a href="#清缓存时机" class="headerlink" title="清缓存时机"></a>清缓存时机</h3><ul>
+<li>  对于内存缓存，在下载图片加载图片到内存时、内存收到警告时候进行清理。内存缓存基于NSCache实现的。</li>
+<li>  对于磁盘缓存，在App退出、进后台清理。<h1 id="网络性能优化"><a href="#网络性能优化" class="headerlink" title="网络性能优化"></a>网络性能优化</h1></li>
+</ul>
+<p>网络性能优化有很多手段，关于网络性能优化可以参考笔者另外一篇文章<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c627df95b39e">网络性能优化</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OC%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag"># OC知识点</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/19/%E6%95%B0%E6%8D%AE%E5%AD%98%E5%82%A8%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="prev" title="数据存储">
+                  <i class="fa fa-chevron-left"></i> 数据存储
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/09/01/%E7%BD%91%E7%BB%9C%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96%E8%A6%81%E7%82%B9/" rel="next" title="网络性能优化">
+                  网络性能优化 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Runtime原理Runtime是iOS核心运行机制之一，iOS App加载库、加载类、执行方法调用，全靠Runtime，这一块的知识个人认为是最基础的，基本面试必问。 Runtime消息发送机制1）iOS调用一个方法时，实际上会调用objc_msgSend(receiver, selector, arg1, arg2, …)，该方法第一个参数是消息接收者，第二个参数是方法名，剩下的参数是方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Runtime">
+<meta property="og:url" content="http://example.com/2018/08/03/Runtime%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/index.html">
+<meta property="og:site_name" content="须知少时凌云志，曾许人间第一流">
+<meta property="og:description" content="Runtime原理Runtime是iOS核心运行机制之一，iOS App加载库、加载类、执行方法调用，全靠Runtime，这一块的知识个人认为是最基础的，基本面试必问。 Runtime消息发送机制1）iOS调用一个方法时，实际上会调用objc_msgSend(receiver, selector, arg1, arg2, …)，该方法第一个参数是消息接收者，第二个参数是方法名，剩下的参数是方法">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22877992-51fe635afe25ccce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2018-08-03T09:19:03.000Z">
+<meta property="article:modified_time" content="2022-01-27T06:29:09.680Z">
+<meta property="article:author" content="CodeoPerryH">
+<meta property="article:tag" content="OC知识点">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/22877992-51fe635afe25ccce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+<link rel="canonical" href="http://example.com/2018/08/03/Runtime%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2018/08/03/Runtime%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/","path":"2018/08/03/Runtime面试要点/","title":"Runtime"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Runtime | 须知少时凌云志，曾许人间第一流</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">须知少时凌云志，曾许人间第一流</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">iOSer,life,and Cat</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Runtime%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">Runtime原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Runtime%E6%B6%88%E6%81%AF%E5%8F%91%E9%80%81%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.</span> <span class="nav-text">Runtime消息发送机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Runtime%E6%B6%88%E6%81%AF%E8%BD%AC%E5%8F%91%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.</span> <span class="nav-text">Runtime消息转发机制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E7%BC%93%E5%AD%98%E6%9C%BA%E5%88%B6"><span class="nav-number">1.3.</span> <span class="nav-text">消息缓存机制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#load%E4%B8%8Einitialize"><span class="nav-number">2.</span> <span class="nav-text">load与initialize</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#load%E4%B8%8Einitialize%E8%B0%83%E7%94%A8%E6%97%B6%E6%9C%BA"><span class="nav-number">2.1.</span> <span class="nav-text">load与initialize调用时机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#load%E4%B8%8Einitialize%E5%9C%A8%E5%88%86%E7%B1%BB%E3%80%81%E7%BB%A7%E6%89%BF%E9%93%BE%E7%9A%84%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F"><span class="nav-number">2.2.</span> <span class="nav-text">load与initialize在分类、继承链的调用顺序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#load%E6%96%B9%E6%B3%95%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F"><span class="nav-number">2.2.1.</span> <span class="nav-text">load方法调用顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#initialize%E7%9A%84%E8%B0%83%E7%94%A8%E9%A1%BA%E5%BA%8F"><span class="nav-number">2.2.2.</span> <span class="nav-text">initialize的调用顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A1%AE%E4%BF%9D%E5%9C%A8load%E5%92%8Cinitialize%E7%9A%84%E8%B0%83%E7%94%A8%E5%8F%AA%E6%89%A7%E8%A1%8C%E4%B8%80%E6%AC%A1"><span class="nav-number">2.2.3.</span> <span class="nav-text">确保在load和initialize的调用只执行一次</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%B1%BB%E5%88%AB"><span class="nav-number">3.</span> <span class="nav-text">类别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%88%AB%E5%8A%A0%E8%BD%BD%E6%97%B6%E6%9C%BA"><span class="nav-number">3.1.</span> <span class="nav-text">类别加载时机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%88%AB%E5%92%8C%E6%89%A9%E5%B1%95%E5%8C%BA%E5%88%AB"><span class="nav-number">3.2.</span> <span class="nav-text">类别和扩展区别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%88%AB%E6%B7%BB%E5%8A%A0%E5%B1%9E%E6%80%A7%E3%80%81%E6%96%B9%E6%B3%95"><span class="nav-number">3.3.</span> <span class="nav-text">类别添加属性、方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%B1%BB%E5%88%AB%E5%90%8C%E5%90%8D%E6%96%B9%E6%B3%95%E8%A6%86%E7%9B%96%E9%97%AE%E9%A2%98"><span class="nav-number">3.4.</span> <span class="nav-text">类别同名方法覆盖问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E8%B0%83%E7%94%A8%E8%A2%AB%E8%A6%86%E7%9B%96%E6%8E%89%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">3.5.</span> <span class="nav-text">怎么调用被覆盖掉的方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8D%8F%E8%AE%AE"><span class="nav-number">4.</span> <span class="nav-text">协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">4.1.</span> <span class="nav-text">定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%96%B9%E6%B3%95%E5%A3%B0%E6%98%8E"><span class="nav-number">4.2.</span> <span class="nav-text">方法声明</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Class%E7%9A%84%E5%AE%9A%E4%B9%89"><span class="nav-number">5.1.</span> <span class="nav-text">Class的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%9E%9A%E4%B8%BE%E4%B8%80%E4%B8%AA%E7%B1%BB%E7%9A%84%E6%96%B9%E6%B3%95%E5%88%97%E8%A1%A8%EF%BC%9F"><span class="nav-number">5.2.</span> <span class="nav-text">怎么枚举一个类的方法列表？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%9E%9A%E4%B8%BE%E4%B8%80%E4%B8%AA%E7%B1%BB%E7%9A%84%E5%B1%9E%E6%80%A7%E5%88%97%E8%A1%A8%EF%BC%9F"><span class="nav-number">5.3.</span> <span class="nav-text">怎么枚举一个类的属性列表？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%9E%9A%E4%B8%BE%E4%B8%80%E4%B8%AA%E7%B1%BB%E7%9A%84%E6%88%90%E5%91%98%E5%8F%98%E9%87%8F%E5%88%97%E8%A1%A8%EF%BC%9F"><span class="nav-number">5.4.</span> <span class="nav-text">怎么枚举一个类的成员变量列表？</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%9E%9A%E4%B8%BE%E4%B8%80%E4%B8%AA%E7%B1%BB%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8D%8F%E8%AE%AE%E5%88%97%E8%A1%A8%EF%BC%9F"><span class="nav-number">5.5.</span> <span class="nav-text">怎么枚举一个类实现的协议列表？</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#id%E5%92%8Cinstancetype%E7%9A%84%E5%8C%BA%E5%88%AB"><span class="nav-number">6.</span> <span class="nav-text">id和instancetype的区别</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Runtime%E5%BC%80%E6%BA%90%E4%BB%A3%E7%A0%81"><span class="nav-number">6.1.</span> <span class="nav-text">Runtime开源代码</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CodeoPerryH</p>
+  <div class="site-description" itemprop="description">ios</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/03/Runtime%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CodeoPerryH">
+      <meta itemprop="description" content="ios">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="须知少时凌云志，曾许人间第一流">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Runtime
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-08-03 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-03T17:19:03+08:00">2018-08-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-01-27 14:29:09" itemprop="dateModified" datetime="2022-01-27T14:29:09+08:00">2022-01-27</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <meta name="referrer" content="no-referrer"/>
+
+<h1 id="Runtime原理"><a href="#Runtime原理" class="headerlink" title="Runtime原理"></a>Runtime原理</h1><p>Runtime是iOS核心运行机制之一，iOS App加载库、加载类、执行方法调用，全靠Runtime，这一块的知识个人认为是最基础的，基本面试必问。</p>
+<h2 id="Runtime消息发送机制"><a href="#Runtime消息发送机制" class="headerlink" title="Runtime消息发送机制"></a>Runtime消息发送机制</h2><p>1）iOS调用一个方法时，实际上会调用objc_msgSend(receiver, selector, arg1, arg2, …)，该方法第一个参数是消息接收者，第二个参数是方法名，剩下的参数是方法参数；<br>2）iOS调用一个方法时，会先去该类的方法缓存列表里面查找是否有该方法，如果有直接调用，否则走第3）步；<br>3）去该类的方法列表里面找，找到直接调用，把方法加入缓存列表；否则走第4）步；<br>4）沿着该类的继承链继续查找，找到直接调用，把方法加入缓存列表；否则消息转发流程；<br><strong>很多面试者大体知道这个流程，但是有关细节不是特别清楚。</strong></p>
+<ul>
+<li>  问他/她objc_msgSend第一个参数、第二个参数、剩下的参数分别代表什么，不知道；</li>
+<li>很多人只知道去方法列表里面查找，不知道还有个方法缓存列表。<br>  <strong>通过这些细节，可以了解一个人是否真正掌握了原理，而不是死记硬背。</strong></li>
+</ul>
+<h2 id="Runtime消息转发机制"><a href="#Runtime消息转发机制" class="headerlink" title="Runtime消息转发机制"></a>Runtime消息转发机制</h2><p>如果在消息发送阶段没有找到方法，iOS会走消息转发流程，流程图如下所示：</p>
+<p><img src="https://upload-images.jianshu.io/upload_images/22877992-51fe635afe25ccce.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<p>1）动态消息解析。检查是否重写了resolveInstanceMethod 方法，如果返回YES则可以通过class_addMethod 动态添加方法来处理消息，否则走第2）步；<br>2）消息target转发。forwardingTargetForSelector 用于指定哪个对象来响应消息。如果返回nil 则走第3）步；<br>3）消息转发。这步调用 methodSignatureForSelector 进行方法签名，这可以将函数的参数类型和返回值封装。如果返回 nil 执行第四步；否则返回 methodSignature，则进入 forwardInvocation ，在这里可以修改实现方法，修改响应对象等，如果方法调用成功，则结束。否则执行第4）步；<br>4）报错 unrecognized selector sent to instance。<br><strong>很多人知道这四步，但是笔者一般会问：</strong></p>
+<ul>
+<li>  怎么在项目里全局解决”unrecognized selector sent to instance”这类crash？本人发现很多人回答不出来，说明面试者肯定是在死记硬背，你都知道因为消息转发那三步都没处理才会报错，为什么不知道在消息转发里面处理呢？</li>
+<li>  如果面试者知道可以在消息转发里面处理，防止崩溃，再问下面试者，你项目中是在哪一步处理的，看看其是否有真正实践过？</li>
+</ul>
+<h2 id="消息缓存机制"><a href="#消息缓存机制" class="headerlink" title="消息缓存机制"></a>消息缓存机制</h2><ul>
+<li>  Runtime为每个类(不是每个类实例)缓存了一个方法列表，该方法列表采用hash表实现，hash表的优点是查找速度快，时间为O(1)。</li>
+<li>父类方法的缓存只存在父类么，还是子类也会缓存父类的方法？<br>  子类会缓存父类的方法。</li>
+<li>类的方法缓存大小有没有限制？<br>  在objc-cache.mm有一个变量_class_slow_grow定义如下：</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/* When _class_slow_grow is non-zero, any given cache is actually grown</span><br><span class="line"> * only on the odd-numbered times it becomes full; on the even-numbered</span><br><span class="line"> * times, it is simply emptied and re-used.  When this flag is zero,</span><br><span class="line"> * caches are grown every time. */</span><br><span class="line">static const int _class_slow_grow = 1;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注释中说明，当_class_slow_grow是非0值的时候，只有当方法缓存第奇数次满（使用的槽位超过3/4）的时候，方法缓存的大小才会增长（会清空缓存，否则hash值就不对了）；当第偶数次满的时候，方法缓存会被清空并重新利用。 如果_class_slow_grow值为0，那么每一次方法缓存满的时候，其大小都会增长。<br>所以单就问题而言，答案是没有限制，虽然这个值被设置为1，方法缓存的大小增速会慢一点，但是确实是没有上限的。</p>
+<ul>
+<li>为什么类的方法列表不直接做成散列表呢，做成list，还要单独缓存？<br>  1、散列表是没有顺序的，Objective-C的方法列表是一个list，是有顺序的；Objective-C在查找方法的时候会顺着list依次寻找，并且category的方法在原始方法list的前面，需要先被找到，如果直接用hash存方法，方法的顺序就没法保证。<br>  2、list的方法还保存了除了selector和imp之外其他很多属性<br>  3、散列表是有空槽的，会浪费空间<br>  参考资料：<a target="_blank" rel="noopener" href="https://tech.meituan.com/2015/08/12/deep-understanding-object-c-of-method-caching.html">深入理解 Objective-C：方法缓存</a></li>
+</ul>
+<h1 id="load与initialize"><a href="#load与initialize" class="headerlink" title="load与initialize"></a>load与initialize</h1><h2 id="load与initialize调用时机"><a href="#load与initialize调用时机" class="headerlink" title="load与initialize调用时机"></a>load与initialize调用时机</h2><p>+load在main函数之前被Runtime调用，+initialize 方法是在类或它的子类收到第一条消息之前被调用的，这里所指的消息包括实例方法和类方法的调用。</p>
+<h2 id="load与initialize在分类、继承链的调用顺序"><a href="#load与initialize在分类、继承链的调用顺序" class="headerlink" title="load与initialize在分类、继承链的调用顺序"></a>load与initialize在分类、继承链的调用顺序</h2><h3 id="load方法调用顺序"><a href="#load方法调用顺序" class="headerlink" title="load方法调用顺序"></a>load方法调用顺序</h3><p>父类-&gt;主类-&gt;分类</p>
+<ul>
+<li>  主类的 +load 方法会在它的所有父类的 +load 方法之后执行。如果主类没有实现 +load 方法，当它被runtime加载时 是不会去调用父类的 +load 方法的。</li>
+<li>  分类的 +load 方法会在它的主类的 +load 方法之后执行,当一个类和它的分类都实现了 +load 方法时，两个方法都会被调用。当有多个分类时，根据编译顺序（Build Phases-&gt;Complie Sources中的顺序）依次执行。</li>
+<li>在类的+load方法调用的时候，可以调用category中声明的方法么？<br>  可以调用，因为附加category到类的工作会先于+load方法的执行</li>
+</ul>
+<h3 id="initialize的调用顺序"><a href="#initialize的调用顺序" class="headerlink" title="initialize的调用顺序"></a>initialize的调用顺序</h3><p>+initialize 方法的调用与普通方法的调用是一样的，走的都是消息发送的流程。如果子类没有实现 +initialize 方法，那么继承自父类的实现会被调用；如果一个类的分类实现了 +initialize 方法，那么就会对这个类中的实现造成覆盖。</p>
+<h3 id="确保在load和initialize的调用只执行一次"><a href="#确保在load和initialize的调用只执行一次" class="headerlink" title="确保在load和initialize的调用只执行一次"></a>确保在load和initialize的调用只执行一次</h3><p>由于initialize可能会调用多次，所以在这两个方法里面做的初始化操作需要保证只初始化一次，用dispatch_once来控制</p>
+<h1 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h1><p>OC不像C++等高级语言能直接继承多个类，不过OC可以使用类别和协议来实现多继承。</p>
+<h2 id="类别加载时机"><a href="#类别加载时机" class="headerlink" title="类别加载时机"></a>类别加载时机</h2><ul>
+<li>  在App加载时，Runtime会把Category的实例方法、协议以及属性添加到类上；把Category的类方法添加到类的metaclass上。</li>
+<li>  category的方法没有“完全替换掉”原来类已经有的方法，如果category和原来类都有methodA，那么category附加完成之后，类的方法列表里会有两个methodA。</li>
+<li>  category的方法被放到了新方法列表的前面，而原来类的方法被放到了新方法列表的后面，这也就是我们平常所说的category的方法会“覆盖”掉原来类的同名方法，这是因为运行时在查找方法的时候是顺着方法列表的顺序查找的，它只要一找到对应名字的方法，就会停止查找，殊不知后面可能还有一样名字的方法。</li>
+</ul>
+<h2 id="类别和扩展区别"><a href="#类别和扩展区别" class="headerlink" title="类别和扩展区别"></a>类别和扩展区别</h2><ul>
+<li>  extension在编译期决议，它是类的一部分，在编译期和头文件里的@interface以及实现文件里的@implement一起形成一个完整的类，它伴随类的产生而产生，亦随之一起消亡。extension一般用来隐藏类的私有信息，你必须有一个类的源码才能为一个类添加extension，所以你无法为系统的类比如NSString添加extension。</li>
+<li>  但是category则完全不一样，它是在运行期决议的。 就category和extension的区别来看，我们可以推导出一个明显的事实，extension可以添加实例变量，而category是无法添加实例变量的（因为在运行期，对象的内存布局已经确定，如果添加实例变量就会破坏类的内部布局，这对编译型语言来说是灾难性的）。</li>
+<li>  category附加到类的工作会先于+load方法的执行。</li>
+</ul>
+<h2 id="类别添加属性、方法"><a href="#类别添加属性、方法" class="headerlink" title="类别添加属性、方法"></a>类别添加属性、方法</h2><ul>
+<li>  在类别中不能直接以@property的方式定义属性，OC不会主动给类别属性生成setter和getter方法；需要通过objc_setAssociatedObject来实现。</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@interface TestClass(ak)</span><br><span class="line"></span><br><span class="line">@property(nonatomic,copy) NSString *name;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation TestClass (ak)</span><br><span class="line"></span><br><span class="line">- (void)setName:(NSString *)name&#123;</span><br><span class="line"></span><br><span class="line">    objc_setAssociatedObject(self,  @selector(name), name, OBJC_ASSOCIATION_COPY);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (NSString*)name&#123;</span><br><span class="line">    NSString *nameObject = objc_getAssociatedObject(self,  @selector(name));</span><br><span class="line">    return nameObject;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>  objc_setAssociatedObject key的定义用@selector(属性名)这样能保证key的唯一。</li>
+<li>关联对象都由AssociationsManager管理。AssociationsManager里面是由一个静态AssociationsHashMap来存储所有的关联对象的。这相当于把所有对象的关联对象都存在一个全局map里面。而map的的key是这个对象的指针地址（任意两个不同对象的指针地址一定是不同的），而这个map的value又是另外一个AssociationsHashMap，里面保存了关联对象的kv对。<br>  runtime的销毁对象函数objc_destructInstance里面会判断这个对象有没有关联对象，如果有，会调用_object_remove_assocations做关联对象的清理工作</li>
+</ul>
+<h2 id="类别同名方法覆盖问题"><a href="#类别同名方法覆盖问题" class="headerlink" title="类别同名方法覆盖问题"></a>类别同名方法覆盖问题</h2><ul>
+<li>  如果类别和主类都有名叫funA的方法，那么在类别加载完成之后，类的方法列表里会有两个funA；</li>
+<li>  类别的方法被放到了新方法列表的前面，而主类的方法被放到了新方法列表的后面，这就造成了类别方法会“覆盖”掉原来类的同名方法，这是因为运行时在查找方法的时候是顺着方法列表的顺序查找的，它只要一找到对应名字的方法，就会停止查找；</li>
+<li>  如果多个类别定义了同名方法funA,具体调用哪个类别的实现由编译顺序决定（Build Phases-&gt;Complie Sources中的顺序），后编译的类别的实现将被调用。</li>
+<li>  在日常开发过程中，类别方法重名轻则造成调用不正确，重则造成crash，我们可以通过给类别方法名加前缀避免方法重名。</li>
+</ul>
+<h2 id="怎么调用被覆盖掉的方法"><a href="#怎么调用被覆盖掉的方法" class="headerlink" title="怎么调用被覆盖掉的方法"></a>怎么调用被覆盖掉的方法</h2><p>category其实并不是完全替换掉原来类的同名方法，只是category在方法列表的前面而已，所以我们只要顺着方法列表找到最后一个对应名字的方法，就可以调用原来类的方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">Class currentClass = [TestClass class];</span><br><span class="line">TestClass *my = [[TestClass alloc] init];</span><br><span class="line"></span><br><span class="line">if (currentClass) &#123;</span><br><span class="line">    unsigned int methodCount;</span><br><span class="line">    Method *methodList = class_copyMethodList(currentClass, &amp;methodCount);</span><br><span class="line">    IMP lastImp = NULL;</span><br><span class="line">    SEL lastSel = NULL;</span><br><span class="line">    for (NSInteger i = 0; i &lt; methodCount; i++) &#123;</span><br><span class="line">        Method method = methodList[i];</span><br><span class="line">        NSString *methodName = [NSString stringWithCString:sel_getName(method_getName(method)) </span><br><span class="line">                                        encoding:NSUTF8StringEncoding];</span><br><span class="line">        if ([@&quot;printName&quot; isEqualToString:methodName]) &#123;</span><br><span class="line">            lastImp = method_getImplementation(method);</span><br><span class="line">            lastSel = method_getName(method);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    typedef void (*fn)(id,SEL);</span><br><span class="line"></span><br><span class="line">    if (lastImp != NULL) &#123;</span><br><span class="line">        fn f = (fn)lastImp;</span><br><span class="line">        f(my, lastSel);</span><br><span class="line">    &#125;</span><br><span class="line">    free(methodList);</span><br><span class="line">&#125;   </span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>关于类别更深入的解析可以参见美团的技术文章<a target="_blank" rel="noopener" href="https://tech.meituan.com/2015/03/03/diveintocategory.html">深入理解Objective-C：Category</a></p>
+<h1 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>iOS中的协议类似于Java、C++中的接口类，协议在OC中可以用来实现多继承和代理。</p>
+<h2 id="方法声明"><a href="#方法声明" class="headerlink" title="方法声明"></a>方法声明</h2><p>协议中的方法可以声明为@required（要求实现，如果没有实现，会发出警告，但编译不报错）或者@optional（不要求实现，不实现也不会有警告）。如果不声明，默认为@required。<br>笔者经常会问面试者如下两个问题：<br>-怎么判断一个类是否实现了某个协议？很多人不知道可以通过conformsToProtocol来判断。<br>-假如你要求业务方实现一个delegate，你怎么判断业务方有没有实现dalegate的某个方法？很多人不知道可以通过respondsToSelector来判断。</p>
+<h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="Class的定义"><a href="#Class的定义" class="headerlink" title="Class的定义"></a>Class的定义</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">在oc中打开objc.h</span><br><span class="line"></span><br><span class="line">typedef struct objc_class *Class;     //Class是指向结构体objc_class的指针</span><br><span class="line"></span><br><span class="line">struct objc_class &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY; //isa，代表的是该类类对象</span><br><span class="line"></span><br><span class="line">#if !__OBJC2__</span><br><span class="line">    Class _Nullable super_class                              OBJC2_UNAVAILABLE; //父类</span><br><span class="line">    const char * _Nonnull name                               OBJC2_UNAVAILABLE; //类名</span><br><span class="line">    long version                                             OBJC2_UNAVAILABLE; </span><br><span class="line">    long info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    long instance_size                                       OBJC2_UNAVAILABLE; //对象大小</span><br><span class="line">    struct objc_ivar_list * _Nullable ivars                  OBJC2_UNAVAILABLE; //成员变量列表</span><br><span class="line">    struct objc_method_list * _Nullable * _Nullable methodLists                    OBJC2_UNAVAILABLE; //实例方法列表</span><br><span class="line">    struct objc_cache * _Nonnull cache                       OBJC2_UNAVAILABLE; //方法缓存列表（是个hash表），用来消息发送时候，快速查找方法</span><br><span class="line">    struct objc_protocol_list * _Nullable protocols          OBJC2_UNAVAILABLE; //类实现协议列表</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br><span class="line">/* Use `Class` instead of `struct objc_class *` */</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="怎么枚举一个类的方法列表？"><a href="#怎么枚举一个类的方法列表？" class="headerlink" title="怎么枚举一个类的方法列表？"></a>怎么枚举一个类的方法列表？</h2><p>class_copyMethodList</p>
+<h2 id="怎么枚举一个类的属性列表？"><a href="#怎么枚举一个类的属性列表？" class="headerlink" title="怎么枚举一个类的属性列表？"></a>怎么枚举一个类的属性列表？</h2><p>class_copyPropertyList</p>
+<h2 id="怎么枚举一个类的成员变量列表？"><a href="#怎么枚举一个类的成员变量列表？" class="headerlink" title="怎么枚举一个类的成员变量列表？"></a>怎么枚举一个类的成员变量列表？</h2><p>class_copyIvarList</p>
+<h2 id="怎么枚举一个类实现的协议列表？"><a href="#怎么枚举一个类实现的协议列表？" class="headerlink" title="怎么枚举一个类实现的协议列表？"></a>怎么枚举一个类实现的协议列表？</h2><p>class_copyProtocolList</p>
+<h1 id="id和instancetype的区别"><a href="#id和instancetype的区别" class="headerlink" title="id和instancetype的区别"></a>id和instancetype的区别</h1><ul>
+<li>  id能用做返回值、参数。instancetype只能用做返回值。</li>
+<li>  instancetype是类型相关的，如果把一个instancetype的对象赋值给另外类，编译器会警告。id不会。</li>
+</ul>
+<h2 id="Runtime开源代码"><a href="#Runtime开源代码" class="headerlink" title="Runtime开源代码"></a>Runtime开源代码</h2><p>runtime是开源的，可以在<a target="_blank" rel="noopener" href="https://github.com/opensource-apple/objc4">Apple Github</a>和<a target="_blank" rel="noopener" href="https://github.com/opensource-apple/objc4">Apple OpenSource</a>下载来阅读。<br>参考资料：<br><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/3e050ec3b759">Objective-C中的Runtime</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OC%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag"># OC知识点</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/02/MVC%E3%80%81MVVM%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="prev" title="框架MVC&MVVM">
+                  <i class="fa fa-chevron-left"></i> 框架MVC&MVVM
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/05/RunLoop%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="next" title="RunLoop">
+                  RunLoop <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

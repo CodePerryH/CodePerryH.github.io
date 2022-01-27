@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
+<meta name="description" content="RunLoop定义苹果官方文档对RunLoop的定义如下： 12Run loops are part of the fundamental infrastructure associated with threads. A run loop is an event processing loop that you use to schedule work and coordinate the">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RunLoop">
+<meta property="og:url" content="http://example.com/2018/08/05/RunLoop%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/index.html">
+<meta property="og:site_name" content="须知少时凌云志，曾许人间第一流">
+<meta property="og:description" content="RunLoop定义苹果官方文档对RunLoop的定义如下： 12Run loops are part of the fundamental infrastructure associated with threads. A run loop is an event processing loop that you use to schedule work and coordinate the">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22877992-6a1e5d60f9d891ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22877992-e5391b29f7e3eea6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22877992-d3c030c8617ee1a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="article:published_time" content="2018-08-05T09:19:03.000Z">
+<meta property="article:modified_time" content="2022-01-27T06:29:04.747Z">
+<meta property="article:author" content="CodeoPerryH">
+<meta property="article:tag" content="OC知识点">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/22877992-6a1e5d60f9d891ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+
+
+<link rel="canonical" href="http://example.com/2018/08/05/RunLoop%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2018/08/05/RunLoop%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/","path":"2018/08/05/RunLoop面试要点/","title":"RunLoop"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>RunLoop | 须知少时凌云志，曾许人间第一流</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">须知少时凌云志，曾许人间第一流</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">iOSer,life,and Cat</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#RunLoop%E5%AE%9A%E4%B9%89"><span class="nav-number">1.</span> <span class="nav-text">RunLoop定义</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RunLoop%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">RunLoop原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Input-Source-%E5%92%8C-Timer-Source"><span class="nav-number">2.1.</span> <span class="nav-text">Input Source 和 Timer Source</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96RunLoop"><span class="nav-number">2.2.</span> <span class="nav-text">获取RunLoop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RunLoop%E4%B8%8E%E7%BA%BF%E7%A8%8B%E5%85%B3%E7%B3%BB"><span class="nav-number">2.3.</span> <span class="nav-text">RunLoop与线程关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%BA%BF%E7%A8%8B%E5%AE%89%E5%85%A8"><span class="nav-number">2.4.</span> <span class="nav-text">线程安全</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8RunLoop"><span class="nav-number">2.5.</span> <span class="nav-text">启动RunLoop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%80%80%E5%87%BARunLoop"><span class="nav-number">2.6.</span> <span class="nav-text">退出RunLoop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RunLoop-Mode"><span class="nav-number">2.7.</span> <span class="nav-text">RunLoop Mode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RunLoop-Observers"><span class="nav-number">2.8.</span> <span class="nav-text">RunLoop Observers</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RunLoop%E5%A4%84%E7%90%86%E4%BA%8B%E4%BB%B6%E9%A1%BA%E5%BA%8F"><span class="nav-number">2.9.</span> <span class="nav-text">RunLoop处理事件顺序</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RunLoop%E5%BA%94%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">RunLoop应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%8B%B9%E6%9E%9C%E7%94%A8RunLoop%E5%AE%9E%E7%8E%B0%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">3.1.</span> <span class="nav-text">苹果用RunLoop实现的功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3NSTimer%E4%BA%8B%E4%BB%B6%E5%9C%A8%E5%88%97%E8%A1%A8%E6%BB%9A%E5%8A%A8%E6%97%B6%E4%B8%8D%E6%89%A7%E8%A1%8C%E9%97%AE%E9%A2%98"><span class="nav-number">3.2.</span> <span class="nav-text">解决NSTimer事件在列表滚动时不执行问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AutoreleasePool"><span class="nav-number">3.3.</span> <span class="nav-text">AutoreleasePool</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E5%A4%84"><span class="nav-number">3.3.1.</span> <span class="nav-text">用处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Runloop%E4%B8%AD%E8%87%AA%E5%8A%A8%E9%87%8A%E6%94%BE%E6%B1%A0%E5%88%9B%E5%BB%BA%E5%92%8C%E9%87%8A%E6%94%BE%E6%97%B6%E6%9C%BA"><span class="nav-number">3.3.2.</span> <span class="nav-text">Runloop中自动释放池创建和释放时机</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%91%E6%8E%A7%E5%8D%A1%E9%A1%BF"><span class="nav-number">3.4.</span> <span class="nav-text">监控卡顿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AD%90%E7%BA%BF%E7%A8%8B%E6%89%A7%E8%A1%8C%E4%BB%BB%E5%8A%A1"><span class="nav-number">3.5.</span> <span class="nav-text">创建子线程执行任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AsyncDisplayKit"><span class="nav-number">3.6.</span> <span class="nav-text">AsyncDisplayKit</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">CodeoPerryH</p>
+  <div class="site-description" itemprop="description">ios</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/05/RunLoop%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="CodeoPerryH">
+      <meta itemprop="description" content="ios">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="须知少时凌云志，曾许人间第一流">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RunLoop
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2018-08-05 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-05T17:19:03+08:00">2018-08-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2022-01-27 14:29:04" itemprop="dateModified" datetime="2022-01-27T14:29:04+08:00">2022-01-27</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <meta name="referrer" content="no-referrer"/>
+
+<h1 id="RunLoop定义"><a href="#RunLoop定义" class="headerlink" title="RunLoop定义"></a>RunLoop定义</h1><p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">苹果官方文档</a>对RunLoop的定义如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Run loops are part of the fundamental infrastructure associated with threads. A run loop is an event processing loop that you use to schedule work and coordinate the receipt of incoming events. The purpose of a run loop is to keep your thread busy when there is work to do and put your thread to sleep when there is none.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>翻译为中文为：RunLoop是线程基础设施的一部分。RunLoop是iOS中用来接受事件、处理事件的循环。设计RunLoop的目的是让线程有事件的时候处理事件，没事件的时候处于休眠。<br>在iOS中RunLoop实际上是一个对象(CFRunLoopRef 和NSRunLoop)，RunLoop做的事情是处于等待消息-&gt;接受消息-&gt;处理消息这样一个循环中，直到退出循环。</p>
+<h1 id="RunLoop原理"><a href="#RunLoop原理" class="headerlink" title="RunLoop原理"></a>RunLoop原理</h1><p>苹果官方原理图<br><img src="https://upload-images.jianshu.io/upload_images/22877992-6a1e5d60f9d891ab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>从图中可以看出，RunLoop运行在线程中，接收Input Source 和 Timer Source并且进行处理。</p>
+<h2 id="Input-Source-和-Timer-Source"><a href="#Input-Source-和-Timer-Source" class="headerlink" title="Input Source 和 Timer Source"></a>Input Source 和 Timer Source</h2><p>两个都是 Runloop 事件的来源。<br>Input Source 可以分为三类</p>
+<ul>
+<li>  Port-Based Sources，系统底层的 Port 事件，例如 CFSocketRef ；</li>
+<li>  Custom Input Sources，用户手动创建的 Source;</li>
+<li>Cocoa Perform Selector Sources， Cocoa 提供的 performSelector 系列方法，也是一种事件源;<br>  Timer Source指定时器事件，该事件的优先级是最低的。<br>  按照上面的图，事件处理优先级是Port &gt; Custom &gt; performSelector &gt; Timer。<br>  Input Source异步投递事件到线程中，Timer Source同步投递事件到线程中。</li>
+</ul>
+<h2 id="获取RunLoop"><a href="#获取RunLoop" class="headerlink" title="获取RunLoop"></a>获取RunLoop</h2><p>RunLoop是由线程创建的，我们只能获取。通过CFRunLoopGetCurrent获取当前线程的RunLoop，子线程的RunLoop在子线程中第一次调用CFRunLoopGetCurrent创建，主线程的RunLoop在整个App第一次调用CFRunLoopGetCurrent创建，由UIApplication 的run方法调用。</p>
+<h2 id="RunLoop与线程关系"><a href="#RunLoop与线程关系" class="headerlink" title="RunLoop与线程关系"></a>RunLoop与线程关系</h2><p>RunLoop与线程是一一对应关系，一个线程对应一个RunLoop，他们的映射存储在一个字典里，key为线程，value为RunLoop。</p>
+<h2 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h2><p>CFRunLoop系列函数是线程安全的。NSRunLoop系列函数不是线程安全的。</p>
+<h2 id="启动RunLoop"><a href="#启动RunLoop" class="headerlink" title="启动RunLoop"></a>启动RunLoop</h2><p>通过CFRunLoopRun系列函数启动RunLoop，启动时可以指定超时时间。RunLoop 启动前内部必须要有至少一个 Timer/Observer/Source，你可以添加一个一次性timer到RunLoop然后再调用CFRunLoopRun。</p>
+<h2 id="退出RunLoop"><a href="#退出RunLoop" class="headerlink" title="退出RunLoop"></a>退出RunLoop</h2><ul>
+<li>  启动RunLoop时制定超时时间</li>
+<li>  通过 CFRunLoopStop主动退出</li>
+</ul>
+<h2 id="RunLoop-Mode"><a href="#RunLoop-Mode" class="headerlink" title="RunLoop Mode"></a>RunLoop Mode</h2><p>一个 RunLoop 包含若干个 Mode，每个 Mode 又包含若干个 Source/Timer/Observer。每次调用 RunLoop 的主函数时，只能指定其中一个 Mode，这个Mode被称作 CurrentMode。如果需要切换 Mode，只能退出 Loop，再重新指定一个 Mode 进入。这样做主要是为了分隔开不同组的 Source/Timer/Observer，让其互不影响。<br>苹果定义的Mode如下图，其中NSDefaultRunLoopMode、NSEventTrackingRunLoopMode、NSRunLoopCommonModes我们经常会用到。<br><img src="https://upload-images.jianshu.io/upload_images/22877992-e5391b29f7e3eea6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>Source有两种类型：Source0 和 Source1。</p>
+<ul>
+<li>  Source0 （非基于port）只包含了一个回调，需要手动触发。使用时，你需要先调用 CFRunLoopSourceSignal(source)，将这个 Source 标记为待处理，然后手动调用 CFRunLoopWakeUp(runloop) 来唤醒 RunLoop，让其处理这个事件。</li>
+<li>  Source1 （基于port），可以主动触发。包含了一个 mach_port 和一个回调（函数指针），被用于通过内核和其他线程相互发送消息。</li>
+</ul>
+<h2 id="RunLoop-Observers"><a href="#RunLoop-Observers" class="headerlink" title="RunLoop Observers"></a>RunLoop Observers</h2><p>通过CFRunLoopAddObserver监控RunLoop的状态。RunLoop的状态如下：<br>typedef CF_OPTIONS(CFOptionFlags, CFRunLoopActivity) {<br>kCFRunLoopEntry = (1UL &lt;&lt; 0), // 即将进入Loop<br>kCFRunLoopBeforeTimers = (1UL &lt;&lt; 1), // 即将处理 Timer<br>kCFRunLoopBeforeSources = (1UL &lt;&lt; 2), // 即将处理 Source<br>kCFRunLoopBeforeWaiting = (1UL &lt;&lt; 5), // 即将进入休眠<br>kCFRunLoopAfterWaiting = (1UL &lt;&lt; 6), // 刚从休眠中唤醒，但是还没完全处理完事件<br>kCFRunLoopExit = (1UL &lt;&lt; 7), // 即将退出Loop<br>};</p>
+<p>我们可以通过Observer来监控主线程的卡顿。</p>
+<h2 id="RunLoop处理事件顺序"><a href="#RunLoop处理事件顺序" class="headerlink" title="RunLoop处理事件顺序"></a>RunLoop处理事件顺序</h2><p><img src="https://upload-images.jianshu.io/upload_images/22877992-d3c030c8617ee1a6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
+<p>RunLoop内部是一个 do-while 循环。当你调用 CFRunLoopRun() 时，线程就会一直停留在这个循环里；直到超时或被手动停止，该函数才会返回。RunLoop t通过调用mach_msg函数进入休眠等待唤醒状态。</p>
+<h1 id="RunLoop应用"><a href="#RunLoop应用" class="headerlink" title="RunLoop应用"></a>RunLoop应用</h1><h2 id="苹果用RunLoop实现的功能"><a href="#苹果用RunLoop实现的功能" class="headerlink" title="苹果用RunLoop实现的功能"></a>苹果用RunLoop实现的功能</h2><p>AutoreleasePool、事件响应、手势识别、界面更新、定时器、PerformSelecter、GCD、网络请求底层等都用到了RunLoop</p>
+<h2 id="解决NSTimer事件在列表滚动时不执行问题"><a href="#解决NSTimer事件在列表滚动时不执行问题" class="headerlink" title="解决NSTimer事件在列表滚动时不执行问题"></a>解决NSTimer事件在列表滚动时不执行问题</h2><p>因为定时器默认是运行在NSDefaultRunLoopMode，在列表滚动时候，主线程会切换到UITrackingRunLoopMode，导致定时器回调得不到执行。<br>有两种解决方案：</p>
+<ul>
+<li>  指定NSTimer运行于 NSRunLoopCommonModes下。</li>
+<li>  在子线程创建和处理Timer事件，然后在主线程更新 UI。</li>
+</ul>
+<h2 id="AutoreleasePool"><a href="#AutoreleasePool" class="headerlink" title="AutoreleasePool"></a>AutoreleasePool</h2><h3 id="用处"><a href="#用处" class="headerlink" title="用处"></a>用处</h3><p>在 ARC 下，我们不需要手动管理内存，可以完全不知道 autorelease 的存在，就可以正确管理好内存，因为 Runloop 在每个 Runloop Circle 中会自动创建和释放Autorelease Pool。<br>当我们需要创建和销毁大量的对象时，使用手动创建的 autoreleasepool 可以有效的避免内存峰值的出现。因为如果不手动创建的话，外层系统创建的 pool 会在整个 Runloop Circle 结束之后才进行 drain，手动创建的话，会在 block 结束之后就进行 drain 操作，比如下面例子：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 0; i &lt; 100000; i++)</span><br><span class="line">&#123;</span><br><span class="line">    @autoreleasepool</span><br><span class="line">    &#123;</span><br><span class="line">        NSString* string = @&quot;akon&quot;;</span><br><span class="line">        NSArray* array = [string componentsSeparatedByString:string];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>比如SDWebImage中这段代码，由于encodedDataWithImage会把image解码成data，可能造成内存暴涨，所以加autoreleasepool避免内存暴涨</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"> @autoreleasepool &#123;</span><br><span class="line">    NSData *data = imageData;</span><br><span class="line">    if (!data &amp;&amp; image) &#123;</span><br><span class="line">                    // If we do not have any data to detect image format, check whether it contains alpha channel to use PNG or JPEG format</span><br><span class="line">        SDImageFormat format;</span><br><span class="line">        if ([SDImageCoderHelper CGImageContainsAlpha:image.CGImage]) &#123;</span><br><span class="line">            format = SDImageFormatPNG;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            format = SDImageFormatJPEG;</span><br><span class="line">        &#125;</span><br><span class="line">        data = [[SDImageCodersManager sharedManager] encodedDataWithImage:image format:format options:nil];</span><br><span class="line">    &#125;</span><br><span class="line">    [self _storeImageDataToDisk:data forKey:key];</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Runloop中自动释放池创建和释放时机"><a href="#Runloop中自动释放池创建和释放时机" class="headerlink" title="Runloop中自动释放池创建和释放时机"></a>Runloop中自动释放池创建和释放时机</h3><p>苹果官方文档：</p>
+<blockquote>
+<p>The Application Kit creates an autorelease pool on the main thread at the beginning of every cycle of the event loop, and drains it at the end, thereby releasing any autoreleased objects generated while processing an event</p>
+</blockquote>
+<p>-系统在Runloop开始处理一个事件时创建一个autoreleaspool。</p>
+<ul>
+<li>  系统会在处理完一个事件后释放 autoreleaspool 。</li>
+<li>我们手动创建的 autoreleasepool 会在 block 执行完成之后进行 drain 操作。需要注意的是：当 block 以异常结束时，pool 不会被 drain<br>  Pool 的 drain 操作会把所有标记为 autorelease 的对象的引用计数减一，但是并不意味着这个对象一定会被释放掉，我们可以在 autorelease pool 中手动 retain 对象，以延长它的生命周期（在 MRC 中）。<br>  通过_objc_autoreleasePoolPush和_objc_autoreleasePoolPop来创建和释放自动释放池，底层是通过AutoreleasePoolPage来实现的。</li>
+<li>  自动释放池是由 AutoreleasePoolPage 以双向链表的方式实现的</li>
+<li>  当对象调用 autorelease 方法时，会将对象加入 AutoreleasePoolPage 的栈中</li>
+<li>调用 AutoreleasePoolPage::pop 方法会向栈中的对象发送 release 消息<br>  关于自动释放池的原理，可以参考这篇文章<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/32265cbb2a26">自动释放池的前世今生</a></li>
+</ul>
+<h2 id="监控卡顿"><a href="#监控卡顿" class="headerlink" title="监控卡顿"></a>监控卡顿</h2><p>可以通过监控runloop的 kCFRunLoopBeforeSources和kCFRunLoopAfterWaiting的事件间隔来监控卡顿。关于卡顿监控可以参考笔者的文章<a target="_blank" rel="noopener" href="https://xiaozhuanlan.com/topic/1293805467">卡顿监控及处理</a></p>
+<h2 id="创建子线程执行任务"><a href="#创建子线程执行任务" class="headerlink" title="创建子线程执行任务"></a>创建子线程执行任务</h2><p>你可以创建子线程，然后在别的线程通过performSelector:onThread:withObject:waitUntilDone:路由到该子线程进行处理。</p>
+<h2 id="AsyncDisplayKit"><a href="#AsyncDisplayKit" class="headerlink" title="AsyncDisplayKit"></a>AsyncDisplayKit</h2><p><a target="_blank" rel="noopener" href="https://github.com/facebookarchive/AsyncDisplayKit">AsyncDisplayKit</a>( 现在更名为Texture)，是Facebook开源的用来异步绘制UI的框架。ASDK 仿照 QuartzCore/UIKit 框架的模式，实现了一套类似的界面更新的机制：即在主线程的 RunLoop 中添加一个 Observer，监听了 kCFRunLoopBeforeWaiting 和 kCFRunLoopExit 事件，在收到回调时，遍历所有之前放入队列的待处理的任务，然后一一执行。<br>参考资料：<br><a target="_blank" rel="noopener" href="https://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a><br>苹果官方文档<a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">Run Loops</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/OC%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag"># OC知识点</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/08/03/Runtime%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="prev" title="Runtime">
+                  <i class="fa fa-chevron-left"></i> Runtime
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/08/06/GCD%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="next" title="GCD">
+                  GCD <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
