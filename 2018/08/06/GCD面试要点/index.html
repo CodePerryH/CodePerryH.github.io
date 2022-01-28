@@ -9,7 +9,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
   <meta name="google-site-verification" content="e9A3VOTvVQOgJbWsO3nFp1n8uEBA7PExS9f1O3nFbu4">
+  <meta name="baidu-site-verification" content="code-8DAsxWGcsx">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -18,7 +21,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="GCD在iOS中应该是最常使用的并发编程技术了，GCD接口设计得很简洁，使用起来也很方便，由于苹果做了高度的封装，所以很多人对GCD的原理并不是很了解，本文来总结一下GCD常用面试要点。">
@@ -141,6 +144,11 @@
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -316,9 +324,9 @@
 </ul>
 <h2 id="有几个线程池？"><a href="#有几个线程池？" class="headerlink" title="有几个线程池？"></a>有几个线程池？</h2><p>两个。一个是主线程池，另一个是除了主线程池之外的线程池。</p>
 <h2 id="一个队列最多支持几个线程同时工作？"><a href="#一个队列最多支持几个线程同时工作？" class="headerlink" title="一个队列最多支持几个线程同时工作？"></a>一个队列最多支持几个线程同时工作？</h2><p>64个</p>
-<h2 id="多个队列，允许最多几个线程同时工作？"><a href="#多个队列，允许最多几个线程同时工作？" class="headerlink" title="多个队列，允许最多几个线程同时工作？"></a>多个队列，允许最多几个线程同时工作？</h2><p>64个。优先级高的队列获得的可活跃线程数多于优先级低的，但也有例外，低优先级的也能获得少量活跃线程。<br>参考资料：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/kenshincui/p/13272517.html">iOS刨根问底-深入理解GCD</a></p>
+<h2 id="多个队列，允许最多几个线程同时工作？"><a href="#多个队列，允许最多几个线程同时工作？" class="headerlink" title="多个队列，允许最多几个线程同时工作？"></a>多个队列，允许最多几个线程同时工作？</h2><p>64个。优先级高的队列获得的可活跃线程数多于优先级低的，但也有例外，低优先级的也能获得少量活跃线程。<br>参考资料：<span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20va2Vuc2hpbmN1aS9wLzEzMjcyNTE3Lmh0bWw=">iOS刨根问底-深入理解GCD<i class="fa fa-external-link-alt"></i></span></p>
 <h1 id="dispatch-once"><a href="#dispatch-once" class="headerlink" title="dispatch_once"></a>dispatch_once</h1><p>可以用disaptch_once来执行一次性的初始化代码，比如创建单例，这个方法是线程安全的。</p>
-<h2 id="死锁问题"><a href="#死锁问题" class="headerlink" title="死锁问题"></a>死锁问题</h2><p>用disaptch_once创建单例的时候，如果出现循环引用的情况，会造成死锁。比如A-&gt;B-&gt;C-&gt;A这种调用就会死锁。<br>可以参考<a target="_blank" rel="noopener" href="https://satanwoo.github.io/2016/04/11/dispatch-once/">滥用单例之dispatch_once死锁</a></p>
+<h2 id="死锁问题"><a href="#死锁问题" class="headerlink" title="死锁问题"></a>死锁问题</h2><p>用disaptch_once创建单例的时候，如果出现循环引用的情况，会造成死锁。比如A-&gt;B-&gt;C-&gt;A这种调用就会死锁。<br>可以参考<span class="exturl" data-url="aHR0cHM6Ly9zYXRhbndvby5naXRodWIuaW8vMjAxNi8wNC8xMS9kaXNwYXRjaC1vbmNlLw==">滥用单例之dispatch_once死锁<i class="fa fa-external-link-alt"></i></span></p>
 <h1 id="dispatch-after"><a href="#dispatch-after" class="headerlink" title="dispatch_after"></a>dispatch_after</h1><p>用来延迟执行代码。类似NSTimer。需要注意的是：dispatch_after 方法并不是在指定时间之后才开始执行任务，而是在指定时间之后将任务追加到主队列中。</p>
 <h1 id="dispatch-group"><a href="#dispatch-group" class="headerlink" title="dispatch_group"></a>dispatch_group</h1><p>可以用dispatch_group来实现类似需求，当一组任务都执行完成后，然后再来执行最后的操作。比如进入一个页面同时发起两个网络请求，等两个网络请求都返回后再执行界面刷新。可以用dispatch_group + dispatch_group_enter + dispatch_group_leave + dispatch_group_notify来实现。</p>
 <h1 id="dispatch-semaphore-t"><a href="#dispatch-semaphore-t" class="headerlink" title="dispatch_semaphore_t"></a>dispatch_semaphore_t</h1><h2 id="用来计数"><a href="#用来计数" class="headerlink" title="用来计数"></a>用来计数</h2><p>当创建信号量时初始化大于1，可以用来实现多线程并发。</p>
@@ -441,10 +449,10 @@
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/CodePerryH" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0NvZGVQZXJyeUg=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH"><i class="fab fa-github fa-fw"></i>GitHub</span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:648167350@qq.com" title="E-Mail → mailto:648167350@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOjY0ODE2NzM1MEBxcS5jb20=" title="E-Mail → mailto:648167350@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
       </span>
   </div>
 
@@ -475,7 +483,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly9waXNjZXMudGhlbWUtbmV4dC5vcmc=">NexT.Pisces</span>
   </div>
 
 <div class="powered-by">

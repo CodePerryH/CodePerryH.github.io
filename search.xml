@@ -69,9 +69,9 @@
 </ul>
 <h2 id="有几个线程池？"><a href="#有几个线程池？" class="headerlink" title="有几个线程池？"></a>有几个线程池？</h2><p>两个。一个是主线程池，另一个是除了主线程池之外的线程池。</p>
 <h2 id="一个队列最多支持几个线程同时工作？"><a href="#一个队列最多支持几个线程同时工作？" class="headerlink" title="一个队列最多支持几个线程同时工作？"></a>一个队列最多支持几个线程同时工作？</h2><p>64个</p>
-<h2 id="多个队列，允许最多几个线程同时工作？"><a href="#多个队列，允许最多几个线程同时工作？" class="headerlink" title="多个队列，允许最多几个线程同时工作？"></a>多个队列，允许最多几个线程同时工作？</h2><p>64个。优先级高的队列获得的可活跃线程数多于优先级低的，但也有例外，低优先级的也能获得少量活跃线程。<br>参考资料：<a href="https://www.cnblogs.com/kenshincui/p/13272517.html">iOS刨根问底-深入理解GCD</a></p>
+<h2 id="多个队列，允许最多几个线程同时工作？"><a href="#多个队列，允许最多几个线程同时工作？" class="headerlink" title="多个队列，允许最多几个线程同时工作？"></a>多个队列，允许最多几个线程同时工作？</h2><p>64个。优先级高的队列获得的可活跃线程数多于优先级低的，但也有例外，低优先级的也能获得少量活跃线程。<br>参考资料：<span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20va2Vuc2hpbmN1aS9wLzEzMjcyNTE3Lmh0bWw=">iOS刨根问底-深入理解GCD<i class="fa fa-external-link-alt"></i></span></p>
 <h1 id="dispatch-once"><a href="#dispatch-once" class="headerlink" title="dispatch_once"></a>dispatch_once</h1><p>可以用disaptch_once来执行一次性的初始化代码，比如创建单例，这个方法是线程安全的。</p>
-<h2 id="死锁问题"><a href="#死锁问题" class="headerlink" title="死锁问题"></a>死锁问题</h2><p>用disaptch_once创建单例的时候，如果出现循环引用的情况，会造成死锁。比如A-&gt;B-&gt;C-&gt;A这种调用就会死锁。<br>可以参考<a href="https://satanwoo.github.io/2016/04/11/dispatch-once/">滥用单例之dispatch_once死锁</a></p>
+<h2 id="死锁问题"><a href="#死锁问题" class="headerlink" title="死锁问题"></a>死锁问题</h2><p>用disaptch_once创建单例的时候，如果出现循环引用的情况，会造成死锁。比如A-&gt;B-&gt;C-&gt;A这种调用就会死锁。<br>可以参考<span class="exturl" data-url="aHR0cHM6Ly9zYXRhbndvby5naXRodWIuaW8vMjAxNi8wNC8xMS9kaXNwYXRjaC1vbmNlLw==">滥用单例之dispatch_once死锁<i class="fa fa-external-link-alt"></i></span></p>
 <h1 id="dispatch-after"><a href="#dispatch-after" class="headerlink" title="dispatch_after"></a>dispatch_after</h1><p>用来延迟执行代码。类似NSTimer。需要注意的是：dispatch_after 方法并不是在指定时间之后才开始执行任务，而是在指定时间之后将任务追加到主队列中。</p>
 <h1 id="dispatch-group"><a href="#dispatch-group" class="headerlink" title="dispatch_group"></a>dispatch_group</h1><p>可以用dispatch_group来实现类似需求，当一组任务都执行完成后，然后再来执行最后的操作。比如进入一个页面同时发起两个网络请求，等两个网络请求都返回后再执行界面刷新。可以用dispatch_group + dispatch_group_enter + dispatch_group_leave + dispatch_group_notify来实现。</p>
 <h1 id="dispatch-semaphore-t"><a href="#dispatch-semaphore-t" class="headerlink" title="dispatch_semaphore_t"></a>dispatch_semaphore_t</h1><h2 id="用来计数"><a href="#用来计数" class="headerlink" title="用来计数"></a>用来计数</h2><p>当创建信号量时初始化大于1，可以用来实现多线程并发。</p>
@@ -82,11 +82,123 @@
       </tags>
   </entry>
   <entry>
+    <title>框架MVC&amp;MVVM</title>
+    <url>/2018/08/02/MVC%E3%80%81MVVM%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+
+<h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><p>MVC</p>
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>MVC模式（Model–View–Controller）是软件工程中的一种软件架构模式，把软件系统分为三个基本部分：模型（Model）、视图（View）和控制器（Controller）。</p>
+<span id="more"></span>
+
+<p>在iOS中，MVC通信模式如下所示：<br><img src="https://upload-images.jianshu.io/upload_images/22877992-2110caa320a00a75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<ul>
+<li>  VC持有Model和View，Model和View不直接交互。</li>
+<li>  当用户点击View时，通知VC，需要更新Model时由VC来更新Model。</li>
+<li>  当Model发生变化时候，利用KVO等技术通知VC，由VC来更新View。</li>
+</ul>
+<h2 id="Massive-ViewController"><a href="#Massive-ViewController" class="headerlink" title="Massive ViewController"></a>Massive ViewController</h2><p>如果我们把所有的业务逻辑都写在VC里面，不做好拆分，很容易造成VC臃肿。这个时候需要为VC瘦身，而MVVM就是为了解决VC过于庞大引入的设计模式。</p>
+<h2 id="怎么为VC瘦身"><a href="#怎么为VC瘦身" class="headerlink" title="怎么为VC瘦身"></a>怎么为VC瘦身</h2><p>1、一个干净的VC应该只做如下事：</p>
+<ul>
+<li>  在初始化时，构造相应的 View 和 Model。</li>
+<li>  监听 Model 层的事件，将 Model 层的数据传递到 View 层。</li>
+<li>  监听 View 层的事件，并且将 View 层的事件转发到 Model 层。</li>
+<li>  其他的事情可以由若干个Manager来完成。</li>
+</ul>
+<p>2、那么在iOS中，我们有那些常用的瘦身手段呢？</p>
+<ul>
+<li>  网络层。定义网络请求类 ，一个网络请求代表一个类。网络请求类负责发网络请求以及把响应数据解析为model，model以及response通过block方式回调给调用方。这里的调用方大部分时候是VC。</li>
+<li>  数据存储层。定义数据存储Manager，用来加载数据和缓存数据。</li>
+<li>  定义数据转换层。负责数据转换，比如Model跟View Model的转换。</li>
+<li>  可以通过类别的方式给VC做好功能的划分，比如定义TableView分类用来处理UITableViewDelegate &amp;&amp; UITableViewDataSource代理方法；定义Network分类用来处理网络逻辑。</li>
+</ul>
+<p>推荐大家每个业务模块至少建立Model、View、VC、Network、Cache五个文件夹来分类代码，并且遵循上面原则来给VC瘦身。</p>
+<h1 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p><img src="https://upload-images.jianshu.io/upload_images/22877992-b16875587e6e47c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
+<ul>
+<li>  View、VC可以持有View Model，反之不行；View Model可以持有Model，反之不行。 View Model相当于MVC中的VC作用，用来连接View、VC 和Model。</li>
+<li>  当Model更新时，通知View Model，View Model再通知VC或者View，来更新View；</li>
+<li>  当用户点击View时候，通知View Model，View Model通知Model来更新Model。</li>
+</ul>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>实现MVVM的关键是如何做数据通知，在iOS中可以用KVO来实现。业内一般用ReactiveCocoa来实现数据绑定及通知。</p>
+<h1 id="选择MVC还是MVVM？"><a href="#选择MVC还是MVVM？" class="headerlink" title="选择MVC还是MVVM？"></a>选择MVC还是MVVM？</h1><p>无论是MVC还是MVVM，我们的本质都是想对VC进行瘦身。<br>用MVVM的话，分层更加清晰，不过要引入ReactiveCocoa，ReactiveCocoa比较重，学习成本比较高，最重要的是用的是block，调试起来比较麻烦，目前业内用得不是特别多。<br>笔者推荐用MVC，按照上面介绍的VC瘦身方案来使用，这样轻量点。</p>
+]]></content>
+      <tags>
+        <tag>OC知识点</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>KVC&amp;KVO</title>
+    <url>/2018/08/01/KVC&amp;KVO%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/</url>
+    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
+# KVC
+
+<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><ul>
+<li>  KVC 是 Key-Value-Coding 的简称。</li>
+<li>  KVC 是一种可以直接通过字符串的名字 key 来访问类属性的机制，而不需要调用setter、getter方法去访问。</li>
+<li>  我们可以通过在运行时动态的访问和修改对象的属性。KVC 是 iOS 开发中的黑魔法之一。</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="设置值-amp-amp-获取值"><a href="#设置值-amp-amp-获取值" class="headerlink" title="设置值&amp;&amp;获取值"></a>设置值&amp;&amp;获取值</h2><ul>
+<li>  设置值</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)setValue:(id)value forKey:(NSString *)key;</span><br><span class="line"></span><br><span class="line">- (void)setValue:(id)value forKeyPath:(NSString *)keyPath;</span><br><span class="line"></span><br><span class="line">// 它的默认实现是抛出异常，可以重写这个函数啥也不做来防止崩溃。</span><br><span class="line">- (void)setValue:(id)value forUndefinedKey:(NSString *)key;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>  获取值</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (id)valueForKey:(NSString *)key;</span><br><span class="line"></span><br><span class="line">- (id)valueForKeyPath:(NSString *)keyPath;</span><br><span class="line"></span><br><span class="line">// 如果key不存在，且KVC无法搜索到任何和key有关的字段或者属性，则会调用这个方法，默认实现抛出异常。可以通过重写该方法返回nil来防止崩溃</span><br><span class="line">- (id)valueForUndefinedKey:(NSString *)key;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="KVC设置和查找顺序"><a href="#KVC设置和查找顺序" class="headerlink" title="KVC设置和查找顺序"></a>KVC设置和查找顺序</h2><ul>
+<li>设置顺序<br>  调用- (void)setValue:(id)value forKey:(NSString *)key;时，执行操作<br>  1、首先搜索setter方法，有就直接赋值。<br>  2、如果1中的 setter 方法没有找到，再检查类方法+ (BOOL)accessInstanceVariablesDirectly<br>  返回 NO，则执行setValue:forUndefinedKey:<br>  返回 YES，则按_key，_isKey，key，isKey的顺序搜索成员名进行赋值。<br>  3、还没有找到的话，就调用setValue:forUndefinedKey:</li>
+<li>查找顺序<br>  当调用valueForKey:@”key”的代码时，KVC对key的搜索方式不同于setValue”akon” forKey:@”key”，其搜索方式如下：</li>
+</ul>
+<p>1、首先按get, is的顺序查找getter方法，找到的话会直接调用。如果是BOOL或者Int等值类型，会将其包装成一个NSNumber对象。<br>2、如果没有找到，KVC则会查找countOf、objectInAtIndex或AtIndexes格式的方法。如果countOf方法和另外两个方法中的一个被找到，那么就会返回一个可以响应NSArray所有方法的代理集合(它是NSKeyValueArray，是NSArray的子类)，调<br>用这个代理集合的方法，就会以countOf,objectInAtIndex或AtIndexes这几个方法组合的形式调用。还有一个可选的get:range:方法。所以你想重新定义KVC的一些功能，你可以添加这些方法，需要注意的是你的方法名要符合KVC的标准命名方法，包括方法签名。<br>3、如果上面的方法没有找到，那么会同时查找countOf，enumeratorOf,memberOf格式的方法。如果这三个方法都找到，那么就返回一个可以响应NSSet所的方法的代理集合，和上面一样，给这个代理集合发NSSet的消息，就会以countOf，enumeratorOf,memberOf组合的形式调用。<br>4、如果还没有找到，再检查类方法+ (BOOL)accessInstanceVariablesDirectly,如果返回YES(默认行为)，那么和先前的设值一样，会按_key,_isKey,key,isKey的顺序搜索成员变量名。<br>如果还没找到，直接调用该对象的valueForUndefinedKey:方法，该方法默认是抛出异常。</p>
+<h2 id="KVC防崩溃"><a href="#KVC防崩溃" class="headerlink" title="KVC防崩溃"></a>KVC防崩溃</h2><p>我们经常会使用KVC来设置属性和获取属性，但是如果对象没有按照KVC的规则声明该属性，则会造成crash，怎么全局通用地防止这类崩溃呢？<br>可以通过写一个NSObject分类来防崩溃。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@interface NSObject(AKPreventKVCCrash)</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@ implementation NSObject(AKPreventKVCCrash)</span><br><span class="line"></span><br><span class="line">- (id)valueForUndefinedKey:(NSString *)key&#123;</span><br><span class="line"></span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setNilValueForKey:(NSString *)key&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setValue:(id)value forUndefinedKey:(NSString *)key&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>KVO即Key-Value Observing，翻译成键值观察。它是一种观察者模式的衍生。其基本思想是，对目标对象的某属性添加观察，当该属性发生变化时，通过触发观察者对象实现的KVO接口方法，来自动的通知观察者。</p>
+<h2 id="注册、移除KVO"><a href="#注册、移除KVO" class="headerlink" title="注册、移除KVO"></a>注册、移除KVO</h2><p>通过如下两个方案来注册、移除KVO</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context;</span><br><span class="line">- (void)removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>通过observeValueForKeyPath来获取值的变化。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)observeValueForKeyPath:(NSString *)keyPath</span><br><span class="line">                      ofObject:(id)object</span><br><span class="line">                        change:(NSDictionary *)change</span><br><span class="line">                       context:(void *)context</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>我们可以通过facebook开源库<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZhY2Vib29rL0tWT0NvbnRyb2xsZXI=">KVOController<i class="fa fa-external-link-alt"></i></span>方便地进行KVO。</p>
+<h2 id="手动KVO"><a href="#手动KVO" class="headerlink" title="手动KVO"></a>手动KVO</h2><p>当我们调用addObserver KVO了一个对象的属性后，当对象的属性发生变化时，iOS会自动调用观察者的observeValueForKeyPath方法。有的时候，我们可能要在setter方法中插入一些代码，然后进行手动KVO，怎么实现呢？<br>通过重写类的automaticallyNotifiesObserversForKey方法，指定对应属性不要自动KOV，然后在setter方法里面手动调用willChangeValueForKey和didChangeValueForKey来实现。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@interface ClassA: NSObject</span><br><span class="line"></span><br><span class="line">@property (nonatomic, assign) int age;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ClassA</span><br><span class="line"></span><br><span class="line">// for manual KVO - age</span><br><span class="line">- (void)setAge:(int)theAge&#123;</span><br><span class="line"></span><br><span class="line">    [self willChangeValueForKey:@&quot;age&quot;];</span><br><span class="line">    _age = theAge;</span><br><span class="line">    [self didChangeValueForKey:@&quot;age&quot;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (BOOL) automaticallyNotifiesObserversForKey:(NSString *)key &#123;</span><br><span class="line"></span><br><span class="line">    if ([key isEqualToString:@&quot;age&quot;]) &#123;</span><br><span class="line">        return NO;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return [super automaticallyNotifiesObserversForKey:key];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="KVO和线程"><a href="#KVO和线程" class="headerlink" title="KVO和线程"></a>KVO和线程</h2><p>KVO是同步调用，调用线程跟属性值改变的线程是相同的。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">self.age = 10;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>KVO 能保证所有age的观察者在 setter 方法返回前被通知到。</p>
+<h2 id="KVO实现原理"><a href="#KVO实现原理" class="headerlink" title="KVO实现原理"></a>KVO实现原理</h2><p>苹果<span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYXBwbGUuY29tL2xpYnJhcnkvYXJjaGl2ZS9kb2N1bWVudGF0aW9uL0NvY29hL0NvbmNlcHR1YWwvS2V5VmFsdWVPYnNlcnZpbmcvQXJ0aWNsZXMvS1ZPSW1wbGVtZW50YXRpb24uaHRtbCMvL2FwcGxlX3JlZi9kb2MvdWlkLzIwMDAyMzA3LUJBSkVBSUVF">官方文档<i class="fa fa-external-link-alt"></i></span>对KVO的实现原理描述如下：</p>
+<blockquote>
+<p>Key-Value Observing Implementation Details<br>Automatic key-value observing is implemented using a technique called isa-swizzling.<br>The isa pointer, as the name suggests, points to the object’s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.<br>When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.<br>You should never rely on the isa pointer to determine class membership. Instead, you should use the class method to determine the class of an object instance.</p>
+</blockquote>
+<p>KVO的实现采用了 isa-swizzling技术。当一个类型为ClassA 的对象，被添加了观察后，系统会生成一个派生类 NSKVONotifying_ClassA 类，并将对象的isa指针指向NSKVONotifying_ClassA，也就是说这个对象的类型发生了变化。因此在向ClassA对象发送消息时候，实际上是发送到了NSKVONotifying_ClassA的方法。由于编译器对NSKVONotifying_ClassA的方法进行了 override，并添加了通知代码，因此会向注册的对象发送通知。注意派生类只重写注册了观察者的属性方法。<br>派生类会重写setter、class、delloc、_isKVOA</p>
+<h3 id="重写Setter"><a href="#重写Setter" class="headerlink" title="重写Setter"></a>重写Setter</h3><p>在 setter 中，会添加以下两个方法的调用。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)willChangeValueForKey:(NSString *)key;</span><br><span class="line">- (void)didChangeValueForKey:(NSString *)key;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然后在 didChangeValueForKey: 中，去调用：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)observeValueForKeyPath:(nullable NSString *)keyPath</span><br><span class="line">                      ofObject:(nullable id)object</span><br><span class="line">                        change:(nullable NSDictionary&lt;NSKeyValueChangeKey, id&gt; *)change</span><br><span class="line">                       context:(nullable void *)context;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>包含了新值和旧值的通知。于是实现了属性值修改的通知。<br>因为 KVO 的原理是修改 setter 方法，因此使用 KVO 必须调用 setter 。若直接访问属性对象则没有效果。</p>
+<h3 id="重写class"><a href="#重写class" class="headerlink" title="重写class"></a>重写class</h3><p>下面代码展示了对ClassA对象objA添加KVO后，objA的isa指针指向了NSKVONotifying_ClassA。<br>注意：[objA class]返回的是objA真正所属的类。object_getClass(objA)返回的objA的isa指针所属的类。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@interface ClassA: NSObject</span><br><span class="line"></span><br><span class="line">@property (nonatomic, assign) NSInteger age;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ClassA</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface ClassB: NSObject</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ClassB</span><br><span class="line"></span><br><span class="line">- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary&lt;NSKeyValueChangeKey,id&gt; *)change context:(void *)context &#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;%@&quot;, change);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;</span><br><span class="line">    // Override point for customization after application launch.</span><br><span class="line"></span><br><span class="line">    ClassA* objA = [[ClassA alloc] init];</span><br><span class="line">    ClassB* objB = [[ClassB alloc] init];</span><br><span class="line"></span><br><span class="line">    [objA addObserver:objB forKeyPath:@&quot;age&quot; options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;%@&quot;, [objA class]); //输出ClassA</span><br><span class="line">    NSLog(@&quot;%@&quot;, object_getClass(objA));  //输出NSKVONotifying_ClassA（object_getClass方法返回isa指向）</span><br><span class="line"></span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="重写delloc"><a href="#重写delloc" class="headerlink" title="重写delloc"></a>重写delloc</h3><p>观察移除后使class变回去观察前的类(通过isa指向)。比如上例的ClassA</p>
+<h3 id="重写-isKVOA"><a href="#重写-isKVOA" class="headerlink" title="重写_isKVOA"></a>重写_isKVOA</h3><p>判断被观察者自己是否同时也观察了其他对象。<br>参考资料：<br><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uY24vcG9zdC82ODQ0OTAzNjAyNTQ1MjI5ODMxI2hlYWRpbmctOQ==">iOS KVC和KVO详解<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC82NmJkYTEwMTY4ZjE=">KVC和KVO的使用及原理<i class="fa fa-external-link-alt"></i></span></p>
+]]></content>
+      <tags>
+        <tag>OC知识点</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>RunLoop</title>
     <url>/2018/08/05/RunLoop%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/</url>
     <content><![CDATA[<meta name="referrer" content="no-referrer"/>
 
-<h1 id="RunLoop定义"><a href="#RunLoop定义" class="headerlink" title="RunLoop定义"></a>RunLoop定义</h1><p><a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">苹果官方文档</a>对RunLoop的定义如下：</p>
+<h1 id="RunLoop定义"><a href="#RunLoop定义" class="headerlink" title="RunLoop定义"></a>RunLoop定义</h1><p><span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYXBwbGUuY29tL2xpYnJhcnkvYXJjaGl2ZS9kb2N1bWVudGF0aW9uL0NvY29hL0NvbmNlcHR1YWwvTXVsdGl0aHJlYWRpbmcvUnVuTG9vcE1hbmFnZW1lbnQvUnVuTG9vcE1hbmFnZW1lbnQuaHRtbA==">苹果官方文档<i class="fa fa-external-link-alt"></i></span>对RunLoop的定义如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Run loops are part of the fundamental infrastructure associated with threads. A run loop is an event processing loop that you use to schedule work and coordinate the receipt of incoming events. The purpose of a run loop is to keep your thread busy when there is work to do and put your thread to sleep when there is none.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <span id="more"></span>
 
@@ -139,123 +251,11 @@
 <li>我们手动创建的 autoreleasepool 会在 block 执行完成之后进行 drain 操作。需要注意的是：当 block 以异常结束时，pool 不会被 drain<br>  Pool 的 drain 操作会把所有标记为 autorelease 的对象的引用计数减一，但是并不意味着这个对象一定会被释放掉，我们可以在 autorelease pool 中手动 retain 对象，以延长它的生命周期（在 MRC 中）。<br>  通过_objc_autoreleasePoolPush和_objc_autoreleasePoolPop来创建和释放自动释放池，底层是通过AutoreleasePoolPage来实现的。</li>
 <li>  自动释放池是由 AutoreleasePoolPage 以双向链表的方式实现的</li>
 <li>  当对象调用 autorelease 方法时，会将对象加入 AutoreleasePoolPage 的栈中</li>
-<li>调用 AutoreleasePoolPage::pop 方法会向栈中的对象发送 release 消息<br>  关于自动释放池的原理，可以参考这篇文章<a href="https://www.jianshu.com/p/32265cbb2a26">自动释放池的前世今生</a></li>
+<li>调用 AutoreleasePoolPage::pop 方法会向栈中的对象发送 release 消息<br>  关于自动释放池的原理，可以参考这篇文章<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC8zMjI2NWNiYjJhMjY=">自动释放池的前世今生<i class="fa fa-external-link-alt"></i></span></li>
 </ul>
-<h2 id="监控卡顿"><a href="#监控卡顿" class="headerlink" title="监控卡顿"></a>监控卡顿</h2><p>可以通过监控runloop的 kCFRunLoopBeforeSources和kCFRunLoopAfterWaiting的事件间隔来监控卡顿。关于卡顿监控可以参考笔者的文章<a href="https://xiaozhuanlan.com/topic/1293805467">卡顿监控及处理</a></p>
+<h2 id="监控卡顿"><a href="#监控卡顿" class="headerlink" title="监控卡顿"></a>监控卡顿</h2><p>可以通过监控runloop的 kCFRunLoopBeforeSources和kCFRunLoopAfterWaiting的事件间隔来监控卡顿。关于卡顿监控可以参考笔者的文章<span class="exturl" data-url="aHR0cHM6Ly94aWFvemh1YW5sYW4uY29tL3RvcGljLzEyOTM4MDU0Njc=">卡顿监控及处理<i class="fa fa-external-link-alt"></i></span></p>
 <h2 id="创建子线程执行任务"><a href="#创建子线程执行任务" class="headerlink" title="创建子线程执行任务"></a>创建子线程执行任务</h2><p>你可以创建子线程，然后在别的线程通过performSelector:onThread:withObject:waitUntilDone:路由到该子线程进行处理。</p>
-<h2 id="AsyncDisplayKit"><a href="#AsyncDisplayKit" class="headerlink" title="AsyncDisplayKit"></a>AsyncDisplayKit</h2><p><a href="https://github.com/facebookarchive/AsyncDisplayKit">AsyncDisplayKit</a>( 现在更名为Texture)，是Facebook开源的用来异步绘制UI的框架。ASDK 仿照 QuartzCore/UIKit 框架的模式，实现了一套类似的界面更新的机制：即在主线程的 RunLoop 中添加一个 Observer，监听了 kCFRunLoopBeforeWaiting 和 kCFRunLoopExit 事件，在收到回调时，遍历所有之前放入队列的待处理的任务，然后一一执行。<br>参考资料：<br><a href="https://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a><br>苹果官方文档<a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">Run Loops</a></p>
-]]></content>
-      <tags>
-        <tag>OC知识点</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>KVC&amp;KVO</title>
-    <url>/2018/08/01/KVC&amp;KVO%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-# KVC
-
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><ul>
-<li>  KVC 是 Key-Value-Coding 的简称。</li>
-<li>  KVC 是一种可以直接通过字符串的名字 key 来访问类属性的机制，而不需要调用setter、getter方法去访问。</li>
-<li>  我们可以通过在运行时动态的访问和修改对象的属性。KVC 是 iOS 开发中的黑魔法之一。</li>
-</ul>
-<span id="more"></span>
-
-<h2 id="设置值-amp-amp-获取值"><a href="#设置值-amp-amp-获取值" class="headerlink" title="设置值&amp;&amp;获取值"></a>设置值&amp;&amp;获取值</h2><ul>
-<li>  设置值</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)setValue:(id)value forKey:(NSString *)key;</span><br><span class="line"></span><br><span class="line">- (void)setValue:(id)value forKeyPath:(NSString *)keyPath;</span><br><span class="line"></span><br><span class="line">// 它的默认实现是抛出异常，可以重写这个函数啥也不做来防止崩溃。</span><br><span class="line">- (void)setValue:(id)value forUndefinedKey:(NSString *)key;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>  获取值</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (id)valueForKey:(NSString *)key;</span><br><span class="line"></span><br><span class="line">- (id)valueForKeyPath:(NSString *)keyPath;</span><br><span class="line"></span><br><span class="line">// 如果key不存在，且KVC无法搜索到任何和key有关的字段或者属性，则会调用这个方法，默认实现抛出异常。可以通过重写该方法返回nil来防止崩溃</span><br><span class="line">- (id)valueForUndefinedKey:(NSString *)key;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="KVC设置和查找顺序"><a href="#KVC设置和查找顺序" class="headerlink" title="KVC设置和查找顺序"></a>KVC设置和查找顺序</h2><ul>
-<li>设置顺序<br>  调用- (void)setValue:(id)value forKey:(NSString *)key;时，执行操作<br>  1、首先搜索setter方法，有就直接赋值。<br>  2、如果1中的 setter 方法没有找到，再检查类方法+ (BOOL)accessInstanceVariablesDirectly<br>  返回 NO，则执行setValue:forUndefinedKey:<br>  返回 YES，则按_key，_isKey，key，isKey的顺序搜索成员名进行赋值。<br>  3、还没有找到的话，就调用setValue:forUndefinedKey:</li>
-<li>查找顺序<br>  当调用valueForKey:@”key”的代码时，KVC对key的搜索方式不同于setValue”akon” forKey:@”key”，其搜索方式如下：</li>
-</ul>
-<p>1、首先按get, is的顺序查找getter方法，找到的话会直接调用。如果是BOOL或者Int等值类型，会将其包装成一个NSNumber对象。<br>2、如果没有找到，KVC则会查找countOf、objectInAtIndex或AtIndexes格式的方法。如果countOf方法和另外两个方法中的一个被找到，那么就会返回一个可以响应NSArray所有方法的代理集合(它是NSKeyValueArray，是NSArray的子类)，调<br>用这个代理集合的方法，就会以countOf,objectInAtIndex或AtIndexes这几个方法组合的形式调用。还有一个可选的get:range:方法。所以你想重新定义KVC的一些功能，你可以添加这些方法，需要注意的是你的方法名要符合KVC的标准命名方法，包括方法签名。<br>3、如果上面的方法没有找到，那么会同时查找countOf，enumeratorOf,memberOf格式的方法。如果这三个方法都找到，那么就返回一个可以响应NSSet所的方法的代理集合，和上面一样，给这个代理集合发NSSet的消息，就会以countOf，enumeratorOf,memberOf组合的形式调用。<br>4、如果还没有找到，再检查类方法+ (BOOL)accessInstanceVariablesDirectly,如果返回YES(默认行为)，那么和先前的设值一样，会按_key,_isKey,key,isKey的顺序搜索成员变量名。<br>如果还没找到，直接调用该对象的valueForUndefinedKey:方法，该方法默认是抛出异常。</p>
-<h2 id="KVC防崩溃"><a href="#KVC防崩溃" class="headerlink" title="KVC防崩溃"></a>KVC防崩溃</h2><p>我们经常会使用KVC来设置属性和获取属性，但是如果对象没有按照KVC的规则声明该属性，则会造成crash，怎么全局通用地防止这类崩溃呢？<br>可以通过写一个NSObject分类来防崩溃。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@interface NSObject(AKPreventKVCCrash)</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@ implementation NSObject(AKPreventKVCCrash)</span><br><span class="line"></span><br><span class="line">- (id)valueForUndefinedKey:(NSString *)key&#123;</span><br><span class="line"></span><br><span class="line">    return nil;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setNilValueForKey:(NSString *)key&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)setValue:(id)value forUndefinedKey:(NSString *)key&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="KVO"><a href="#KVO" class="headerlink" title="KVO"></a>KVO</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p>KVO即Key-Value Observing，翻译成键值观察。它是一种观察者模式的衍生。其基本思想是，对目标对象的某属性添加观察，当该属性发生变化时，通过触发观察者对象实现的KVO接口方法，来自动的通知观察者。</p>
-<h2 id="注册、移除KVO"><a href="#注册、移除KVO" class="headerlink" title="注册、移除KVO"></a>注册、移除KVO</h2><p>通过如下两个方案来注册、移除KVO</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)addObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(void *)context;</span><br><span class="line">- (void)removeObserver:(NSObject *)observer forKeyPath:(NSString *)keyPath;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>通过observeValueForKeyPath来获取值的变化。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)observeValueForKeyPath:(NSString *)keyPath</span><br><span class="line">                      ofObject:(id)object</span><br><span class="line">                        change:(NSDictionary *)change</span><br><span class="line">                       context:(void *)context</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>我们可以通过facebook开源库<a href="https://github.com/facebook/KVOController">KVOController</a>方便地进行KVO。</p>
-<h2 id="手动KVO"><a href="#手动KVO" class="headerlink" title="手动KVO"></a>手动KVO</h2><p>当我们调用addObserver KVO了一个对象的属性后，当对象的属性发生变化时，iOS会自动调用观察者的observeValueForKeyPath方法。有的时候，我们可能要在setter方法中插入一些代码，然后进行手动KVO，怎么实现呢？<br>通过重写类的automaticallyNotifiesObserversForKey方法，指定对应属性不要自动KOV，然后在setter方法里面手动调用willChangeValueForKey和didChangeValueForKey来实现。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@interface ClassA: NSObject</span><br><span class="line"></span><br><span class="line">@property (nonatomic, assign) int age;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ClassA</span><br><span class="line"></span><br><span class="line">// for manual KVO - age</span><br><span class="line">- (void)setAge:(int)theAge&#123;</span><br><span class="line"></span><br><span class="line">    [self willChangeValueForKey:@&quot;age&quot;];</span><br><span class="line">    _age = theAge;</span><br><span class="line">    [self didChangeValueForKey:@&quot;age&quot;];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (BOOL) automaticallyNotifiesObserversForKey:(NSString *)key &#123;</span><br><span class="line"></span><br><span class="line">    if ([key isEqualToString:@&quot;age&quot;]) &#123;</span><br><span class="line">        return NO;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return [super automaticallyNotifiesObserversForKey:key];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="KVO和线程"><a href="#KVO和线程" class="headerlink" title="KVO和线程"></a>KVO和线程</h2><p>KVO是同步调用，调用线程跟属性值改变的线程是相同的。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">self.age = 10;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>KVO 能保证所有age的观察者在 setter 方法返回前被通知到。</p>
-<h2 id="KVO实现原理"><a href="#KVO实现原理" class="headerlink" title="KVO实现原理"></a>KVO实现原理</h2><p>苹果<a href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/KeyValueObserving/Articles/KVOImplementation.html#//apple_ref/doc/uid/20002307-BAJEAIEE">官方文档</a>对KVO的实现原理描述如下：</p>
-<blockquote>
-<p>Key-Value Observing Implementation Details<br>Automatic key-value observing is implemented using a technique called isa-swizzling.<br>The isa pointer, as the name suggests, points to the object’s class which maintains a dispatch table. This dispatch table essentially contains pointers to the methods the class implements, among other data.<br>When an observer is registered for an attribute of an object the isa pointer of the observed object is modified, pointing to an intermediate class rather than at the true class. As a result the value of the isa pointer does not necessarily reflect the actual class of the instance.<br>You should never rely on the isa pointer to determine class membership. Instead, you should use the class method to determine the class of an object instance.</p>
-</blockquote>
-<p>KVO的实现采用了 isa-swizzling技术。当一个类型为ClassA 的对象，被添加了观察后，系统会生成一个派生类 NSKVONotifying_ClassA 类，并将对象的isa指针指向NSKVONotifying_ClassA，也就是说这个对象的类型发生了变化。因此在向ClassA对象发送消息时候，实际上是发送到了NSKVONotifying_ClassA的方法。由于编译器对NSKVONotifying_ClassA的方法进行了 override，并添加了通知代码，因此会向注册的对象发送通知。注意派生类只重写注册了观察者的属性方法。<br>派生类会重写setter、class、delloc、_isKVOA</p>
-<h3 id="重写Setter"><a href="#重写Setter" class="headerlink" title="重写Setter"></a>重写Setter</h3><p>在 setter 中，会添加以下两个方法的调用。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)willChangeValueForKey:(NSString *)key;</span><br><span class="line">- (void)didChangeValueForKey:(NSString *)key;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>然后在 didChangeValueForKey: 中，去调用：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)observeValueForKeyPath:(nullable NSString *)keyPath</span><br><span class="line">                      ofObject:(nullable id)object</span><br><span class="line">                        change:(nullable NSDictionary&lt;NSKeyValueChangeKey, id&gt; *)change</span><br><span class="line">                       context:(nullable void *)context;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>包含了新值和旧值的通知。于是实现了属性值修改的通知。<br>因为 KVO 的原理是修改 setter 方法，因此使用 KVO 必须调用 setter 。若直接访问属性对象则没有效果。</p>
-<h3 id="重写class"><a href="#重写class" class="headerlink" title="重写class"></a>重写class</h3><p>下面代码展示了对ClassA对象objA添加KVO后，objA的isa指针指向了NSKVONotifying_ClassA。<br>注意：[objA class]返回的是objA真正所属的类。object_getClass(objA)返回的objA的isa指针所属的类。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@interface ClassA: NSObject</span><br><span class="line"></span><br><span class="line">@property (nonatomic, assign) NSInteger age;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ClassA</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface ClassB: NSObject</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation ClassB</span><br><span class="line"></span><br><span class="line">- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary&lt;NSKeyValueChangeKey,id&gt; *)change context:(void *)context &#123;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;%@&quot;, change);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions &#123;</span><br><span class="line">    // Override point for customization after application launch.</span><br><span class="line"></span><br><span class="line">    ClassA* objA = [[ClassA alloc] init];</span><br><span class="line">    ClassB* objB = [[ClassB alloc] init];</span><br><span class="line"></span><br><span class="line">    [objA addObserver:objB forKeyPath:@&quot;age&quot; options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:nil];</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;%@&quot;, [objA class]); //输出ClassA</span><br><span class="line">    NSLog(@&quot;%@&quot;, object_getClass(objA));  //输出NSKVONotifying_ClassA（object_getClass方法返回isa指向）</span><br><span class="line"></span><br><span class="line">    return YES;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="重写delloc"><a href="#重写delloc" class="headerlink" title="重写delloc"></a>重写delloc</h3><p>观察移除后使class变回去观察前的类(通过isa指向)。比如上例的ClassA</p>
-<h3 id="重写-isKVOA"><a href="#重写-isKVOA" class="headerlink" title="重写_isKVOA"></a>重写_isKVOA</h3><p>判断被观察者自己是否同时也观察了其他对象。<br>参考资料：<br><a href="https://juejin.cn/post/6844903602545229831#heading-9">iOS KVC和KVO详解</a><br><a href="https://www.jianshu.com/p/66bda10168f1">KVC和KVO的使用及原理</a></p>
-]]></content>
-      <tags>
-        <tag>OC知识点</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>框架MVC&amp;MVVM</title>
-    <url>/2018/08/02/MVC%E3%80%81MVVM%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/</url>
-    <content><![CDATA[<meta name="referrer" content="no-referrer"/>
-
-<h1 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h1><p>MVC</p>
-<h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>MVC模式（Model–View–Controller）是软件工程中的一种软件架构模式，把软件系统分为三个基本部分：模型（Model）、视图（View）和控制器（Controller）。</p>
-<span id="more"></span>
-
-<p>在iOS中，MVC通信模式如下所示：<br><img src="https://upload-images.jianshu.io/upload_images/22877992-2110caa320a00a75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<ul>
-<li>  VC持有Model和View，Model和View不直接交互。</li>
-<li>  当用户点击View时，通知VC，需要更新Model时由VC来更新Model。</li>
-<li>  当Model发生变化时候，利用KVO等技术通知VC，由VC来更新View。</li>
-</ul>
-<h2 id="Massive-ViewController"><a href="#Massive-ViewController" class="headerlink" title="Massive ViewController"></a>Massive ViewController</h2><p>如果我们把所有的业务逻辑都写在VC里面，不做好拆分，很容易造成VC臃肿。这个时候需要为VC瘦身，而MVVM就是为了解决VC过于庞大引入的设计模式。</p>
-<h2 id="怎么为VC瘦身"><a href="#怎么为VC瘦身" class="headerlink" title="怎么为VC瘦身"></a>怎么为VC瘦身</h2><p>1、一个干净的VC应该只做如下事：</p>
-<ul>
-<li>  在初始化时，构造相应的 View 和 Model。</li>
-<li>  监听 Model 层的事件，将 Model 层的数据传递到 View 层。</li>
-<li>  监听 View 层的事件，并且将 View 层的事件转发到 Model 层。</li>
-<li>  其他的事情可以由若干个Manager来完成。</li>
-</ul>
-<p>2、那么在iOS中，我们有那些常用的瘦身手段呢？</p>
-<ul>
-<li>  网络层。定义网络请求类 ，一个网络请求代表一个类。网络请求类负责发网络请求以及把响应数据解析为model，model以及response通过block方式回调给调用方。这里的调用方大部分时候是VC。</li>
-<li>  数据存储层。定义数据存储Manager，用来加载数据和缓存数据。</li>
-<li>  定义数据转换层。负责数据转换，比如Model跟View Model的转换。</li>
-<li>  可以通过类别的方式给VC做好功能的划分，比如定义TableView分类用来处理UITableViewDelegate &amp;&amp; UITableViewDataSource代理方法；定义Network分类用来处理网络逻辑。</li>
-</ul>
-<p>推荐大家每个业务模块至少建立Model、View、VC、Network、Cache五个文件夹来分类代码，并且遵循上面原则来给VC瘦身。</p>
-<h1 id="MVVM"><a href="#MVVM" class="headerlink" title="MVVM"></a>MVVM</h1><h2 id="定义-1"><a href="#定义-1" class="headerlink" title="定义"></a>定义</h2><p><img src="https://upload-images.jianshu.io/upload_images/22877992-b16875587e6e47c7.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
-<ul>
-<li>  View、VC可以持有View Model，反之不行；View Model可以持有Model，反之不行。 View Model相当于MVC中的VC作用，用来连接View、VC 和Model。</li>
-<li>  当Model更新时，通知View Model，View Model再通知VC或者View，来更新View；</li>
-<li>  当用户点击View时候，通知View Model，View Model通知Model来更新Model。</li>
-</ul>
-<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><p>实现MVVM的关键是如何做数据通知，在iOS中可以用KVO来实现。业内一般用ReactiveCocoa来实现数据绑定及通知。</p>
-<h1 id="选择MVC还是MVVM？"><a href="#选择MVC还是MVVM？" class="headerlink" title="选择MVC还是MVVM？"></a>选择MVC还是MVVM？</h1><p>无论是MVC还是MVVM，我们的本质都是想对VC进行瘦身。<br>用MVVM的话，分层更加清晰，不过要引入ReactiveCocoa，ReactiveCocoa比较重，学习成本比较高，最重要的是用的是block，调试起来比较麻烦，目前业内用得不是特别多。<br>笔者推荐用MVC，按照上面介绍的VC瘦身方案来使用，这样轻量点。</p>
+<h2 id="AsyncDisplayKit"><a href="#AsyncDisplayKit" class="headerlink" title="AsyncDisplayKit"></a>AsyncDisplayKit</h2><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZhY2Vib29rYXJjaGl2ZS9Bc3luY0Rpc3BsYXlLaXQ=">AsyncDisplayKit<i class="fa fa-external-link-alt"></i></span>( 现在更名为Texture)，是Facebook开源的用来异步绘制UI的框架。ASDK 仿照 QuartzCore/UIKit 框架的模式，实现了一套类似的界面更新的机制：即在主线程的 RunLoop 中添加一个 Observer，监听了 kCFRunLoopBeforeWaiting 和 kCFRunLoopExit 事件，在收到回调时，遍历所有之前放入队列的待处理的任务，然后一一执行。<br>参考资料：<br><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmliaXJlbWUuY29tLzIwMTUvMDUvMTgvcnVubG9vcC8=">深入理解RunLoop<i class="fa fa-external-link-alt"></i></span><br>苹果官方文档<span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYXBwbGUuY29tL2xpYnJhcnkvYXJjaGl2ZS9kb2N1bWVudGF0aW9uL0NvY29hL0NvbmNlcHR1YWwvTXVsdGl0aHJlYWRpbmcvUnVuTG9vcE1hbmFnZW1lbnQvUnVuTG9vcE1hbmFnZW1lbnQuaHRtbA==">Run Loops<i class="fa fa-external-link-alt"></i></span></p>
 ]]></content>
       <tags>
         <tag>OC知识点</tag>
@@ -290,7 +290,7 @@
 
 <p>注释中说明，当_class_slow_grow是非0值的时候，只有当方法缓存第奇数次满（使用的槽位超过3/4）的时候，方法缓存的大小才会增长（会清空缓存，否则hash值就不对了）；当第偶数次满的时候，方法缓存会被清空并重新利用。 如果_class_slow_grow值为0，那么每一次方法缓存满的时候，其大小都会增长。<br>所以单就问题而言，答案是没有限制，虽然这个值被设置为1，方法缓存的大小增速会慢一点，但是确实是没有上限的。</p>
 <ul>
-<li>为什么类的方法列表不直接做成散列表呢，做成list，还要单独缓存？<br>  1、散列表是没有顺序的，Objective-C的方法列表是一个list，是有顺序的；Objective-C在查找方法的时候会顺着list依次寻找，并且category的方法在原始方法list的前面，需要先被找到，如果直接用hash存方法，方法的顺序就没法保证。<br>  2、list的方法还保存了除了selector和imp之外其他很多属性<br>  3、散列表是有空槽的，会浪费空间<br>  参考资料：<a href="https://tech.meituan.com/2015/08/12/deep-understanding-object-c-of-method-caching.html">深入理解 Objective-C：方法缓存</a></li>
+<li>为什么类的方法列表不直接做成散列表呢，做成list，还要单独缓存？<br>  1、散列表是没有顺序的，Objective-C的方法列表是一个list，是有顺序的；Objective-C在查找方法的时候会顺着list依次寻找，并且category的方法在原始方法list的前面，需要先被找到，如果直接用hash存方法，方法的顺序就没法保证。<br>  2、list的方法还保存了除了selector和imp之外其他很多属性<br>  3、散列表是有空槽的，会浪费空间<br>  参考资料：<span class="exturl" data-url="aHR0cHM6Ly90ZWNoLm1laXR1YW4uY29tLzIwMTUvMDgvMTIvZGVlcC11bmRlcnN0YW5kaW5nLW9iamVjdC1jLW9mLW1ldGhvZC1jYWNoaW5nLmh0bWw=">深入理解 Objective-C：方法缓存<i class="fa fa-external-link-alt"></i></span></li>
 </ul>
 <h1 id="load与initialize"><a href="#load与initialize" class="headerlink" title="load与initialize"></a>load与initialize</h1><h2 id="load与initialize调用时机"><a href="#load与initialize调用时机" class="headerlink" title="load与initialize调用时机"></a>load与initialize调用时机</h2><p>+load在main函数之前被Runtime调用，+initialize 方法是在类或它的子类收到第一条消息之前被调用的，这里所指的消息包括实例方法和类方法的调用。</p>
 <h2 id="load与initialize在分类、继承链的调用顺序"><a href="#load与initialize在分类、继承链的调用顺序" class="headerlink" title="load与initialize在分类、继承链的调用顺序"></a>load与initialize在分类、继承链的调用顺序</h2><h3 id="load方法调用顺序"><a href="#load方法调用顺序" class="headerlink" title="load方法调用顺序"></a>load方法调用顺序</h3><p>父类-&gt;主类-&gt;分类</p>
@@ -330,7 +330,7 @@
 <h2 id="怎么调用被覆盖掉的方法"><a href="#怎么调用被覆盖掉的方法" class="headerlink" title="怎么调用被覆盖掉的方法"></a>怎么调用被覆盖掉的方法</h2><p>category其实并不是完全替换掉原来类的同名方法，只是category在方法列表的前面而已，所以我们只要顺着方法列表找到最后一个对应名字的方法，就可以调用原来类的方法。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Class currentClass = [TestClass class];</span><br><span class="line">TestClass *my = [[TestClass alloc] init];</span><br><span class="line"></span><br><span class="line">if (currentClass) &#123;</span><br><span class="line">    unsigned int methodCount;</span><br><span class="line">    Method *methodList = class_copyMethodList(currentClass, &amp;methodCount);</span><br><span class="line">    IMP lastImp = NULL;</span><br><span class="line">    SEL lastSel = NULL;</span><br><span class="line">    for (NSInteger i = 0; i &lt; methodCount; i++) &#123;</span><br><span class="line">        Method method = methodList[i];</span><br><span class="line">        NSString *methodName = [NSString stringWithCString:sel_getName(method_getName(method)) </span><br><span class="line">                                        encoding:NSUTF8StringEncoding];</span><br><span class="line">        if ([@&quot;printName&quot; isEqualToString:methodName]) &#123;</span><br><span class="line">            lastImp = method_getImplementation(method);</span><br><span class="line">            lastSel = method_getName(method);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    typedef void (*fn)(id,SEL);</span><br><span class="line"></span><br><span class="line">    if (lastImp != NULL) &#123;</span><br><span class="line">        fn f = (fn)lastImp;</span><br><span class="line">        f(my, lastSel);</span><br><span class="line">    &#125;</span><br><span class="line">    free(methodList);</span><br><span class="line">&#125;   </span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>关于类别更深入的解析可以参见美团的技术文章<a href="https://tech.meituan.com/2015/03/03/diveintocategory.html">深入理解Objective-C：Category</a></p>
+<p>关于类别更深入的解析可以参见美团的技术文章<span class="exturl" data-url="aHR0cHM6Ly90ZWNoLm1laXR1YW4uY29tLzIwMTUvMDMvMDMvZGl2ZWludG9jYXRlZ29yeS5odG1s">深入理解Objective-C：Category<i class="fa fa-external-link-alt"></i></span></p>
 <h1 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>iOS中的协议类似于Java、C++中的接口类，协议在OC中可以用来实现多继承和代理。</p>
 <h2 id="方法声明"><a href="#方法声明" class="headerlink" title="方法声明"></a>方法声明</h2><p>协议中的方法可以声明为@required（要求实现，如果没有实现，会发出警告，但编译不报错）或者@optional（不要求实现，不实现也不会有警告）。如果不声明，默认为@required。<br>笔者经常会问面试者如下两个问题：<br>-怎么判断一个类是否实现了某个协议？很多人不知道可以通过conformsToProtocol来判断。<br>-假如你要求业务方实现一个delegate，你怎么判断业务方有没有实现dalegate的某个方法？很多人不知道可以通过respondsToSelector来判断。</p>
 <h1 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h1><h2 id="Class的定义"><a href="#Class的定义" class="headerlink" title="Class的定义"></a>Class的定义</h2><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">在oc中打开objc.h</span><br><span class="line"></span><br><span class="line">typedef struct objc_class *Class;     //Class是指向结构体objc_class的指针</span><br><span class="line"></span><br><span class="line">struct objc_class &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY; //isa，代表的是该类类对象</span><br><span class="line"></span><br><span class="line">#if !__OBJC2__</span><br><span class="line">    Class _Nullable super_class                              OBJC2_UNAVAILABLE; //父类</span><br><span class="line">    const char * _Nonnull name                               OBJC2_UNAVAILABLE; //类名</span><br><span class="line">    long version                                             OBJC2_UNAVAILABLE; </span><br><span class="line">    long info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    long instance_size                                       OBJC2_UNAVAILABLE; //对象大小</span><br><span class="line">    struct objc_ivar_list * _Nullable ivars                  OBJC2_UNAVAILABLE; //成员变量列表</span><br><span class="line">    struct objc_method_list * _Nullable * _Nullable methodLists                    OBJC2_UNAVAILABLE; //实例方法列表</span><br><span class="line">    struct objc_cache * _Nonnull cache                       OBJC2_UNAVAILABLE; //方法缓存列表（是个hash表），用来消息发送时候，快速查找方法</span><br><span class="line">    struct objc_protocol_list * _Nullable protocols          OBJC2_UNAVAILABLE; //类实现协议列表</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br><span class="line">/* Use `Class` instead of `struct objc_class *` */</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -343,7 +343,7 @@
 <li>  id能用做返回值、参数。instancetype只能用做返回值。</li>
 <li>  instancetype是类型相关的，如果把一个instancetype的对象赋值给另外类，编译器会警告。id不会。</li>
 </ul>
-<h2 id="Runtime开源代码"><a href="#Runtime开源代码" class="headerlink" title="Runtime开源代码"></a>Runtime开源代码</h2><p>runtime是开源的，可以在<a href="https://github.com/opensource-apple/objc4">Apple Github</a>和<a href="https://github.com/opensource-apple/objc4">Apple OpenSource</a>下载来阅读。<br>参考资料：<br><a href="https://www.jianshu.com/p/3e050ec3b759">Objective-C中的Runtime</a></p>
+<h2 id="Runtime开源代码"><a href="#Runtime开源代码" class="headerlink" title="Runtime开源代码"></a>Runtime开源代码</h2><p>runtime是开源的，可以在<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL29wZW5zb3VyY2UtYXBwbGUvb2JqYzQ=">Apple Github<i class="fa fa-external-link-alt"></i></span>和<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL29wZW5zb3VyY2UtYXBwbGUvb2JqYzQ=">Apple OpenSource<i class="fa fa-external-link-alt"></i></span>下载来阅读。<br>参考资料：<br><span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC8zZTA1MGVjM2I3NTk=">Objective-C中的Runtime<i class="fa fa-external-link-alt"></i></span></p>
 ]]></content>
       <tags>
         <tag>OC知识点</tag>
@@ -379,7 +379,7 @@
 </ul>
 <h2 id="cell高度提前计算或者缓存"><a href="#cell高度提前计算或者缓存" class="headerlink" title="cell高度提前计算或者缓存"></a>cell高度提前计算或者缓存</h2><ul>
 <li>  cell高度提前计算。比如在获取到model的时候提前计算好cell高度。</li>
-<li>  高度缓存。高度算好。可以用第三方开源库<a href="https://github.com/forkingdog/UITableView-FDTemplateLayoutCell/">UITableView-FDTemplateLayoutCell</a></li>
+<li>  高度缓存。高度算好。可以用第三方开源库<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2Zvcmtpbmdkb2cvVUlUYWJsZVZpZXctRkRUZW1wbGF0ZUxheW91dENlbGwv">UITableView-FDTemplateLayoutCell<i class="fa fa-external-link-alt"></i></span></li>
 </ul>
 <h2 id="局部更新"><a href="#局部更新" class="headerlink" title="局部更新"></a>局部更新</h2><p>刷新列表的时候不要直接用reloadData。可以考虑局部更新。比如删除列表的某一行，可以调用deleteRowsAtIndexPathss删除这个cell，并且把该cell绑定的model从model数组删除。</p>
 <h2 id="按需加载"><a href="#按需加载" class="headerlink" title="按需加载"></a>按需加载</h2><p>比如滚动不加载图片，停止滚动时候加载可见cell的图片。</p>
@@ -413,10 +413,10 @@
 </ul>
 <h2 id="异步绘制"><a href="#异步绘制" class="headerlink" title="异步绘制"></a>异步绘制</h2><ul>
 <li>  在子线程绘制好内容，主线程更新。</li>
-<li>  考虑用 <a href="https://github.com/texturegroup/texture/">texture</a>来做异步绘制。</li>
+<li>  考虑用 <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3RleHR1cmVncm91cC90ZXh0dXJlLw==">texture<i class="fa fa-external-link-alt"></i></span>来做异步绘制。</li>
 </ul>
 <h2 id="分页加载"><a href="#分页加载" class="headerlink" title="分页加载"></a>分页加载</h2><p>当有大量数据时采用分页加载。</p>
-<p>参考资料：<br><a href="https://blog.ibireme.com/2015/11/12/smooth_user_interfaces_for_ios/">iOS 保持界面流畅的技巧</a></p>
+<p>参考资料：<br><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmliaXJlbWUuY29tLzIwMTUvMTEvMTIvc21vb3RoX3VzZXJfaW50ZXJmYWNlc19mb3JfaW9zLw==">iOS 保持界面流畅的技巧<i class="fa fa-external-link-alt"></i></span></p>
 ]]></content>
       <tags>
         <tag>OC知识点</tag>
@@ -596,11 +596,11 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">+ (NSTimer *)ak_scheduledTimerWithTimeInterval:(NSTimeInterval)interval</span><br><span class="line">                                         block:(void(^)(void))block</span><br><span class="line">                                       repeats:(BOOL)repeats&#123;</span><br><span class="line"></span><br><span class="line">    return [self scheduledTimerWithTimeInterval:interval</span><br><span class="line">                                         target:self</span><br><span class="line">                                       selector:@selector(ak_blockInvoke:)</span><br><span class="line">                                       userInfo:[block copy]</span><br><span class="line">                                        repeats:repeats];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (void)ak_blockInvoke:(NSTimer*)timer&#123;</span><br><span class="line"></span><br><span class="line">    void (^block)(void) = timer.userInfo;</span><br><span class="line">    if (block) &#123;</span><br><span class="line">        block();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">--</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>  用<a href="https://github.com/ibireme/YYKit/blob/master/YYKit/Utility/YYWeakProxy.m">YYWeakProxy</a>来创建定时器</li>
+<li>  用<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2liaXJlbWUvWVlLaXQvYmxvYi9tYXN0ZXIvWVlLaXQvVXRpbGl0eS9ZWVdlYWtQcm94eS5t">YYWeakProxy<i class="fa fa-external-link-alt"></i></span>来创建定时器</li>
 </ul>
 <h3 id="怎么检测循环引用"><a href="#怎么检测循环引用" class="headerlink" title="怎么检测循环引用"></a>怎么检测循环引用</h3><ul>
 <li>  静态代码分析。 通过Xcode-&gt;Product-&gt;Anaylze分析结果来处理；</li>
-<li>  动态分析。用<a href="https://github.com/Tencent/MLeaksFinder">MLeaksFinder</a>（只能检测OC泄露）或者Instrument或者<a href="https://github.com/Tencent/OOMDetector">OOMDetector</a>（能检测OC与C++泄露）。</li>
+<li>  动态分析。用<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL1RlbmNlbnQvTUxlYWtzRmluZGVy">MLeaksFinder<i class="fa fa-external-link-alt"></i></span>（只能检测OC泄露）或者Instrument或者<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL1RlbmNlbnQvT09NRGV0ZWN0b3I=">OOMDetector<i class="fa fa-external-link-alt"></i></span>（能检测OC与C++泄露）。</li>
 </ul>
 ]]></content>
       <tags>
@@ -702,7 +702,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ARC如下代码：</span><br><span class="line">id obj = [[NSObjcet alloc] init];</span><br><span class="line">void* p = (__bridge_transfer void*)obj;</span><br><span class="line">相当于MRC：</span><br><span class="line">id obj = [[NSObjcet alloc] init];</span><br><span class="line">void* p = (void*)obj;</span><br><span class="line">[p retain];</span><br><span class="line">[obj release];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>`</p>
-<h1 id="Tagged-Pointer"><a href="#Tagged-Pointer" class="headerlink" title="Tagged Pointer"></a>Tagged Pointer</h1><p>2013年9月，苹果推出了iPhone5s，与此同时，iPhone5s配备了首个采用64位架构的A7双核处理器，为了节省内存和提高执行效率，苹果提出了Tagged Pointer<br>的概念。对于64位程序，引入Tagged Pointer后，相关逻辑能减少一半的内存占用，以及3倍的访问速度提升，100倍的创建、销毁速度提升。<br>Tagged Pointer通过在其最后一个bit位设置一个特殊标记，用于将数据直接保存在指针本身中。因为Tagged Pointer并不是真正的对象，我们在使用时需要注意不要直接访问其isa变量。<br>具体可以参考<a href="https://www.jianshu.com/p/c9089494fb6c">深入理解Tagged Pointer</a></p>
+<h1 id="Tagged-Pointer"><a href="#Tagged-Pointer" class="headerlink" title="Tagged Pointer"></a>Tagged Pointer</h1><p>2013年9月，苹果推出了iPhone5s，与此同时，iPhone5s配备了首个采用64位架构的A7双核处理器，为了节省内存和提高执行效率，苹果提出了Tagged Pointer<br>的概念。对于64位程序，引入Tagged Pointer后，相关逻辑能减少一半的内存占用，以及3倍的访问速度提升，100倍的创建、销毁速度提升。<br>Tagged Pointer通过在其最后一个bit位设置一个特殊标记，用于将数据直接保存在指针本身中。因为Tagged Pointer并不是真正的对象，我们在使用时需要注意不要直接访问其isa变量。<br>具体可以参考<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC9jOTA4OTQ5NGZiNmM=">深入理解Tagged Pointer<i class="fa fa-external-link-alt"></i></span></p>
 <h1 id="copy原理"><a href="#copy原理" class="headerlink" title="copy原理"></a>copy原理</h1><h2 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h2><p>浅拷贝不会生成新对象，只是引用拷贝对象，指向的是同一块内存，两个对象任何一个发生变化都是互相影响。深拷贝新生成一个对象，把原来对象的内容复制过来了，两个对象毫不相关了。</p>
 <h2 id="数组拷贝操作"><a href="#数组拷贝操作" class="headerlink" title="数组拷贝操作"></a>数组拷贝操作</h2><h3 id="数组拷贝"><a href="#数组拷贝" class="headerlink" title="数组拷贝"></a>数组拷贝</h3><ul>
 <li>  [NSArray copy] 浅copy</li>
@@ -720,10 +720,10 @@
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">NSMutableArray *arr = [NSMutableArray arrayWithObjects:@1, @2, @3, nil];</span><br><span class="line">self.copyedMutableArr = arr;</span><br><span class="line"> [self.copyedMutableArr removeObject:@1]; // 崩溃，错位信息为：Terminating app due to uncaught exception &#x27;NSInvalidArgumentException&#x27;, reason: &#x27;-[__NSArrayI removeObject:]: unrecognized selector sent to instance 0x600000c1a190&#x27;。因为copyedMutableArr为不可变对象</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>参考资料：[copy修饰NSArray strong修饰NSMutableArray]<a href="https://www.jianshu.com/p/2008e585c1a0">https://www.jianshu.com/p/2008e585c1a0</a></p>
+<p>参考资料：[copy修饰NSArray strong修饰NSMutableArray]<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC8yMDA4ZTU4NWMxYTA=">https://www.jianshu.com/p/2008e585c1a0<i class="fa fa-external-link-alt"></i></span></p>
 <h2 id="自定义拷贝"><a href="#自定义拷贝" class="headerlink" title="自定义拷贝"></a>自定义拷贝</h2><p>实现NSCopying和NSMutableCopying协议来进行copy和mutableCopy</p>
-<h1 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h1><p>NSArray和NSDictionary是线程安全的。<br>NSMutableArray和NSMutableDictionary是线程不安全的。<br><a href="https://blog.csdn.net/iosswift/article/details/44597759">线程安全总结</a></p>
-<p>参考资料：<br><a href="https://juejin.cn/post/6844904004669931533#heading-9">深入理解 iOS 内存管理</a></p>
+<h1 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h1><p>NSArray和NSDictionary是线程安全的。<br>NSMutableArray和NSMutableDictionary是线程不安全的。<br><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2lvc3N3aWZ0L2FydGljbGUvZGV0YWlscy80NDU5Nzc1OQ==">线程安全总结<i class="fa fa-external-link-alt"></i></span></p>
+<p>参考资料：<br><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uY24vcG9zdC82ODQ0OTA0MDA0NjY5OTMxNTMzI2hlYWRpbmctOQ==">深入理解 iOS 内存管理<i class="fa fa-external-link-alt"></i></span></p>
 ]]></content>
       <tags>
         <tag>OC知识点</tag>
@@ -743,11 +743,11 @@
 <li>  NSOperation 是一个抽象类，它封装了线程的实现细节，不需要自己管理线程的生命周期和线程的同步等，需要和 NSOperationQueue 一起使用。使用 NSOperation ，你可以方便地控制线程，比如取消线程、暂停线程、设置线程的优先级、设置线程的依赖。NSOperation常用于下载库的实现，比如SDWebImage的实现就用到了NSOperation。</li>
 </ul>
 <h3 id="GCD"><a href="#GCD" class="headerlink" title="GCD"></a>GCD</h3><ul>
-<li>GCD(Grand Central Dispatch) 是 Apple 开发的一个多核编程的解决方法。GCD 是一个可以替代 NSThread 的很高效和强大的技术。在平常开发过程中，我们用的最多的就是GCD。哦，对了，NSOperation是基于GCD实现的。<br>  由于GCD是iOS使用最为频繁的，所以GCD面试也经常问到，具体可以阅读笔者写的另外一篇文章<a href="https://xiaozhuanlan.com/topic/9206813475">GCD面试要点</a>。<span id="more"></span></li>
+<li>GCD(Grand Central Dispatch) 是 Apple 开发的一个多核编程的解决方法。GCD 是一个可以替代 NSThread 的很高效和强大的技术。在平常开发过程中，我们用的最多的就是GCD。哦，对了，NSOperation是基于GCD实现的。<br>  由于GCD是iOS使用最为频繁的，所以GCD面试也经常问到，具体可以阅读笔者写的另外一篇文章<span class="exturl" data-url="aHR0cHM6Ly94aWFvemh1YW5sYW4uY29tL3RvcGljLzkyMDY4MTM0NzU=">GCD面试要点<i class="fa fa-external-link-alt"></i></span>。<span id="more"></span></li>
 </ul>
 <h2 id="多线程同步"><a href="#多线程同步" class="headerlink" title="多线程同步"></a>多线程同步</h2><p>多线程情况下访问共享资源需要进行线程同步，线程同步一般都用锁实现。从操作系统层面，锁的实现有临界区、事件、互斥量、信号量等。这里讲一下iOS中多线程同步的方式。</p>
-<h3 id="atomic"><a href="#atomic" class="headerlink" title="atomic"></a>atomic</h3><p>使用atomic 修饰属性，编译器会设置默认读写方法为原子读写，底层采用自旋锁（iOS10开始自旋锁改为互斥锁实现了）保证原子操作。<br>单独的原子操作绝对是线程安全的，但是组合一起的操作就不能保证。一般我们在定义属性的时候用nonatomic，避免性能损失。<br>参考资料：<a href="https://www.cnblogs.com/junhuawang/p/13529814.html">atomic实现原理</a></p>
-<h3 id="synchronized"><a href="#synchronized" class="headerlink" title="@synchronized"></a><a href="https://xiaozhuanlan.com/u/1294451781">@synchronized</a></h3><p>@synchronized指令是一个对象锁，用起来非常简单。使用obj为该锁的唯一标识，只有当标识相同时，才为满足互斥，如果线程1和线程2中的@synchronized后面的obj不相同，则不会互斥。@synchronized其实是对pthread_mutex递归锁的封装。<br>@synchronized优点是我们不需要在代码中显式的创建锁对象，使用简单; 缺点是@synchronized会隐式的添加一个异常处理程序，该异常处理程序会在异常抛出的时候自动的释放互斥锁，从而带来额外开销。</p>
+<h3 id="atomic"><a href="#atomic" class="headerlink" title="atomic"></a>atomic</h3><p>使用atomic 修饰属性，编译器会设置默认读写方法为原子读写，底层采用自旋锁（iOS10开始自旋锁改为互斥锁实现了）保证原子操作。<br>单独的原子操作绝对是线程安全的，但是组合一起的操作就不能保证。一般我们在定义属性的时候用nonatomic，避免性能损失。<br>参考资料：<span class="exturl" data-url="aHR0cHM6Ly93d3cuY25ibG9ncy5jb20vanVuaHVhd2FuZy9wLzEzNTI5ODE0Lmh0bWw=">atomic实现原理<i class="fa fa-external-link-alt"></i></span></p>
+<h3 id="synchronized"><a href="#synchronized" class="headerlink" title="@synchronized"></a><span class="exturl" data-url="aHR0cHM6Ly94aWFvemh1YW5sYW4uY29tL3UvMTI5NDQ1MTc4MQ==">@synchronized<i class="fa fa-external-link-alt"></i></span></h3><p>@synchronized指令是一个对象锁，用起来非常简单。使用obj为该锁的唯一标识，只有当标识相同时，才为满足互斥，如果线程1和线程2中的@synchronized后面的obj不相同，则不会互斥。@synchronized其实是对pthread_mutex递归锁的封装。<br>@synchronized优点是我们不需要在代码中显式的创建锁对象，使用简单; 缺点是@synchronized会隐式的添加一个异常处理程序，该异常处理程序会在异常抛出的时候自动的释放互斥锁，从而带来额外开销。</p>
 <h3 id="NSLock"><a href="#NSLock" class="headerlink" title="NSLock"></a>NSLock</h3><p>最简单的锁，调用lock获取锁，unlock释放锁。如果其它线程已经调用lock获取了锁，当前线程调用lock方法会阻塞当前线程，直到其它线程调用unlock释放锁为止。NSLock使用简单，在项目中用的最多。</p>
 <h3 id="NSRecursiveLock"><a href="#NSRecursiveLock" class="headerlink" title="NSRecursiveLock"></a>NSRecursiveLock</h3><p>递归锁主要用来解决同一个线程频繁获取同一个锁而不造成死锁的问题。注意lock和unlock调用必须配对。</p>
 <h3 id="NSConditionLock"><a href="#NSConditionLock" class="headerlink" title="NSConditionLock"></a>NSConditionLock</h3><p>条件锁，可以设置自定义条件来获取锁。比如生产者消费者模型可以用条件锁来实现。</p>
@@ -791,16 +791,16 @@
 <p>然后业务方如下调用：</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[AppUserDefaultsMgr sharedInstance].name = @&quot;akon&quot;;</span><br><span class="line">NSLog(@&quot;name&quot;, [AppUserDefaultsMgr.sharedInstance].name);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>此种方式缺点是：每定义一个属性（比如name和uid），都需要手动的去写下setter和getter方法。大量重复而类似的代码，相当难看。能不能不手写setter和getter方法，然后像使用属性一样去操作NSUserDefaults呢？<br>可以借助(GVUserDefaults)<a href="https://github.com/gangverk/GVUserDefaults]%E6%9D%A5%E5%AE%9E%E7%8E%B0%E3%80%82">[https://github.com/gangverk/GVUserDefaults]来实现。</a>GVUserDefaults的实现思路是通过runtime动态地为属性添加setter和getter方法。让AppUserDefaultsMgr继承GVUserDefaults即可，name和uid不要手写setter和getter方法，节省了大量代码。</p>
+<p>此种方式缺点是：每定义一个属性（比如name和uid），都需要手动的去写下setter和getter方法。大量重复而类似的代码，相当难看。能不能不手写setter和getter方法，然后像使用属性一样去操作NSUserDefaults呢？<br>可以借助(GVUserDefaults)<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2dhbmd2ZXJrL0dWVXNlckRlZmF1bHRzXSVFNiU5RCVBNSVFNSVBRSU5RSVFNyU4RSVCMCVFMyU4MCU4Mg==">[https://github.com/gangverk/GVUserDefaults]来实现。<i class="fa fa-external-link-alt"></i></span>GVUserDefaults的实现思路是通过runtime动态地为属性添加setter和getter方法。让AppUserDefaultsMgr继承GVUserDefaults即可，name和uid不要手写setter和getter方法，节省了大量代码。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@interface AppUserDefaultsMgr : GVUserDefaults</span><br><span class="line"></span><br><span class="line">+ (instancetype)sharedInstance;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, copy)NSString* name; //通过@dynamic自定义setter和getter</span><br><span class="line">@property (nonatomic, copy)NSString* uid; //通过@dynamic自定义setter和getter</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@dynamic name; </span><br><span class="line">@dynamic uid;</span><br><span class="line"></span><br><span class="line">@implementation AppUserDefaultsMgr</span><br><span class="line"></span><br><span class="line">+ (instancetype)sharedInstance&#123;</span><br><span class="line"></span><br><span class="line">    static id  s_singleton = nil;</span><br><span class="line"></span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        s_singleton = [[[self class] alloc] init];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return s_singleton;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h1 id="Archive"><a href="#Archive" class="headerlink" title="Archive"></a>Archive</h1><p>Archive可以用来存储model，如果一个model要用Archive存取，需要实现NSCoding协议。项目中使用的相对少点，如果要存储model，可以先把Model转成json字符串存到NSUserDefaults里面。</p>
 <h1 id="plist存储方式"><a href="#plist存储方式" class="headerlink" title="plist存储方式"></a>plist存储方式</h1><p>像NSString、NSDictionary等类都可以直接存调用writeToFile:atomically:方法存储到plist文件中。存储格式为XML。</p>
-<h1 id="数据库存储"><a href="#数据库存储" class="headerlink" title="数据库存储"></a>数据库存储</h1><h2 id="CoreData"><a href="#CoreData" class="headerlink" title="CoreData"></a>CoreData</h2><p>CoreData是苹果开发的orm数据存储库。CoreData上手成本比较高，具体使用参考<a href="https://juejin.cn/post/6844903805369188366">iOS-CoreData详解与使用</a></p>
-<h2 id="FMDB"><a href="#FMDB" class="headerlink" title="FMDB"></a>FMDB</h2><p><a href="https://github.com/ccgus/fmdb">FMDB</a>是基于sqlite封装的轻量级数据库，使用简单，用的人很多。</p>
-<h2 id="YTKKeyValueStore"><a href="#YTKKeyValueStore" class="headerlink" title="YTKKeyValueStore"></a>YTKKeyValueStore</h2><p><a href="https://github.com/yuantiku/YTKKeyValueStore">YTKKeyValueStore</a>基于FMDB封装的k-v存储库。</p>
-<h2 id="YYCache"><a href="#YYCache" class="headerlink" title="YYCache"></a>YYCache</h2><p><a href="https://github.com/ibireme/YYCache">YYCache</a>基于sqlite封装的cache库，支持内存缓存和磁盘缓存。</p>
-<h2 id="WCDB"><a href="#WCDB" class="headerlink" title="WCDB"></a>WCDB</h2><p><a href="https://github.com/Tencent/wcdb">WCDB</a>是微信开源的基于sqlite封装的数据存储库。<br>高效、完整、易用的移动数据库框架。基于SQLCipher，支持iOS、macOS、Android。</p>
+<h1 id="数据库存储"><a href="#数据库存储" class="headerlink" title="数据库存储"></a>数据库存储</h1><h2 id="CoreData"><a href="#CoreData" class="headerlink" title="CoreData"></a>CoreData</h2><p>CoreData是苹果开发的orm数据存储库。CoreData上手成本比较高，具体使用参考<span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uY24vcG9zdC82ODQ0OTAzODA1MzY5MTg4MzY2">iOS-CoreData详解与使用<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="FMDB"><a href="#FMDB" class="headerlink" title="FMDB"></a>FMDB</h2><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2NjZ3VzL2ZtZGI=">FMDB<i class="fa fa-external-link-alt"></i></span>是基于sqlite封装的轻量级数据库，使用简单，用的人很多。</p>
+<h2 id="YTKKeyValueStore"><a href="#YTKKeyValueStore" class="headerlink" title="YTKKeyValueStore"></a>YTKKeyValueStore</h2><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3l1YW50aWt1L1lUS0tleVZhbHVlU3RvcmU=">YTKKeyValueStore<i class="fa fa-external-link-alt"></i></span>基于FMDB封装的k-v存储库。</p>
+<h2 id="YYCache"><a href="#YYCache" class="headerlink" title="YYCache"></a>YYCache</h2><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2liaXJlbWUvWVlDYWNoZQ==">YYCache<i class="fa fa-external-link-alt"></i></span>基于sqlite封装的cache库，支持内存缓存和磁盘缓存。</p>
+<h2 id="WCDB"><a href="#WCDB" class="headerlink" title="WCDB"></a>WCDB</h2><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL1RlbmNlbnQvd2NkYg==">WCDB<i class="fa fa-external-link-alt"></i></span>是微信开源的基于sqlite封装的数据存储库。<br>高效、完整、易用的移动数据库框架。基于SQLCipher，支持iOS、macOS、Android。</p>
 <ul>
 <li>  高效。支持多线程高并发：读与读、读与写并发执行，写与写串行执行。</li>
 <li>  完整。支持数据库加密、损坏修复、反注入。</li>
@@ -846,7 +846,7 @@
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message &#123;</span><br><span class="line">    if ([message.body isKindOfClass:[NSDictionary class]]) &#123;</span><br><span class="line">        NSDictionary *dicMessage = message.body;</span><br><span class="line"></span><br><span class="line">        NSString *funcName = [dicMessage stringForKey:@&quot;funcName&quot;];</span><br><span class="line">        NSString *parameter = [dicMessage stringForKey:@&quot;parameter&quot;];</span><br><span class="line">       //进行逻辑处理</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>此种方案的优点是：实现简单，缺点是：不支持UIWebView。</p>
-<h3 id="第三方库WKWebViewJavascriptBridge"><a href="#第三方库WKWebViewJavascriptBridge" class="headerlink" title="第三方库WKWebViewJavascriptBridge"></a>第三方库WKWebViewJavascriptBridge</h3><p><a href="https://github.com/marcuswestin/WebViewJavascriptBridge">WKWebViewJavascriptBridge</a>是iOS使用最广泛的JSBridge库，该库通过伪协议+JS消息队列实现了JS与OC交互，此种方案兼容UIWebView和WKWebView。</p>
+<h3 id="第三方库WKWebViewJavascriptBridge"><a href="#第三方库WKWebViewJavascriptBridge" class="headerlink" title="第三方库WKWebViewJavascriptBridge"></a>第三方库WKWebViewJavascriptBridge</h3><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL21hcmN1c3dlc3Rpbi9XZWJWaWV3SmF2YXNjcmlwdEJyaWRnZQ==">WKWebViewJavascriptBridge<i class="fa fa-external-link-alt"></i></span>是iOS使用最广泛的JSBridge库，该库通过伪协议+JS消息队列实现了JS与OC交互，此种方案兼容UIWebView和WKWebView。</p>
 <h2 id="webview安全"><a href="#webview安全" class="headerlink" title="webview安全"></a>webview安全</h2><h3 id="域名黑白名单"><a href="#域名黑白名单" class="headerlink" title="域名黑白名单"></a>域名黑白名单</h3><ul>
 <li>  通过黑名单url，防止黑名单url加载。</li>
 <li>  通过白名单url，只允许白名单url加载。</li>
@@ -873,14 +873,14 @@
 <h3 id="资源包预加载"><a href="#资源包预加载" class="headerlink" title="资源包预加载"></a>资源包预加载</h3><p>对于电商app，大促之前先提前下载好资源包，等大促入口放开了，就可以直接加载本地资源。<br>或者直接预加载一个公共h5，把这个公共h5的公共资源缓存下来，下次打开别的页面就能直接使用这些公共资源了。</p>
 <h3 id="资源离线缓存"><a href="#资源离线缓存" class="headerlink" title="资源离线缓存"></a>资源离线缓存</h3><p>可以拦截图片、js等资源的下载，使用本地缓存。</p>
 <h3 id="前端优化"><a href="#前端优化" class="headerlink" title="前端优化"></a>前端优化</h3><p>前端开发同学可以从h5布局，js打包、解析、执行等角度进行优化。</p>
-<h1 id="React-Native"><a href="#React-Native" class="headerlink" title="React Native"></a>React Native</h1><p><a href="https://github.com/facebook/react-native">React Native</a>是facebook开发的用于统一h5、iOS、Android三端的开源库。其基本原理是通过JSCore实现JS与原生的调用，它的渲染引擎最终会路由到原生的控件上面。目前在业界使用广泛。</p>
-<h1 id="Weex"><a href="#Weex" class="headerlink" title="Weex"></a>Weex</h1><p><a href="https://github.com/apache/incubator-weex">Weex</a>是阿里开发的用于统一h5、iOS、Android三端的开源库。其基本原理是通过JSCore实现JS与原生的调用，它的渲染引擎最终会路由到原生的控件上面。业内用得相对少点。</p>
-<h1 id="Flutter"><a href="#Flutter" class="headerlink" title="Flutter"></a>Flutter</h1><p><a href="https://github.com/flutter/flutter">Flutter</a>是google开发的用于统一iOS、Android两端的开源库（不能用在h5）。其基本原理是通过自己的skia渲染引擎实现iOS和Android控件的统一。目前业界使用的越来越多。</p>
+<h1 id="React-Native"><a href="#React-Native" class="headerlink" title="React Native"></a>React Native</h1><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZhY2Vib29rL3JlYWN0LW5hdGl2ZQ==">React Native<i class="fa fa-external-link-alt"></i></span>是facebook开发的用于统一h5、iOS、Android三端的开源库。其基本原理是通过JSCore实现JS与原生的调用，它的渲染引擎最终会路由到原生的控件上面。目前在业界使用广泛。</p>
+<h1 id="Weex"><a href="#Weex" class="headerlink" title="Weex"></a>Weex</h1><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FwYWNoZS9pbmN1YmF0b3Itd2VleA==">Weex<i class="fa fa-external-link-alt"></i></span>是阿里开发的用于统一h5、iOS、Android三端的开源库。其基本原理是通过JSCore实现JS与原生的调用，它的渲染引擎最终会路由到原生的控件上面。业内用得相对少点。</p>
+<h1 id="Flutter"><a href="#Flutter" class="headerlink" title="Flutter"></a>Flutter</h1><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZsdXR0ZXIvZmx1dHRlcg==">Flutter<i class="fa fa-external-link-alt"></i></span>是google开发的用于统一iOS、Android两端的开源库（不能用在h5）。其基本原理是通过自己的skia渲染引擎实现iOS和Android控件的统一。目前业界使用的越来越多。</p>
 <h1 id="如何抉择"><a href="#如何抉择" class="headerlink" title="如何抉择"></a>如何抉择</h1><ul>
 <li>  如果是小公司，建议只使用h5混编，引入其他的混编技术，学习成本高、维护成本高，招人也比较难。</li>
 <li>  如果是中大型公司。一般都会选用h5、rn、flutter混编。如果要统一三端，那就rn。如果只想统一iOS和Android，flutter是个不错的选择。</li>
 </ul>
-<p>参考资料：<br><a href="https://tech.meituan.com/2020/09/30/waimai-mobile-architecture-evolution.html">外卖客户端容器化架构的演进</a><br><a href="https://tech.meituan.com/2017/06/09/webviewperf.html">WebView性能、体验分析与优化</a><br><a href="https://juejin.cn/post/6844903809521549320#heading-10">iOS app秒开H5优化探索</a></p>
+<p>参考资料：<br><span class="exturl" data-url="aHR0cHM6Ly90ZWNoLm1laXR1YW4uY29tLzIwMjAvMDkvMzAvd2FpbWFpLW1vYmlsZS1hcmNoaXRlY3R1cmUtZXZvbHV0aW9uLmh0bWw=">外卖客户端容器化架构的演进<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly90ZWNoLm1laXR1YW4uY29tLzIwMTcvMDYvMDkvd2Vidmlld3BlcmYuaHRtbA==">WebView性能、体验分析与优化<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uY24vcG9zdC82ODQ0OTAzODA5NTIxNTQ5MzIwI2hlYWRpbmctMTA=">iOS app秒开H5优化探索<i class="fa fa-external-link-alt"></i></span></p>
 ]]></content>
       <tags>
         <tag>OC知识点</tag>
@@ -894,7 +894,7 @@
 <h1 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>组件化的作用是模块解耦、代码复用。</p>
 <span id="more"></span>
 
-<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><h3 id="MGJRouter"><a href="#MGJRouter" class="headerlink" title="MGJRouter"></a>MGJRouter</h3><p><a href="https://github.com/meili/MGJRouter">MGJRouter</a>通过注册url的方式来实现方法注册和调用<br>1、组件提供方通过registerURLPattern注册方法。</p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><h3 id="MGJRouter"><a href="#MGJRouter" class="headerlink" title="MGJRouter"></a>MGJRouter</h3><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL21laWxpL01HSlJvdXRlcg==">MGJRouter<i class="fa fa-external-link-alt"></i></span>通过注册url的方式来实现方法注册和调用<br>1、组件提供方通过registerURLPattern注册方法。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[MGJRouter registerURLPattern:@&quot;mgj://category/travel&quot; toHandler:^(NSDictionary *routerParameters) &#123;</span><br><span class="line">    NSLog(@&quot;routerParameters[MGJRouterParameterUserInfo]:%@&quot;, routerParameters[MGJRouterParameterUserInfo]);</span><br><span class="line">    // @&#123;@&quot;user_id&quot;: @1900&#125;</span><br><span class="line">&#125;];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>2、调用方通过openURL调用组件提供的方法。</p>
@@ -906,7 +906,7 @@
 <li>  参数传入不能直接传model，而是需要传字典，如果方法实现方修改一个字段的类型但没有通知调用方，调用方无法直接知道，有可能导致崩溃。</li>
 <li>  通过字典传参不直观，调用方需要知道字段的名字才能获取字段值，如果字段名不定义为宏，到处拷贝字段名造成难以维护。</li>
 </ul>
-<h3 id="CTMediator"><a href="#CTMediator" class="headerlink" title="CTMediator"></a>CTMediator</h3><p><a href="https://github.com/casatwy/CTMediator">CTMediator</a>通过CTMediator的类别来实现方法调用。<br>1、组件提供方实现Target、Action。</p>
+<h3 id="CTMediator"><a href="#CTMediator" class="headerlink" title="CTMediator"></a>CTMediator</h3><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2Nhc2F0d3kvQ1RNZWRpYXRvcg==">CTMediator<i class="fa fa-external-link-alt"></i></span>通过CTMediator的类别来实现方法调用。<br>1、组件提供方实现Target、Action。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">@interface Target_A : NSObject</span><br><span class="line"></span><br><span class="line">- (UIViewController *)Action_nativeFetchDetailViewController:(NSDictionary *)params;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">- (UIViewController *)Action_nativeFetchDetailViewController:(NSDictionary *)params</span><br><span class="line">&#123;</span><br><span class="line">    // 因为action是从属于ModuleA的，所以action直接可以使用ModuleA里的所有声明</span><br><span class="line">    DemoModuleADetailViewController *viewController = [[DemoModuleADetailViewController alloc] init];</span><br><span class="line">    viewController.valueLabel.text = params[@&quot;key&quot;];</span><br><span class="line">    return viewController;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>2、组件提供方实现CTMediator类别暴露接口给使用方。</p>
@@ -920,7 +920,7 @@
 <li>  CTMediator类别实现由于需要通过performTarget方式来实现，需要写一堆方法名、方法参数名字字符串，影响阅读,难以维护；</li>
 <li>  没有组件管理器概念。组件之间的互相调用都是通过直接引用CTMediator类别来实现，没有实现真正的解耦；并且类别暴露了方法的具体实现</li>
 </ul>
-<h3 id="BeeHive"><a href="#BeeHive" class="headerlink" title="BeeHive"></a>BeeHive</h3><p><a href="https://github.com/alibaba/BeeHive">BeeHive</a>通过url来实现页面路由，通过Protocol来实现方法调用。<br>一、组件提供方注册service</p>
+<h3 id="BeeHive"><a href="#BeeHive" class="headerlink" title="BeeHive"></a>BeeHive</h3><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FsaWJhYmEvQmVlSGl2ZQ==">BeeHive<i class="fa fa-external-link-alt"></i></span>通过url来实现页面路由，通过Protocol来实现方法调用。<br>一、组件提供方注册service</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[BeeHive shareInstance] registerService:@protocol(HomeServiceProtocol) service:[BHViewController class]];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>二、组件调用方调用service</p>
@@ -949,8 +949,8 @@
 <h2 id="减少请求次数"><a href="#减少请求次数" class="headerlink" title="减少请求次数"></a>减少请求次数</h2><p>能不发的就不发，能少发的就少发，能做聚合接口就做聚合接口，能用缓存就用缓存。</p>
 <h2 id="减少数据传输量"><a href="#减少数据传输量" class="headerlink" title="减少数据传输量"></a>减少数据传输量</h2><p>网络请求和响应过程中会涉及到数据的传输，所以我们要想办法减少数据的传输量。比如能用pb就不用json，能用json就不用xml；能用tcp就不用http，能用小图就不用大图等。</p>
 <h1 id="网络性能数据采集"><a href="#网络性能数据采集" class="headerlink" title="网络性能数据采集"></a>网络性能数据采集</h1><p>竟然要做网络优化，那就要有优化的依据。我们可以通过采集网络请求的数据来分析整个网络请求的数据，通过采集请求的三次握手时间、dns解析时间、首包时间、请求包大小、响应包大小，请求时间，响应时间，响应码等指标上传给后台进行分析，从而为优化提供依据。</p>
-<h2 id="NSURLProtocol"><a href="#NSURLProtocol" class="headerlink" title="NSURLProtocol"></a>NSURLProtocol</h2><p>可以通过NSURLProtocol方案来截获网络请求。<br>该方案可以截获原生网络请求(AFNetworking，NSURLSession,NSURLConnection发出的)，UIWebView网络请求、WKWebView网络请求（post请求会丢掉body）。<br>该方案缺点是：因为需要拦截原来的请求，然后再转发请求，对业务的侵入性比较大。<br>可以参考苹果官方demo来实现NSURLProtocol <a href="https://developer.apple.com/library/archive/samplecode/CustomHTTPProtocol/Introduction/Intro.html">CustomHTTPProtocol</a></p>
-<h2 id="Hook-NSURLSession和NSURLConnection"><a href="#Hook-NSURLSession和NSURLConnection" class="headerlink" title="Hook NSURLSession和NSURLConnection"></a>Hook NSURLSession和NSURLConnection</h2><p>通过hook NSURLSession和NSURLConnection等delegate方法来截获网络请求。<br>可以参考开源库<a href="https://github.com/FLEXTool/FLEX">FLEX</a>中FLEXNetworkObserver的实现。该方案可以截获原生网络请求(AFNetworking，NSURLSession,NSURLConnection发出的)，UIWebView网络请求。不能捕获WKWebView网络请求。<br>该方案的优点是：由于采用hook，相比NSURLProtocol，对业务无侵入。</p>
+<h2 id="NSURLProtocol"><a href="#NSURLProtocol" class="headerlink" title="NSURLProtocol"></a>NSURLProtocol</h2><p>可以通过NSURLProtocol方案来截获网络请求。<br>该方案可以截获原生网络请求(AFNetworking，NSURLSession,NSURLConnection发出的)，UIWebView网络请求、WKWebView网络请求（post请求会丢掉body）。<br>该方案缺点是：因为需要拦截原来的请求，然后再转发请求，对业务的侵入性比较大。<br>可以参考苹果官方demo来实现NSURLProtocol <span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYXBwbGUuY29tL2xpYnJhcnkvYXJjaGl2ZS9zYW1wbGVjb2RlL0N1c3RvbUhUVFBQcm90b2NvbC9JbnRyb2R1Y3Rpb24vSW50cm8uaHRtbA==">CustomHTTPProtocol<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="Hook-NSURLSession和NSURLConnection"><a href="#Hook-NSURLSession和NSURLConnection" class="headerlink" title="Hook NSURLSession和NSURLConnection"></a>Hook NSURLSession和NSURLConnection</h2><p>通过hook NSURLSession和NSURLConnection等delegate方法来截获网络请求。<br>可以参考开源库<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0ZMRVhUb29sL0ZMRVg=">FLEX<i class="fa fa-external-link-alt"></i></span>中FLEXNetworkObserver的实现。该方案可以截获原生网络请求(AFNetworking，NSURLSession,NSURLConnection发出的)，UIWebView网络请求。不能捕获WKWebView网络请求。<br>该方案的优点是：由于采用hook，相比NSURLProtocol，对业务无侵入。</p>
 <h2 id="NSURLSessionTaskTransactionMetrics"><a href="#NSURLSessionTaskTransactionMetrics" class="headerlink" title="NSURLSessionTaskTransactionMetrics"></a>NSURLSessionTaskTransactionMetrics</h2><p>从iOS10开始通过- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didFinishCollectingMetrics:(NSURLSessionTaskMetrics *)metrics的来获取网络请求数据。<br>上面的代理方法参数metrics的属性transactionMetrics是一个存放NSURLSessionTaskTransactionMetrics的数组，通过<br>NSURLSessionTaskTransactionMetrics可以获取到网络请求相应的指标，可以获取到三次握手时间、dns解析时间、请求包大小、响应包大小，请求时间，响应时间，响应码等很多指标。<br>该方案只能捕获NSURLSession发起的网络请求，并且只支持iOS10及以上系统。</p>
 <h1 id="网络性能优化方案"><a href="#网络性能优化方案" class="headerlink" title="网络性能优化方案"></a>网络性能优化方案</h1><h2 id="减少请求次数-1"><a href="#减少请求次数-1" class="headerlink" title="减少请求次数"></a>减少请求次数</h2><h3 id="聚合接口"><a href="#聚合接口" class="headerlink" title="聚合接口"></a>聚合接口</h3><p>在一些复杂业务中，可能进入一个页面会同时请求很多接口，这个时候可以考虑改成聚合接口。<br>聚合接口的优势是：只需要发一个请求，节省了并发发多个网络请求的请求头大小（一个头可能有几百乃至上千字节），并且可能能节省网络rtt时间(Round-Trip Time)。<br>比如首页、商详页这种业务逻辑很复杂的页面基本都是采用聚合接口。</p>
 <h3 id="接口支持请求多个服务"><a href="#接口支持请求多个服务" class="headerlink" title="接口支持请求多个服务"></a>接口支持请求多个服务</h3><p>在网关层面支持接口能请求多个服务的数据。此种方案的实现思路是：客户端在请求里面指定好服务的路径和请求参数请求一个特定的接口，这个接口同时返回几个服务的数据。</p>
@@ -1023,7 +1023,7 @@
 <td>传输大量数据</td>
 </tr>
 </tbody></table>
-<p>关于TCP可以参考资料：<a href="https://www.jianshu.com/p/65605622234b">计算机网络：这是一份全面 &amp; 详细 的TCP协议攻略</a><br>关于http协议可以参考：<a href="https://www.jianshu.com/p/a6d086a3997d">计算机网络：这是一份全面&amp; 详细 HTTP知识讲解</a><br>学习指南:<a href="https://www.jianshu.com/p/45d27f3e1196">这是一份详细 &amp; 清晰的计算机网络基础 学习指南</a></p>
+<p>关于TCP可以参考资料：<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC82NTYwNTYyMjIzNGI=">计算机网络：这是一份全面 &amp; 详细 的TCP协议攻略<i class="fa fa-external-link-alt"></i></span><br>关于http协议可以参考：<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC9hNmQwODZhMzk5N2Q=">计算机网络：这是一份全面&amp; 详细 HTTP知识讲解<i class="fa fa-external-link-alt"></i></span><br>学习指南:<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC80NWQyN2YzZTExOTY=">这是一份详细 &amp; 清晰的计算机网络基础 学习指南<i class="fa fa-external-link-alt"></i></span></p>
 <h1 id="http与https"><a href="#http与https" class="headerlink" title="http与https"></a>http与https</h1><p>http与https是应用层协议，他们建立在传输层的tcp协议上。http协议默认端口是80，https默认端口443。</p>
 <h2 id="请求报文与响应报文"><a href="#请求报文与响应报文" class="headerlink" title="请求报文与响应报文"></a>请求报文与响应报文</h2><p>请求报文由请求行、请求头、请求体组成。<br><img src="https://upload-images.jianshu.io/upload_images/22877992-9f5fc5f6156cabe9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
 <p>响应报文由状态行、响应头、响应体组成。<br><img src="https://upload-images.jianshu.io/upload_images/22877992-b890b3342fea7fe1.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
@@ -1032,11 +1032,11 @@
 <ul>
 <li>多路复用<br>  http1.0如果不开启keep alive的话，每次发一个http网络请求都会建立一个TCP连接，网络请求结束后会断开连接，而且对于一个host而言，发网络请求是串行的，即使开启了keep alive,也是有限的复用TCP连接。<br>  http2.0直接以stream的方式在一个TCP连接上发包、收包，可以实现并发发网络请求，效率更高。</li>
 <li>头部压缩<br>  http1.0不支持请求头和响应头压缩，http2.0支持。压缩头部，对于一个网络请求，可以节省至少上百个字节，这样更省流量。</li>
-<li>服务端push<br>  http2.0支持后台直接给客户端推送消息。<br>  参考资料：<a href="https://www.jianshu.com/p/2e7200bd5b79">关于 iOS HTTP2.0 的一次学习实践</a></li>
+<li>服务端push<br>  http2.0支持后台直接给客户端推送消息。<br>  参考资料：<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC8yZTcyMDBiZDViNzk=">关于 iOS HTTP2.0 的一次学习实践<i class="fa fa-external-link-alt"></i></span></li>
 </ul>
 <h2 id="https-ssl握手过程"><a href="#https-ssl握手过程" class="headerlink" title="https ssl握手过程"></a>https ssl握手过程</h2><h3 id="单向认证"><a href="#单向认证" class="headerlink" title="单向认证"></a>单向认证</h3><p><img src="https://upload-images.jianshu.io/upload_images/22877992-1b7fbff5d8e6d4d8.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240"></p>
 <h3 id="双向认证"><a href="#双向认证" class="headerlink" title="双向认证"></a>双向认证</h3><p><img src="https://upload-images.jianshu.io/upload_images/22877992-ce674ea03fda0a34.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="image"></p>
-<p>参考资料：<a href="https://blog.csdn.net/Z1591090/article/details/104041998">iOS https证书双向认证的实现机制</a></p>
+<p>参考资料：<span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1oxNTkxMDkwL2FydGljbGUvZGV0YWlscy8xMDQwNDE5OTg=">iOS https证书双向认证的实现机制<i class="fa fa-external-link-alt"></i></span></p>
 <h2 id="网络参数签名、加密实现方式"><a href="#网络参数签名、加密实现方式" class="headerlink" title="网络参数签名、加密实现方式"></a>网络参数签名、加密实现方式</h2><p>除了用https协议传输数据，有些对数据安全要求比较高的App比如金融类App还会对参数进行签名和加密，这样可以防止网络请求参数被篡改以及敏感业务数据泄露</p>
 <h3 id="网络参数签名"><a href="#网络参数签名" class="headerlink" title="网络参数签名"></a>网络参数签名</h3><p>为了防止网络请求被篡改，一般会对请求参数进行hash，一般会有一个sign字段表示签名。</p>
 <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">假定客户端请求参数dic如下：</span><br><span class="line">&#123;</span><br><span class="line">&quot;name&quot;:&quot;akon&quot;,</span><br><span class="line">&quot;city&quot;:&quot;shenzhen&quot;,</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -1076,7 +1076,7 @@
 <li>  对于内存缓存，在下载图片加载图片到内存时、内存收到警告时候进行清理。内存缓存基于NSCache实现的。</li>
 <li>  对于磁盘缓存，在App退出、进后台清理。<h1 id="网络性能优化"><a href="#网络性能优化" class="headerlink" title="网络性能优化"></a>网络性能优化</h1></li>
 </ul>
-<p>网络性能优化有很多手段，关于网络性能优化可以参考笔者另外一篇文章<a href="https://www.jianshu.com/p/c627df95b39e">网络性能优化</a></p>
+<p>网络性能优化有很多手段，关于网络性能优化可以参考笔者另外一篇文章<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC9jNjI3ZGY5NWIzOWU=">网络性能优化<i class="fa fa-external-link-alt"></i></span></p>
 ]]></content>
       <tags>
         <tag>OC知识点</tag>
@@ -1121,7 +1121,7 @@
 <li>  迪米特法则指导我们要降低耦合。</li>
 <li>  类的实现要高内聚、低耦合。</li>
 </ul>
-<h1 id="常用设计模式"><a href="#常用设计模式" class="headerlink" title="常用设计模式"></a>常用设计模式</h1><p>设计模式，在框架中经常使用到。比如iOS框架中大量使用原型模式、工厂模式、单例模式、观察者模式等模式，我们自己在设计代码时候也会使用设计模式。下面简单介绍下各个模式以及在iOS中的应用，具体的模式详解，笔者后续会在<a href="https://xiaozhuanlan.com/akonsjms">设计模式</a>专栏中讲解。</p>
+<h1 id="常用设计模式"><a href="#常用设计模式" class="headerlink" title="常用设计模式"></a>常用设计模式</h1><p>设计模式，在框架中经常使用到。比如iOS框架中大量使用原型模式、工厂模式、单例模式、观察者模式等模式，我们自己在设计代码时候也会使用设计模式。下面简单介绍下各个模式以及在iOS中的应用，具体的模式详解，笔者后续会在<span class="exturl" data-url="aHR0cHM6Ly94aWFvemh1YW5sYW4uY29tL2Frb25zam1z">设计模式<i class="fa fa-external-link-alt"></i></span>专栏中讲解。</p>
 <h2 id="对象创建"><a href="#对象创建" class="headerlink" title="对象创建"></a>对象创建</h2><h3 id="原型模式"><a href="#原型模式" class="headerlink" title="原型模式"></a>原型模式</h3><ul>
 <li><p>  使用原型实例指定创建对象的种类，并通过复制这个原型实例创建新的对象。</p>
 </li>

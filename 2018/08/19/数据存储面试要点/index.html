@@ -9,7 +9,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
   <meta name="google-site-verification" content="e9A3VOTvVQOgJbWsO3nFp1n8uEBA7PExS9f1O3nFbu4">
+  <meta name="baidu-site-verification" content="code-8DAsxWGcsx">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -18,7 +21,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="NSUserDefaults使用场景   NSUserDefaults一般用来存储一些简单的App配置。比如存储用户姓名、uid这类轻量的数据。   用于处于同一App group不同App之间共享数据，用户extension和宿主App之间共享数据。   一般通过调用如下方法实现增删改查功能">
@@ -136,6 +139,11 @@
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -265,16 +273,16 @@
 <p>然后业务方如下调用：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[AppUserDefaultsMgr sharedInstance].name = @&quot;akon&quot;;</span><br><span class="line">NSLog(@&quot;name&quot;, [AppUserDefaultsMgr.sharedInstance].name);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>此种方式缺点是：每定义一个属性（比如name和uid），都需要手动的去写下setter和getter方法。大量重复而类似的代码，相当难看。能不能不手写setter和getter方法，然后像使用属性一样去操作NSUserDefaults呢？<br>可以借助(GVUserDefaults)<a target="_blank" rel="noopener" href="https://github.com/gangverk/GVUserDefaults]%E6%9D%A5%E5%AE%9E%E7%8E%B0%E3%80%82">[https://github.com/gangverk/GVUserDefaults]来实现。</a>GVUserDefaults的实现思路是通过runtime动态地为属性添加setter和getter方法。让AppUserDefaultsMgr继承GVUserDefaults即可，name和uid不要手写setter和getter方法，节省了大量代码。</p>
+<p>此种方式缺点是：每定义一个属性（比如name和uid），都需要手动的去写下setter和getter方法。大量重复而类似的代码，相当难看。能不能不手写setter和getter方法，然后像使用属性一样去操作NSUserDefaults呢？<br>可以借助(GVUserDefaults)<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2dhbmd2ZXJrL0dWVXNlckRlZmF1bHRzXSVFNiU5RCVBNSVFNSVBRSU5RSVFNyU4RSVCMCVFMyU4MCU4Mg==">[https://github.com/gangverk/GVUserDefaults]来实现。<i class="fa fa-external-link-alt"></i></span>GVUserDefaults的实现思路是通过runtime动态地为属性添加setter和getter方法。让AppUserDefaultsMgr继承GVUserDefaults即可，name和uid不要手写setter和getter方法，节省了大量代码。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">@interface AppUserDefaultsMgr : GVUserDefaults</span><br><span class="line"></span><br><span class="line">+ (instancetype)sharedInstance;</span><br><span class="line"></span><br><span class="line">@property (nonatomic, copy)NSString* name; //通过@dynamic自定义setter和getter</span><br><span class="line">@property (nonatomic, copy)NSString* uid; //通过@dynamic自定义setter和getter</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@dynamic name; </span><br><span class="line">@dynamic uid;</span><br><span class="line"></span><br><span class="line">@implementation AppUserDefaultsMgr</span><br><span class="line"></span><br><span class="line">+ (instancetype)sharedInstance&#123;</span><br><span class="line"></span><br><span class="line">    static id  s_singleton = nil;</span><br><span class="line"></span><br><span class="line">    static dispatch_once_t onceToken;</span><br><span class="line">    dispatch_once(&amp;onceToken, ^&#123;</span><br><span class="line">        s_singleton = [[[self class] alloc] init];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    return s_singleton;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <h1 id="Archive"><a href="#Archive" class="headerlink" title="Archive"></a>Archive</h1><p>Archive可以用来存储model，如果一个model要用Archive存取，需要实现NSCoding协议。项目中使用的相对少点，如果要存储model，可以先把Model转成json字符串存到NSUserDefaults里面。</p>
 <h1 id="plist存储方式"><a href="#plist存储方式" class="headerlink" title="plist存储方式"></a>plist存储方式</h1><p>像NSString、NSDictionary等类都可以直接存调用writeToFile:atomically:方法存储到plist文件中。存储格式为XML。</p>
-<h1 id="数据库存储"><a href="#数据库存储" class="headerlink" title="数据库存储"></a>数据库存储</h1><h2 id="CoreData"><a href="#CoreData" class="headerlink" title="CoreData"></a>CoreData</h2><p>CoreData是苹果开发的orm数据存储库。CoreData上手成本比较高，具体使用参考<a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903805369188366">iOS-CoreData详解与使用</a></p>
-<h2 id="FMDB"><a href="#FMDB" class="headerlink" title="FMDB"></a>FMDB</h2><p><a target="_blank" rel="noopener" href="https://github.com/ccgus/fmdb">FMDB</a>是基于sqlite封装的轻量级数据库，使用简单，用的人很多。</p>
-<h2 id="YTKKeyValueStore"><a href="#YTKKeyValueStore" class="headerlink" title="YTKKeyValueStore"></a>YTKKeyValueStore</h2><p><a target="_blank" rel="noopener" href="https://github.com/yuantiku/YTKKeyValueStore">YTKKeyValueStore</a>基于FMDB封装的k-v存储库。</p>
-<h2 id="YYCache"><a href="#YYCache" class="headerlink" title="YYCache"></a>YYCache</h2><p><a target="_blank" rel="noopener" href="https://github.com/ibireme/YYCache">YYCache</a>基于sqlite封装的cache库，支持内存缓存和磁盘缓存。</p>
-<h2 id="WCDB"><a href="#WCDB" class="headerlink" title="WCDB"></a>WCDB</h2><p><a target="_blank" rel="noopener" href="https://github.com/Tencent/wcdb">WCDB</a>是微信开源的基于sqlite封装的数据存储库。<br>高效、完整、易用的移动数据库框架。基于SQLCipher，支持iOS、macOS、Android。</p>
+<h1 id="数据库存储"><a href="#数据库存储" class="headerlink" title="数据库存储"></a>数据库存储</h1><h2 id="CoreData"><a href="#CoreData" class="headerlink" title="CoreData"></a>CoreData</h2><p>CoreData是苹果开发的orm数据存储库。CoreData上手成本比较高，具体使用参考<span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uY24vcG9zdC82ODQ0OTAzODA1MzY5MTg4MzY2">iOS-CoreData详解与使用<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="FMDB"><a href="#FMDB" class="headerlink" title="FMDB"></a>FMDB</h2><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2NjZ3VzL2ZtZGI=">FMDB<i class="fa fa-external-link-alt"></i></span>是基于sqlite封装的轻量级数据库，使用简单，用的人很多。</p>
+<h2 id="YTKKeyValueStore"><a href="#YTKKeyValueStore" class="headerlink" title="YTKKeyValueStore"></a>YTKKeyValueStore</h2><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL3l1YW50aWt1L1lUS0tleVZhbHVlU3RvcmU=">YTKKeyValueStore<i class="fa fa-external-link-alt"></i></span>基于FMDB封装的k-v存储库。</p>
+<h2 id="YYCache"><a href="#YYCache" class="headerlink" title="YYCache"></a>YYCache</h2><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2liaXJlbWUvWVlDYWNoZQ==">YYCache<i class="fa fa-external-link-alt"></i></span>基于sqlite封装的cache库，支持内存缓存和磁盘缓存。</p>
+<h2 id="WCDB"><a href="#WCDB" class="headerlink" title="WCDB"></a>WCDB</h2><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL1RlbmNlbnQvd2NkYg==">WCDB<i class="fa fa-external-link-alt"></i></span>是微信开源的基于sqlite封装的数据存储库。<br>高效、完整、易用的移动数据库框架。基于SQLCipher，支持iOS、macOS、Android。</p>
 <ul>
 <li>  高效。支持多线程高并发：读与读、读与写并发执行，写与写串行执行。</li>
 <li>  完整。支持数据库加密、损坏修复、反注入。</li>
@@ -404,10 +412,10 @@
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/CodePerryH" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0NvZGVQZXJyeUg=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH"><i class="fab fa-github fa-fw"></i>GitHub</span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:648167350@qq.com" title="E-Mail → mailto:648167350@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOjY0ODE2NzM1MEBxcS5jb20=" title="E-Mail → mailto:648167350@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
       </span>
   </div>
 
@@ -438,7 +446,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly9waXNjZXMudGhlbWUtbmV4dC5vcmc=">NexT.Pisces</span>
   </div>
 
 <div class="powered-by">

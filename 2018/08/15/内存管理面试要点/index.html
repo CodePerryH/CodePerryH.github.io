@@ -9,7 +9,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
   <meta name="google-site-verification" content="e9A3VOTvVQOgJbWsO3nFp1n8uEBA7PExS9f1O3nFbu4">
+  <meta name="baidu-site-verification" content="code-8DAsxWGcsx">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -18,7 +21,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="内存存储区iOS内存存储区分为栈、堆、全局和静态变量存储区、常量存储区、代码区。代码区-&gt;常量存储区-&gt;全局和静态变量存储区-&gt;堆-&gt;栈在内存中的地址从低往高。栈的生长方向为向低地址生长，堆的生长方向为向高地址生长。栈和堆在程序运行时会动态增长，其他区在编译期确定">
@@ -136,6 +139,11 @@
         <li class="menu-item menu-item-archives">
 
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
 
   </li>
       <li class="menu-item menu-item-search">
@@ -317,7 +325,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ARC如下代码：</span><br><span class="line">id obj = [[NSObjcet alloc] init];</span><br><span class="line">void* p = (__bridge_transfer void*)obj;</span><br><span class="line">相当于MRC：</span><br><span class="line">id obj = [[NSObjcet alloc] init];</span><br><span class="line">void* p = (void*)obj;</span><br><span class="line">[p retain];</span><br><span class="line">[obj release];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>`</p>
-<h1 id="Tagged-Pointer"><a href="#Tagged-Pointer" class="headerlink" title="Tagged Pointer"></a>Tagged Pointer</h1><p>2013年9月，苹果推出了iPhone5s，与此同时，iPhone5s配备了首个采用64位架构的A7双核处理器，为了节省内存和提高执行效率，苹果提出了Tagged Pointer<br>的概念。对于64位程序，引入Tagged Pointer后，相关逻辑能减少一半的内存占用，以及3倍的访问速度提升，100倍的创建、销毁速度提升。<br>Tagged Pointer通过在其最后一个bit位设置一个特殊标记，用于将数据直接保存在指针本身中。因为Tagged Pointer并不是真正的对象，我们在使用时需要注意不要直接访问其isa变量。<br>具体可以参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/c9089494fb6c">深入理解Tagged Pointer</a></p>
+<h1 id="Tagged-Pointer"><a href="#Tagged-Pointer" class="headerlink" title="Tagged Pointer"></a>Tagged Pointer</h1><p>2013年9月，苹果推出了iPhone5s，与此同时，iPhone5s配备了首个采用64位架构的A7双核处理器，为了节省内存和提高执行效率，苹果提出了Tagged Pointer<br>的概念。对于64位程序，引入Tagged Pointer后，相关逻辑能减少一半的内存占用，以及3倍的访问速度提升，100倍的创建、销毁速度提升。<br>Tagged Pointer通过在其最后一个bit位设置一个特殊标记，用于将数据直接保存在指针本身中。因为Tagged Pointer并不是真正的对象，我们在使用时需要注意不要直接访问其isa变量。<br>具体可以参考<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC9jOTA4OTQ5NGZiNmM=">深入理解Tagged Pointer<i class="fa fa-external-link-alt"></i></span></p>
 <h1 id="copy原理"><a href="#copy原理" class="headerlink" title="copy原理"></a>copy原理</h1><h2 id="浅拷贝和深拷贝"><a href="#浅拷贝和深拷贝" class="headerlink" title="浅拷贝和深拷贝"></a>浅拷贝和深拷贝</h2><p>浅拷贝不会生成新对象，只是引用拷贝对象，指向的是同一块内存，两个对象任何一个发生变化都是互相影响。深拷贝新生成一个对象，把原来对象的内容复制过来了，两个对象毫不相关了。</p>
 <h2 id="数组拷贝操作"><a href="#数组拷贝操作" class="headerlink" title="数组拷贝操作"></a>数组拷贝操作</h2><h3 id="数组拷贝"><a href="#数组拷贝" class="headerlink" title="数组拷贝"></a>数组拷贝</h3><ul>
 <li>  [NSArray copy] 浅copy</li>
@@ -335,10 +343,10 @@
 </ul>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSMutableArray *arr = [NSMutableArray arrayWithObjects:@1, @2, @3, nil];</span><br><span class="line">self.copyedMutableArr = arr;</span><br><span class="line"> [self.copyedMutableArr removeObject:@1]; // 崩溃，错位信息为：Terminating app due to uncaught exception &#x27;NSInvalidArgumentException&#x27;, reason: &#x27;-[__NSArrayI removeObject:]: unrecognized selector sent to instance 0x600000c1a190&#x27;。因为copyedMutableArr为不可变对象</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>参考资料：[copy修饰NSArray strong修饰NSMutableArray]<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/2008e585c1a0">https://www.jianshu.com/p/2008e585c1a0</a></p>
+<p>参考资料：[copy修饰NSArray strong修饰NSMutableArray]<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC8yMDA4ZTU4NWMxYTA=">https://www.jianshu.com/p/2008e585c1a0<i class="fa fa-external-link-alt"></i></span></p>
 <h2 id="自定义拷贝"><a href="#自定义拷贝" class="headerlink" title="自定义拷贝"></a>自定义拷贝</h2><p>实现NSCopying和NSMutableCopying协议来进行copy和mutableCopy</p>
-<h1 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h1><p>NSArray和NSDictionary是线程安全的。<br>NSMutableArray和NSMutableDictionary是线程不安全的。<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/iosswift/article/details/44597759">线程安全总结</a></p>
-<p>参考资料：<br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844904004669931533#heading-9">深入理解 iOS 内存管理</a></p>
+<h1 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h1><p>NSArray和NSDictionary是线程安全的。<br>NSMutableArray和NSMutableDictionary是线程不安全的。<br><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2lvc3N3aWZ0L2FydGljbGUvZGV0YWlscy80NDU5Nzc1OQ==">线程安全总结<i class="fa fa-external-link-alt"></i></span></p>
+<p>参考资料：<br><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uY24vcG9zdC82ODQ0OTA0MDA0NjY5OTMxNTMzI2hlYWRpbmctOQ==">深入理解 iOS 内存管理<i class="fa fa-external-link-alt"></i></span></p>
 
     </div>
 
@@ -457,10 +465,10 @@
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/CodePerryH" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0NvZGVQZXJyeUg=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH"><i class="fab fa-github fa-fw"></i>GitHub</span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:648167350@qq.com" title="E-Mail → mailto:648167350@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOjY0ODE2NzM1MEBxcS5jb20=" title="E-Mail → mailto:648167350@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
       </span>
   </div>
 
@@ -491,7 +499,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly9waXNjZXMudGhlbWUtbmV4dC5vcmc=">NexT.Pisces</span>
   </div>
 
 <div class="powered-by">

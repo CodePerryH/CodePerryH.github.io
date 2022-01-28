@@ -9,7 +9,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
   <meta name="google-site-verification" content="e9A3VOTvVQOgJbWsO3nFp1n8uEBA7PExS9f1O3nFbu4">
+  <meta name="baidu-site-verification" content="code-8DAsxWGcsx">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -18,7 +21,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="RunLoop定义苹果官方文档对RunLoop的定义如下： 12Run loops are part of the fundamental infrastructure associated with threads. A run loop is an event processing loop that you use to schedule work and coordinate the">
@@ -142,6 +145,11 @@
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
         </a>
@@ -251,7 +259,7 @@
       
         <meta name="referrer" content="no-referrer"/>
 
-<h1 id="RunLoop定义"><a href="#RunLoop定义" class="headerlink" title="RunLoop定义"></a>RunLoop定义</h1><p><a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">苹果官方文档</a>对RunLoop的定义如下：</p>
+<h1 id="RunLoop定义"><a href="#RunLoop定义" class="headerlink" title="RunLoop定义"></a>RunLoop定义</h1><p><span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYXBwbGUuY29tL2xpYnJhcnkvYXJjaGl2ZS9kb2N1bWVudGF0aW9uL0NvY29hL0NvbmNlcHR1YWwvTXVsdGl0aHJlYWRpbmcvUnVuTG9vcE1hbmFnZW1lbnQvUnVuTG9vcE1hbmFnZW1lbnQuaHRtbA==">苹果官方文档<i class="fa fa-external-link-alt"></i></span>对RunLoop的定义如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Run loops are part of the fundamental infrastructure associated with threads. A run loop is an event processing loop that you use to schedule work and coordinate the receipt of incoming events. The purpose of a run loop is to keep your thread busy when there is work to do and put your thread to sleep when there is none.</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <span id="more"></span>
 
@@ -304,11 +312,11 @@
 <li>我们手动创建的 autoreleasepool 会在 block 执行完成之后进行 drain 操作。需要注意的是：当 block 以异常结束时，pool 不会被 drain<br>  Pool 的 drain 操作会把所有标记为 autorelease 的对象的引用计数减一，但是并不意味着这个对象一定会被释放掉，我们可以在 autorelease pool 中手动 retain 对象，以延长它的生命周期（在 MRC 中）。<br>  通过_objc_autoreleasePoolPush和_objc_autoreleasePoolPop来创建和释放自动释放池，底层是通过AutoreleasePoolPage来实现的。</li>
 <li>  自动释放池是由 AutoreleasePoolPage 以双向链表的方式实现的</li>
 <li>  当对象调用 autorelease 方法时，会将对象加入 AutoreleasePoolPage 的栈中</li>
-<li>调用 AutoreleasePoolPage::pop 方法会向栈中的对象发送 release 消息<br>  关于自动释放池的原理，可以参考这篇文章<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/32265cbb2a26">自动释放池的前世今生</a></li>
+<li>调用 AutoreleasePoolPage::pop 方法会向栈中的对象发送 release 消息<br>  关于自动释放池的原理，可以参考这篇文章<span class="exturl" data-url="aHR0cHM6Ly93d3cuamlhbnNodS5jb20vcC8zMjI2NWNiYjJhMjY=">自动释放池的前世今生<i class="fa fa-external-link-alt"></i></span></li>
 </ul>
-<h2 id="监控卡顿"><a href="#监控卡顿" class="headerlink" title="监控卡顿"></a>监控卡顿</h2><p>可以通过监控runloop的 kCFRunLoopBeforeSources和kCFRunLoopAfterWaiting的事件间隔来监控卡顿。关于卡顿监控可以参考笔者的文章<a target="_blank" rel="noopener" href="https://xiaozhuanlan.com/topic/1293805467">卡顿监控及处理</a></p>
+<h2 id="监控卡顿"><a href="#监控卡顿" class="headerlink" title="监控卡顿"></a>监控卡顿</h2><p>可以通过监控runloop的 kCFRunLoopBeforeSources和kCFRunLoopAfterWaiting的事件间隔来监控卡顿。关于卡顿监控可以参考笔者的文章<span class="exturl" data-url="aHR0cHM6Ly94aWFvemh1YW5sYW4uY29tL3RvcGljLzEyOTM4MDU0Njc=">卡顿监控及处理<i class="fa fa-external-link-alt"></i></span></p>
 <h2 id="创建子线程执行任务"><a href="#创建子线程执行任务" class="headerlink" title="创建子线程执行任务"></a>创建子线程执行任务</h2><p>你可以创建子线程，然后在别的线程通过performSelector:onThread:withObject:waitUntilDone:路由到该子线程进行处理。</p>
-<h2 id="AsyncDisplayKit"><a href="#AsyncDisplayKit" class="headerlink" title="AsyncDisplayKit"></a>AsyncDisplayKit</h2><p><a target="_blank" rel="noopener" href="https://github.com/facebookarchive/AsyncDisplayKit">AsyncDisplayKit</a>( 现在更名为Texture)，是Facebook开源的用来异步绘制UI的框架。ASDK 仿照 QuartzCore/UIKit 框架的模式，实现了一套类似的界面更新的机制：即在主线程的 RunLoop 中添加一个 Observer，监听了 kCFRunLoopBeforeWaiting 和 kCFRunLoopExit 事件，在收到回调时，遍历所有之前放入队列的待处理的任务，然后一一执行。<br>参考资料：<br><a target="_blank" rel="noopener" href="https://blog.ibireme.com/2015/05/18/runloop/">深入理解RunLoop</a><br>苹果官方文档<a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Multithreading/RunLoopManagement/RunLoopManagement.html">Run Loops</a></p>
+<h2 id="AsyncDisplayKit"><a href="#AsyncDisplayKit" class="headerlink" title="AsyncDisplayKit"></a>AsyncDisplayKit</h2><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZhY2Vib29rYXJjaGl2ZS9Bc3luY0Rpc3BsYXlLaXQ=">AsyncDisplayKit<i class="fa fa-external-link-alt"></i></span>( 现在更名为Texture)，是Facebook开源的用来异步绘制UI的框架。ASDK 仿照 QuartzCore/UIKit 框架的模式，实现了一套类似的界面更新的机制：即在主线程的 RunLoop 中添加一个 Observer，监听了 kCFRunLoopBeforeWaiting 和 kCFRunLoopExit 事件，在收到回调时，遍历所有之前放入队列的待处理的任务，然后一一执行。<br>参考资料：<br><span class="exturl" data-url="aHR0cHM6Ly9ibG9nLmliaXJlbWUuY29tLzIwMTUvMDUvMTgvcnVubG9vcC8=">深入理解RunLoop<i class="fa fa-external-link-alt"></i></span><br>苹果官方文档<span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYXBwbGUuY29tL2xpYnJhcnkvYXJjaGl2ZS9kb2N1bWVudGF0aW9uL0NvY29hL0NvbmNlcHR1YWwvTXVsdGl0aHJlYWRpbmcvUnVuTG9vcE1hbmFnZW1lbnQvUnVuTG9vcE1hbmFnZW1lbnQuaHRtbA==">Run Loops<i class="fa fa-external-link-alt"></i></span></p>
 
     </div>
 
@@ -427,10 +435,10 @@
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/CodePerryH" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0NvZGVQZXJyeUg=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH"><i class="fab fa-github fa-fw"></i>GitHub</span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:648167350@qq.com" title="E-Mail → mailto:648167350@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOjY0ODE2NzM1MEBxcS5jb20=" title="E-Mail → mailto:648167350@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
       </span>
   </div>
 
@@ -461,7 +469,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly9waXNjZXMudGhlbWUtbmV4dC5vcmc=">NexT.Pisces</span>
   </div>
 
 <div class="powered-by">

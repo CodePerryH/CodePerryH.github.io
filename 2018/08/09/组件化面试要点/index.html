@@ -9,7 +9,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
   <meta name="google-site-verification" content="e9A3VOTvVQOgJbWsO3nFp1n8uEBA7PExS9f1O3nFbu4">
+  <meta name="baidu-site-verification" content="code-8DAsxWGcsx">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -18,7 +21,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="组件化作用组件化的作用是模块解耦、代码复用。">
@@ -138,6 +141,11 @@
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
         </a>
@@ -250,7 +258,7 @@
 <h1 id="组件化"><a href="#组件化" class="headerlink" title="组件化"></a>组件化</h1><h2 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h2><p>组件化的作用是模块解耦、代码复用。</p>
 <span id="more"></span>
 
-<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><h3 id="MGJRouter"><a href="#MGJRouter" class="headerlink" title="MGJRouter"></a>MGJRouter</h3><p><a target="_blank" rel="noopener" href="https://github.com/meili/MGJRouter">MGJRouter</a>通过注册url的方式来实现方法注册和调用<br>1、组件提供方通过registerURLPattern注册方法。</p>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><h3 id="MGJRouter"><a href="#MGJRouter" class="headerlink" title="MGJRouter"></a>MGJRouter</h3><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL21laWxpL01HSlJvdXRlcg==">MGJRouter<i class="fa fa-external-link-alt"></i></span>通过注册url的方式来实现方法注册和调用<br>1、组件提供方通过registerURLPattern注册方法。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[MGJRouter registerURLPattern:@&quot;mgj://category/travel&quot; toHandler:^(NSDictionary *routerParameters) &#123;</span><br><span class="line">    NSLog(@&quot;routerParameters[MGJRouterParameterUserInfo]:%@&quot;, routerParameters[MGJRouterParameterUserInfo]);</span><br><span class="line">    // @&#123;@&quot;user_id&quot;: @1900&#125;</span><br><span class="line">&#125;];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>2、调用方通过openURL调用组件提供的方法。</p>
@@ -262,7 +270,7 @@
 <li>  参数传入不能直接传model，而是需要传字典，如果方法实现方修改一个字段的类型但没有通知调用方，调用方无法直接知道，有可能导致崩溃。</li>
 <li>  通过字典传参不直观，调用方需要知道字段的名字才能获取字段值，如果字段名不定义为宏，到处拷贝字段名造成难以维护。</li>
 </ul>
-<h3 id="CTMediator"><a href="#CTMediator" class="headerlink" title="CTMediator"></a>CTMediator</h3><p><a target="_blank" rel="noopener" href="https://github.com/casatwy/CTMediator">CTMediator</a>通过CTMediator的类别来实现方法调用。<br>1、组件提供方实现Target、Action。</p>
+<h3 id="CTMediator"><a href="#CTMediator" class="headerlink" title="CTMediator"></a>CTMediator</h3><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2Nhc2F0d3kvQ1RNZWRpYXRvcg==">CTMediator<i class="fa fa-external-link-alt"></i></span>通过CTMediator的类别来实现方法调用。<br>1、组件提供方实现Target、Action。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@interface Target_A : NSObject</span><br><span class="line"></span><br><span class="line">- (UIViewController *)Action_nativeFetchDetailViewController:(NSDictionary *)params;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">- (UIViewController *)Action_nativeFetchDetailViewController:(NSDictionary *)params</span><br><span class="line">&#123;</span><br><span class="line">    // 因为action是从属于ModuleA的，所以action直接可以使用ModuleA里的所有声明</span><br><span class="line">    DemoModuleADetailViewController *viewController = [[DemoModuleADetailViewController alloc] init];</span><br><span class="line">    viewController.valueLabel.text = params[@&quot;key&quot;];</span><br><span class="line">    return viewController;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>2、组件提供方实现CTMediator类别暴露接口给使用方。</p>
@@ -276,7 +284,7 @@
 <li>  CTMediator类别实现由于需要通过performTarget方式来实现，需要写一堆方法名、方法参数名字字符串，影响阅读,难以维护；</li>
 <li>  没有组件管理器概念。组件之间的互相调用都是通过直接引用CTMediator类别来实现，没有实现真正的解耦；并且类别暴露了方法的具体实现</li>
 </ul>
-<h3 id="BeeHive"><a href="#BeeHive" class="headerlink" title="BeeHive"></a>BeeHive</h3><p><a target="_blank" rel="noopener" href="https://github.com/alibaba/BeeHive">BeeHive</a>通过url来实现页面路由，通过Protocol来实现方法调用。<br>一、组件提供方注册service</p>
+<h3 id="BeeHive"><a href="#BeeHive" class="headerlink" title="BeeHive"></a>BeeHive</h3><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FsaWJhYmEvQmVlSGl2ZQ==">BeeHive<i class="fa fa-external-link-alt"></i></span>通过url来实现页面路由，通过Protocol来实现方法调用。<br>一、组件提供方注册service</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[[BeeHive shareInstance] registerService:@protocol(HomeServiceProtocol) service:[BHViewController class]];</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>二、组件调用方调用service</p>
@@ -407,10 +415,10 @@
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/CodePerryH" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0NvZGVQZXJyeUg=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH"><i class="fab fa-github fa-fw"></i>GitHub</span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:648167350@qq.com" title="E-Mail → mailto:648167350@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOjY0ODE2NzM1MEBxcS5jb20=" title="E-Mail → mailto:648167350@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
       </span>
   </div>
 
@@ -441,7 +449,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly9waXNjZXMudGhlbWUtbmV4dC5vcmc=">NexT.Pisces</span>
   </div>
 
 <div class="powered-by">

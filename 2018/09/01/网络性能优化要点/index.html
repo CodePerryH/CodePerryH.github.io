@@ -9,7 +9,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
   <meta name="google-site-verification" content="e9A3VOTvVQOgJbWsO3nFp1n8uEBA7PExS9f1O3nFbu4">
+  <meta name="baidu-site-verification" content="code-8DAsxWGcsx">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -18,7 +21,7 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
   <meta name="description" content="网络性能优化指导原则移动端开发，接口联调是工作中的主要内容。项目中网络库一般都是直接封装好的，对于大部分同学来说，都是直接发请求，然后网络请求回来后直接转下model，再去更新UI。笔者在面试的过程中，发现很多同学不清楚怎么做网络性能优化。本文就给大家分享下网络性能优化的整体方案。网络性能优化，最根本的指导原则为：减少网络请求次数，减少数据传输量。">
@@ -138,6 +141,11 @@
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
       <li class="menu-item menu-item-search">
         <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
         </a>
@@ -253,8 +261,8 @@
 <h2 id="减少请求次数"><a href="#减少请求次数" class="headerlink" title="减少请求次数"></a>减少请求次数</h2><p>能不发的就不发，能少发的就少发，能做聚合接口就做聚合接口，能用缓存就用缓存。</p>
 <h2 id="减少数据传输量"><a href="#减少数据传输量" class="headerlink" title="减少数据传输量"></a>减少数据传输量</h2><p>网络请求和响应过程中会涉及到数据的传输，所以我们要想办法减少数据的传输量。比如能用pb就不用json，能用json就不用xml；能用tcp就不用http，能用小图就不用大图等。</p>
 <h1 id="网络性能数据采集"><a href="#网络性能数据采集" class="headerlink" title="网络性能数据采集"></a>网络性能数据采集</h1><p>竟然要做网络优化，那就要有优化的依据。我们可以通过采集网络请求的数据来分析整个网络请求的数据，通过采集请求的三次握手时间、dns解析时间、首包时间、请求包大小、响应包大小，请求时间，响应时间，响应码等指标上传给后台进行分析，从而为优化提供依据。</p>
-<h2 id="NSURLProtocol"><a href="#NSURLProtocol" class="headerlink" title="NSURLProtocol"></a>NSURLProtocol</h2><p>可以通过NSURLProtocol方案来截获网络请求。<br>该方案可以截获原生网络请求(AFNetworking，NSURLSession,NSURLConnection发出的)，UIWebView网络请求、WKWebView网络请求（post请求会丢掉body）。<br>该方案缺点是：因为需要拦截原来的请求，然后再转发请求，对业务的侵入性比较大。<br>可以参考苹果官方demo来实现NSURLProtocol <a target="_blank" rel="noopener" href="https://developer.apple.com/library/archive/samplecode/CustomHTTPProtocol/Introduction/Intro.html">CustomHTTPProtocol</a></p>
-<h2 id="Hook-NSURLSession和NSURLConnection"><a href="#Hook-NSURLSession和NSURLConnection" class="headerlink" title="Hook NSURLSession和NSURLConnection"></a>Hook NSURLSession和NSURLConnection</h2><p>通过hook NSURLSession和NSURLConnection等delegate方法来截获网络请求。<br>可以参考开源库<a target="_blank" rel="noopener" href="https://github.com/FLEXTool/FLEX">FLEX</a>中FLEXNetworkObserver的实现。该方案可以截获原生网络请求(AFNetworking，NSURLSession,NSURLConnection发出的)，UIWebView网络请求。不能捕获WKWebView网络请求。<br>该方案的优点是：由于采用hook，相比NSURLProtocol，对业务无侵入。</p>
+<h2 id="NSURLProtocol"><a href="#NSURLProtocol" class="headerlink" title="NSURLProtocol"></a>NSURLProtocol</h2><p>可以通过NSURLProtocol方案来截获网络请求。<br>该方案可以截获原生网络请求(AFNetworking，NSURLSession,NSURLConnection发出的)，UIWebView网络请求、WKWebView网络请求（post请求会丢掉body）。<br>该方案缺点是：因为需要拦截原来的请求，然后再转发请求，对业务的侵入性比较大。<br>可以参考苹果官方demo来实现NSURLProtocol <span class="exturl" data-url="aHR0cHM6Ly9kZXZlbG9wZXIuYXBwbGUuY29tL2xpYnJhcnkvYXJjaGl2ZS9zYW1wbGVjb2RlL0N1c3RvbUhUVFBQcm90b2NvbC9JbnRyb2R1Y3Rpb24vSW50cm8uaHRtbA==">CustomHTTPProtocol<i class="fa fa-external-link-alt"></i></span></p>
+<h2 id="Hook-NSURLSession和NSURLConnection"><a href="#Hook-NSURLSession和NSURLConnection" class="headerlink" title="Hook NSURLSession和NSURLConnection"></a>Hook NSURLSession和NSURLConnection</h2><p>通过hook NSURLSession和NSURLConnection等delegate方法来截获网络请求。<br>可以参考开源库<span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0ZMRVhUb29sL0ZMRVg=">FLEX<i class="fa fa-external-link-alt"></i></span>中FLEXNetworkObserver的实现。该方案可以截获原生网络请求(AFNetworking，NSURLSession,NSURLConnection发出的)，UIWebView网络请求。不能捕获WKWebView网络请求。<br>该方案的优点是：由于采用hook，相比NSURLProtocol，对业务无侵入。</p>
 <h2 id="NSURLSessionTaskTransactionMetrics"><a href="#NSURLSessionTaskTransactionMetrics" class="headerlink" title="NSURLSessionTaskTransactionMetrics"></a>NSURLSessionTaskTransactionMetrics</h2><p>从iOS10开始通过- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didFinishCollectingMetrics:(NSURLSessionTaskMetrics *)metrics的来获取网络请求数据。<br>上面的代理方法参数metrics的属性transactionMetrics是一个存放NSURLSessionTaskTransactionMetrics的数组，通过<br>NSURLSessionTaskTransactionMetrics可以获取到网络请求相应的指标，可以获取到三次握手时间、dns解析时间、请求包大小、响应包大小，请求时间，响应时间，响应码等很多指标。<br>该方案只能捕获NSURLSession发起的网络请求，并且只支持iOS10及以上系统。</p>
 <h1 id="网络性能优化方案"><a href="#网络性能优化方案" class="headerlink" title="网络性能优化方案"></a>网络性能优化方案</h1><h2 id="减少请求次数-1"><a href="#减少请求次数-1" class="headerlink" title="减少请求次数"></a>减少请求次数</h2><h3 id="聚合接口"><a href="#聚合接口" class="headerlink" title="聚合接口"></a>聚合接口</h3><p>在一些复杂业务中，可能进入一个页面会同时请求很多接口，这个时候可以考虑改成聚合接口。<br>聚合接口的优势是：只需要发一个请求，节省了并发发多个网络请求的请求头大小（一个头可能有几百乃至上千字节），并且可能能节省网络rtt时间(Round-Trip Time)。<br>比如首页、商详页这种业务逻辑很复杂的页面基本都是采用聚合接口。</p>
 <h3 id="接口支持请求多个服务"><a href="#接口支持请求多个服务" class="headerlink" title="接口支持请求多个服务"></a>接口支持请求多个服务</h3><p>在网关层面支持接口能请求多个服务的数据。此种方案的实现思路是：客户端在请求里面指定好服务的路径和请求参数请求一个特定的接口，这个接口同时返回几个服务的数据。</p>
@@ -388,10 +396,10 @@
 </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="https://github.com/CodePerryH" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0NvZGVQZXJyeUg=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH"><i class="fab fa-github fa-fw"></i>GitHub</span>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:648167350@qq.com" title="E-Mail → mailto:648167350@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+        <span class="exturl" data-url="bWFpbHRvOjY0ODE2NzM1MEBxcS5jb20=" title="E-Mail → mailto:648167350@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
       </span>
   </div>
 
@@ -422,7 +430,7 @@
   </span>
   <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly9waXNjZXMudGhlbWUtbmV4dC5vcmc=">NexT.Pisces</span>
   </div>
 
 <div class="powered-by">
