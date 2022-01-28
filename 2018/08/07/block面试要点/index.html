@@ -2,12 +2,9 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
 <meta name="generator" content="Hexo 5.4.0">
-
-
   <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
@@ -16,62 +13,96 @@
 <link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Pisces","darkmode":true,"version":"8.9.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js"></script>
-<meta name="description" content="在iOS中，block编程使用得很频繁，我们不仅要会用block，更需要理解block的底层实现原理。笔者在面试中，block问题是必问的。 什么是blockblock是iOS中对闭包的实现，什么是闭包呢？闭包（英语：Closure），又称词法闭包（Lexical Closure）或函数闭包（function closures），是在支持头等函数的编程语言中实现词法绑定的一种技术。闭包在实现上">
+  <meta name="description" content="在iOS中，block编程使用得很频繁，我们不仅要会用block，更需要理解block的底层实现原理。笔者在面试中，block问题是必问的。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Block">
 <meta property="og:url" content="http://example.com/2018/08/07/block%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/index.html">
 <meta property="og:site_name" content="须知少时凌云志，曾许人间第一流">
-<meta property="og:description" content="在iOS中，block编程使用得很频繁，我们不仅要会用block，更需要理解block的底层实现原理。笔者在面试中，block问题是必问的。 什么是blockblock是iOS中对闭包的实现，什么是闭包呢？闭包（英语：Closure），又称词法闭包（Lexical Closure）或函数闭包（function closures），是在支持头等函数的编程语言中实现词法绑定的一种技术。闭包在实现上">
+<meta property="og:description" content="在iOS中，block编程使用得很频繁，我们不仅要会用block，更需要理解block的底层实现原理。笔者在面试中，block问题是必问的。">
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/22877992-0fb09113c7ebc460.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 <meta property="article:published_time" content="2018-08-07T09:19:03.000Z">
-<meta property="article:modified_time" content="2022-01-27T06:28:34.724Z">
+<meta property="article:modified_time" content="2022-01-28T03:30:54.737Z">
 <meta property="article:author" content="CodeoPerryH">
 <meta property="article:tag" content="OC知识点">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/22877992-0fb09113c7ebc460.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
 
-
 <link rel="canonical" href="http://example.com/2018/08/07/block%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
 
 
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2018/08/07/block%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/","path":"2018/08/07/block面试要点/","title":"Block"}</script>
-
-<script class="next-config" data-name="calendar" type="application/json">""</script>
-<title>Block | 须知少时凌云志，曾许人间第一流</title>
+  <title>Block | 须知少时凌云志，曾许人间第一流</title>
   
 
 
 
 
+
+
   <noscript>
-    <link rel="stylesheet" href="/css/noscript.css">
-  </noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
-  <div class="headband"></div>
 
-  <main class="main">
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
   <div class="site-nav-toggle">
-    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
   <div class="site-meta">
 
     <a href="/" class="brand" rel="start">
-      <i class="logo-line"></i>
-      <p class="site-title">须知少时凌云志，曾许人间第一流</p>
-      <i class="logo-line"></i>
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">须知少时凌云志，曾许人间第一流</h1>
+      <span class="logo-line-after"><i></i></span>
     </a>
       <p class="site-subtitle" itemprop="description">iOSer,life,and Cat</p>
   </div>
@@ -85,94 +116,60 @@
 
 
 
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
 
 
 
 </div>
-        
-  
-  <div class="toggle sidebar-toggle" role="button">
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-    <span class="toggle-line"></span>
-  </div>
-
-  <aside class="sidebar">
-
-    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
-      <ul class="sidebar-nav">
-        <li class="sidebar-nav-toc">
-          Table of Contents
-        </li>
-        <li class="sidebar-nav-overview">
-          Overview
-        </li>
-      </ul>
-
-      <div class="sidebar-panel-container">
-        <!--noindex-->
-        <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFblock"><span class="nav-number">1.</span> <span class="nav-text">什么是block</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#block%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">block类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MRC%E4%B8%8Bblock%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">MRC下block类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARC%E4%B8%8Bblock%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">ARC下block类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARC%E4%B8%8B%E8%87%AA%E5%8A%A8copy"><span class="nav-number">2.3.</span> <span class="nav-text">ARC下自动copy</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#block%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E5%8F%98%E9%87%8F%E6%8D%95%E8%8E%B7"><span class="nav-number">3.</span> <span class="nav-text">block数据结构和变量捕获</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#block%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">block数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%8D%95%E8%8E%B7"><span class="nav-number">3.2.</span> <span class="nav-text">变量捕获</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#block%E5%8F%98%E9%87%8F"><span class="nav-number">4.</span> <span class="nav-text">__block变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#block%E4%BD%9C%E7%94%A8"><span class="nav-number">4.1.</span> <span class="nav-text">__block作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.2.</span> <span class="nav-text">底层实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">循环引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E5%8E%9F%E5%9B%A0"><span class="nav-number">5.1.</span> <span class="nav-text">循环引用原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">5.2.</span> <span class="nav-text">循环引用解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E5%8F%8A%E8%A7%A3%E5%86%B3"><span class="nav-number">5.2.1.</span> <span class="nav-text">常见循环引用及解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%A3%80%E6%B5%8B%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">5.2.2.</span> <span class="nav-text">怎么检测循环引用</span></a></li></ol></li></ol></li></ol></div>
-        </div>
-        <!--/noindex-->
-
-        <div class="site-overview-wrap sidebar-panel">
-          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <p class="site-author-name" itemprop="name">CodeoPerryH</p>
-  <div class="site-description" itemprop="description">ios</div>
-</div>
-<div class="site-state-wrap site-overview-item animated">
-  <nav class="site-state">
-      <div class="site-state-item site-state-posts">
-        <a href="/archives/">
-          <span class="site-state-item-count">16</span>
-          <span class="site-state-item-name">posts</span>
-        </a>
-      </div>
-      <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">tags</span>
-      </div>
-  </nav>
-</div>
-
-
-
-        </div>
-      </div>
-    </div>
-  </aside>
-  <div class="sidebar-dimmer"></div>
-
-
     </header>
 
     
-  <div class="back-to-top" role="button" aria-label="Back to top">
+  <div class="back-to-top">
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
 
-<noscript>
-  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
-</noscript>
 
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
 
-    <div class="main-inner post posts-expand">
+          <div class="content post posts-expand">
+            
 
-
-  
-
-
-<div class="post-block">
+    
   
   
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/2018/08/07/block%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="image" content="/images/headerimage.jpeg">
       <meta itemprop="name" content="CodeoPerryH">
       <meta itemprop="description" content="ios">
     </span>
@@ -185,26 +182,24 @@
           Block
         </h1>
 
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
 
-      <time title="Created: 2018-08-07 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-07T17:19:03+08:00">2018-08-07</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">Edited on</span>
-      <time title="Modified: 2022-01-27 14:28:34" itemprop="dateModified" datetime="2022-01-27T14:28:34+08:00">2022-01-27</time>
-    </span>
+              <time title="Created: 2018-08-07 17:19:03" itemprop="dateCreated datePublished" datetime="2018-08-07T17:19:03+08:00">2018-08-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-01-28 11:30:54" itemprop="dateModified" datetime="2022-01-28T11:30:54+08:00">2022-01-28</time>
+              </span>
 
-  
-</div>
+          
 
         </div>
       </header>
@@ -213,9 +208,13 @@
     
     
     <div class="post-body" itemprop="articleBody">
+
+      
         <meta name="referrer" content="no-referrer"/>
 
 <p>在iOS中，block编程使用得很频繁，我们不仅要会用block，更需要理解block的底层实现原理。笔者在面试中，block问题是必问的。</p>
+<span id="more"></span>
+
 <h1 id="什么是block"><a href="#什么是block" class="headerlink" title="什么是block"></a>什么是block</h1><p>block是iOS中对闭包的实现，什么是闭包呢？闭包（英语：Closure），又称词法闭包（Lexical Closure）或函数闭包（function closures），是在支持头等函数的编程语言中实现词法绑定的一种技术。闭包在实现上是一个结构体，它存储了一个函数（通常是其入口地址）和一个关联的环境（相当于一个符号查找表）。环境里是若干对符号和值的对应关系，它既要包括约束变量（该函数内部绑定的符号），也要包括自由变量（在函数外部定义但在函数内被引用），有些函数也可能没有自由变量。</p>
 <h1 id="block类型"><a href="#block类型" class="headerlink" title="block类型"></a>block类型</h1><p>block是一个OC对象，block类型有__NSStackBlock__、__NSMallocBlock__、__NSGlobalBlock__、，分别分配在栈、堆、全局存储区域中。他们都继承于NSObject。下面代码证明打印了__NSGlobalBlock__的继承链</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">void (^block)(void) =  ^&#123;</span><br><span class="line">        NSLog(@&quot;akon&quot;);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    NSLog(@&quot;block.class = %@&quot;, [block class]);</span><br><span class="line">    NSLog(@&quot;block.class.superclass = %@&quot;, [[block class] superclass]);</span><br><span class="line">    NSLog(@&quot;block.class.superclass.superclass = %@&quot;, [[[block class] superclass] superclass]);</span><br><span class="line">    NSLog(@&quot;block.class.superclass.superclass.superclass = %@&quot;, [[[[block class] superclass] superclass] superclass]);</span><br><span class="line"></span><br><span class="line">运行结果为：</span><br><span class="line">2020-11-13 18:39:02.919351+0800 BlockTestDemo[86009:2083840] block.class = __NSGlobalBlock__</span><br><span class="line">2020-11-13 18:39:02.919562+0800 BlockTestDemo[86009:2083840] block.class.superclass = NSBlock</span><br><span class="line">2020-11-13 18:39:02.919713+0800 BlockTestDemo[86009:2083840] block.class.superclass.superclass = NSObject</span><br><span class="line">2020-11-13 18:39:02.923424+0800 BlockTestDemo[86009:2083840] block.class.superclass.superclass.superclass = (null)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -395,58 +394,183 @@
     
     
 
-    <footer class="post-footer">
+      <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/OC%E7%9F%A5%E8%AF%86%E7%82%B9/" rel="tag"># OC知识点</a>
           </div>
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-item">
-                <a href="/2018/08/06/GCD%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="prev" title="GCD">
-                  <i class="fa fa-chevron-left"></i> GCD
-                </a>
-            </div>
-            <div class="post-nav-item">
-                <a href="/2018/08/09/%E7%BB%84%E4%BB%B6%E5%8C%96%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="next" title="组件化">
-                  组件化 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
-    </footer>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/06/GCD%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="prev" title="GCD">
+      <i class="fa fa-chevron-left"></i> GCD
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2018/08/09/%E7%BB%84%E4%BB%B6%E5%8C%96%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/" rel="next" title="组件化">
+      组件化 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
   </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFblock"><span class="nav-number">1.</span> <span class="nav-text">什么是block</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#block%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text">block类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MRC%E4%B8%8Bblock%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.1.</span> <span class="nav-text">MRC下block类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARC%E4%B8%8Bblock%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.2.</span> <span class="nav-text">ARC下block类型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ARC%E4%B8%8B%E8%87%AA%E5%8A%A8copy"><span class="nav-number">2.3.</span> <span class="nav-text">ARC下自动copy</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#block%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%92%8C%E5%8F%98%E9%87%8F%E6%8D%95%E8%8E%B7"><span class="nav-number">3.</span> <span class="nav-text">block数据结构和变量捕获</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#block%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.</span> <span class="nav-text">block数据结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E6%8D%95%E8%8E%B7"><span class="nav-number">3.2.</span> <span class="nav-text">变量捕获</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#block%E5%8F%98%E9%87%8F"><span class="nav-number">4.</span> <span class="nav-text">__block变量</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#block%E4%BD%9C%E7%94%A8"><span class="nav-number">4.1.</span> <span class="nav-text">__block作用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%95%E5%B1%82%E5%AE%9E%E7%8E%B0"><span class="nav-number">4.2.</span> <span class="nav-text">底层实现</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text">循环引用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E5%8E%9F%E5%9B%A0"><span class="nav-number">5.1.</span> <span class="nav-text">循环引用原因</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">5.2.</span> <span class="nav-text">循环引用解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E8%A7%81%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8%E5%8F%8A%E8%A7%A3%E5%86%B3"><span class="nav-number">5.2.1.</span> <span class="nav-text">常见循环引用及解决</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E4%B9%88%E6%A3%80%E6%B5%8B%E5%BE%AA%E7%8E%AF%E5%BC%95%E7%94%A8"><span class="nav-number">5.2.2.</span> <span class="nav-text">怎么检测循环引用</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="CodeoPerryH"
+      src="/images/headerimage.jpeg">
+  <p class="site-author-name" itemprop="name">CodeoPerryH</p>
+  <div class="site-description" itemprop="description">ios</div>
 </div>
-
-
-
-
-
-
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
 </div>
-  </main>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/CodePerryH" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:648167350@qq.com" title="E-Mail → mailto:648167350@qq.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
 
-  <footer class="footer">
-    <div class="footer-inner">
 
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
 
 <div class="copyright">
-  &copy; 
+  
+  &copy; 2016 – 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/pisces/" rel="noopener" target="_blank">NexT.Pisces</a>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://pisces.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a>
   </div>
 
-    </div>
-  </footer>
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
 
   
-  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
+
 
   
 
@@ -454,11 +578,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
   
 
-
-
-
+  
 
 </body>
 </html>
