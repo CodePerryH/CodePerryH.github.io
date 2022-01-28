@@ -13,6 +13,7 @@ tags: [OC知识点]
 Run loops are part of the fundamental infrastructure associated with threads. A run loop is an event processing loop that you use to schedule work and coordinate the receipt of incoming events. The purpose of a run loop is to keep your thread busy when there is work to do and put your thread to sleep when there is none.
 
 ```
+<!-- more -->
 
 翻译为中文为：RunLoop是线程基础设施的一部分。RunLoop是iOS中用来接受事件、处理事件的循环。设计RunLoop的目的是让线程有事件的时候处理事件，没事件的时候处于休眠。
 在iOS中RunLoop实际上是一个对象(CFRunLoopRef 和NSRunLoop)，RunLoop做的事情是处于等待消息->接受消息->处理消息这样一个循环中，直到退出循环。

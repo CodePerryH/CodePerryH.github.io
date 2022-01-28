@@ -10,6 +10,8 @@ tags: [OC知识点]
 ## 事件分发机制
 
 iOS 检测到手指触摸 (Touch) 操作时会将其打包成一个 UIEvent 对象，并放入当前活动Application的事件队列，UIApplication 会从事件队列中取出触摸事件并传递给单例的 UIWindow 来处理，UIWindow 对象首先会使用 hitTest:withEvent:方法寻找此次Touch操作初始点所在的视图(View)，即需要将触摸事件传递给其处理的视图，这个过程称之为 hit-test view。
+<!-- more -->
+
 hitTest:withEvent:方法的处理流程如下:
 
 *   首先调用当前视图的 pointInside:withEvent: 方法判断触摸点是否在当前视图内；

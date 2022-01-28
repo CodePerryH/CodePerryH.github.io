@@ -2,6 +2,7 @@
 ---
 title: 2021年总结
 date: 2021-12-31 17:19:03
+<!--description: 点击阅读前文前, 首页能看到的文章的简短描述-->
 tags: [left]
 ---
 <meta name="referrer" content="no-referrer"/>
@@ -10,6 +11,7 @@ tags: [left]
 
 ![xxxx](/img/2021end/2021end_00.jpeg)
 
+<!-- more -->
   年初，我们搬进了刚买的新房，虽然是个二手房；但是对于我来说，终于在成都有了一个家，少许有了那么一些归属感。
 
 ![xxxx](/img/2021end/2021end_01.jpeg)

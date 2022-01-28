@@ -9,6 +9,7 @@ tags: [OC知识点]
 # Runtime原理
 
 Runtime是iOS核心运行机制之一，iOS App加载库、加载类、执行方法调用，全靠Runtime，这一块的知识个人认为是最基础的，基本面试必问。
+<!-- more -->
 
 ## Runtime消息发送机制
 

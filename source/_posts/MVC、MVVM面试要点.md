@@ -12,6 +12,9 @@ MVC
 ## 定义
 
 MVC模式（Model–View–Controller）是软件工程中的一种软件架构模式，把软件系统分为三个基本部分：模型（Model）、视图（View）和控制器（Controller）。
+
+<!-- more -->
+
 在iOS中，MVC通信模式如下所示：
 ![](https://upload-images.jianshu.io/upload_images/22877992-2110caa320a00a75.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 

@@ -9,6 +9,10 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
   <link rel="mask-icon" href="/images/logo.svg" color="#222">
+  <meta http-equiv="Cache-Control" content="no-transform">
+  <meta http-equiv="Cache-Control" content="no-siteapp">
+  <meta name="google-site-verification" content="e9A3VOTvVQOgJbWsO3nFp1n8uEBA7PExS9f1O3nFbu4">
+  <meta name="baidu-site-verification" content="code-8DAsxWGcsx">
 
 <link rel="stylesheet" href="/css/main.css">
 
@@ -17,18 +21,18 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":true,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"manual","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="移动开发已经进入大前端时代。对于混编技术，目前业界流行的方案是H5、React Native、Weex、Flutter。 Hybrid H5混编相对于rn、weex、flutter等混编技术，在App里面内嵌H5实现成本较低，所以目前市面上H5混编仍是主流。 JS与Native通信方式实现伪协议伪协议指的是自己自定义的url协议，通过webview的代理拦截到url的加载，识别出伪协议，然后调">
+  <meta name="description" content="移动开发已经进入大前端时代。对于混编技术，目前业界流行的方案是H5、React Native、Weex、Flutter。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="关于客服端混编技术的一些知识点">
 <meta property="og:url" content="http://example.com/2018/08/12/%E6%B7%B7%E7%BC%96%E6%8A%80%E6%9C%AF%E9%9D%A2%E8%AF%95%E8%A6%81%E7%82%B9/index.html">
 <meta property="og:site_name" content="须知少时凌云志，曾许人间第一流">
-<meta property="og:description" content="移动开发已经进入大前端时代。对于混编技术，目前业界流行的方案是H5、React Native、Weex、Flutter。 Hybrid H5混编相对于rn、weex、flutter等混编技术，在App里面内嵌H5实现成本较低，所以目前市面上H5混编仍是主流。 JS与Native通信方式实现伪协议伪协议指的是自己自定义的url协议，通过webview的代理拦截到url的加载，识别出伪协议，然后调">
+<meta property="og:description" content="移动开发已经进入大前端时代。对于混编技术，目前业界流行的方案是H5、React Native、Weex、Flutter。">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2018-08-12T09:19:03.000Z">
-<meta property="article:modified_time" content="2022-01-27T06:28:03.644Z">
+<meta property="article:modified_time" content="2022-01-28T03:29:19.417Z">
 <meta property="article:author" content="CodeoPerryH">
 <meta property="article:tag" content="OC知识点">
 <meta name="twitter:card" content="summary">
@@ -80,8 +84,6 @@
 </head>
 
 
-<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
-
 
 <body itemscope itemtype="http://schema.org/WebPage">
   <div class="container use-motion">
@@ -109,6 +111,7 @@
 
   <div class="site-nav-right">
     <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
     </div>
   </div>
 </div>
@@ -123,6 +126,11 @@
     <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
 
   </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
         <li class="menu-item menu-item-tags">
 
     <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
@@ -133,11 +141,43 @@
     <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
 
   </li>
+        <li class="menu-item menu-item-sitemap">
+
+    <a href="/sitemap.xml" rel="section"><i class="fa fa-sitemap fa-fw"></i>Sitemap</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
   </ul>
 </nav>
 
 
 
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
 
 </div>
     </header>
@@ -147,6 +187,7 @@
     <i class="fa fa-arrow-up"></i>
     <span>0%</span>
   </div>
+  <div class="reading-progress-bar"></div>
 
 
     <main class="main">
@@ -191,10 +232,17 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-01-27 14:28:03" itemprop="dateModified" datetime="2022-01-27T14:28:03+08:00">2022-01-27</time>
+                <time title="Modified: 2022-01-28 11:29:19" itemprop="dateModified" datetime="2022-01-28T11:29:19+08:00">2022-01-28</time>
               </span>
 
           
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
 
         </div>
       </header>
@@ -208,6 +256,8 @@
         <meta name="referrer" content="no-referrer"/>
 
 <p>移动开发已经进入大前端时代。对于混编技术，目前业界流行的方案是H5、React Native、Weex、Flutter。</p>
+<span id="more"></span>
+
 <h1 id="Hybrid-H5混编"><a href="#Hybrid-H5混编" class="headerlink" title="Hybrid H5混编"></a>Hybrid H5混编</h1><p>相对于rn、weex、flutter等混编技术，在App里面内嵌H5实现成本较低，所以目前市面上H5混编仍是主流。</p>
 <h2 id="JS与Native通信方式实现"><a href="#JS与Native通信方式实现" class="headerlink" title="JS与Native通信方式实现"></a>JS与Native通信方式实现</h2><h3 id="伪协议"><a href="#伪协议" class="headerlink" title="伪协议"></a>伪协议</h3><p>伪协议指的是自己自定义的url协议，通过webview的代理拦截到url的加载，识别出伪协议，然后调用native的方法。伪协议可以这样定义：AKJS:// functionName? param1=value1&amp;param2=value2。 其中AKJS代表我们自己定义的协议，functionName代表要调用的App方法，?后面代表传入的参数。<br>1、UIWebView通过UIWebViewDelegate的代理方法-webView: shouldStartLoadWithRequest:navigationType:进行伪协议拦截。<br>2、WKWebView通过WKNavigationDelegate代理方法实现- webView:decidePolicyForNavigationAction:decisionHandler:进行伪协议拦截。<br>3、优缺点<br>优点：实现简单。<br>缺点：</p>
 <ul>
@@ -229,7 +279,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message &#123;</span><br><span class="line">    if ([message.body isKindOfClass:[NSDictionary class]]) &#123;</span><br><span class="line">        NSDictionary *dicMessage = message.body;</span><br><span class="line"></span><br><span class="line">        NSString *funcName = [dicMessage stringForKey:@&quot;funcName&quot;];</span><br><span class="line">        NSString *parameter = [dicMessage stringForKey:@&quot;parameter&quot;];</span><br><span class="line">       //进行逻辑处理</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>此种方案的优点是：实现简单，缺点是：不支持UIWebView。</p>
-<h3 id="第三方库WKWebViewJavascriptBridge"><a href="#第三方库WKWebViewJavascriptBridge" class="headerlink" title="第三方库WKWebViewJavascriptBridge"></a>第三方库WKWebViewJavascriptBridge</h3><p><a target="_blank" rel="noopener" href="https://github.com/marcuswestin/WebViewJavascriptBridge">WKWebViewJavascriptBridge</a>是iOS使用最广泛的JSBridge库，该库通过伪协议+JS消息队列实现了JS与OC交互，此种方案兼容UIWebView和WKWebView。</p>
+<h3 id="第三方库WKWebViewJavascriptBridge"><a href="#第三方库WKWebViewJavascriptBridge" class="headerlink" title="第三方库WKWebViewJavascriptBridge"></a>第三方库WKWebViewJavascriptBridge</h3><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL21hcmN1c3dlc3Rpbi9XZWJWaWV3SmF2YXNjcmlwdEJyaWRnZQ==">WKWebViewJavascriptBridge<i class="fa fa-external-link-alt"></i></span>是iOS使用最广泛的JSBridge库，该库通过伪协议+JS消息队列实现了JS与OC交互，此种方案兼容UIWebView和WKWebView。</p>
 <h2 id="webview安全"><a href="#webview安全" class="headerlink" title="webview安全"></a>webview安全</h2><h3 id="域名黑白名单"><a href="#域名黑白名单" class="headerlink" title="域名黑白名单"></a>域名黑白名单</h3><ul>
 <li>  通过黑名单url，防止黑名单url加载。</li>
 <li>  通过白名单url，只允许白名单url加载。</li>
@@ -256,14 +306,14 @@
 <h3 id="资源包预加载"><a href="#资源包预加载" class="headerlink" title="资源包预加载"></a>资源包预加载</h3><p>对于电商app，大促之前先提前下载好资源包，等大促入口放开了，就可以直接加载本地资源。<br>或者直接预加载一个公共h5，把这个公共h5的公共资源缓存下来，下次打开别的页面就能直接使用这些公共资源了。</p>
 <h3 id="资源离线缓存"><a href="#资源离线缓存" class="headerlink" title="资源离线缓存"></a>资源离线缓存</h3><p>可以拦截图片、js等资源的下载，使用本地缓存。</p>
 <h3 id="前端优化"><a href="#前端优化" class="headerlink" title="前端优化"></a>前端优化</h3><p>前端开发同学可以从h5布局，js打包、解析、执行等角度进行优化。</p>
-<h1 id="React-Native"><a href="#React-Native" class="headerlink" title="React Native"></a>React Native</h1><p><a target="_blank" rel="noopener" href="https://github.com/facebook/react-native">React Native</a>是facebook开发的用于统一h5、iOS、Android三端的开源库。其基本原理是通过JSCore实现JS与原生的调用，它的渲染引擎最终会路由到原生的控件上面。目前在业界使用广泛。</p>
-<h1 id="Weex"><a href="#Weex" class="headerlink" title="Weex"></a>Weex</h1><p><a target="_blank" rel="noopener" href="https://github.com/apache/incubator-weex">Weex</a>是阿里开发的用于统一h5、iOS、Android三端的开源库。其基本原理是通过JSCore实现JS与原生的调用，它的渲染引擎最终会路由到原生的控件上面。业内用得相对少点。</p>
-<h1 id="Flutter"><a href="#Flutter" class="headerlink" title="Flutter"></a>Flutter</h1><p><a target="_blank" rel="noopener" href="https://github.com/flutter/flutter">Flutter</a>是google开发的用于统一iOS、Android两端的开源库（不能用在h5）。其基本原理是通过自己的skia渲染引擎实现iOS和Android控件的统一。目前业界使用的越来越多。</p>
+<h1 id="React-Native"><a href="#React-Native" class="headerlink" title="React Native"></a>React Native</h1><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZhY2Vib29rL3JlYWN0LW5hdGl2ZQ==">React Native<i class="fa fa-external-link-alt"></i></span>是facebook开发的用于统一h5、iOS、Android三端的开源库。其基本原理是通过JSCore实现JS与原生的调用，它的渲染引擎最终会路由到原生的控件上面。目前在业界使用广泛。</p>
+<h1 id="Weex"><a href="#Weex" class="headerlink" title="Weex"></a>Weex</h1><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2FwYWNoZS9pbmN1YmF0b3Itd2VleA==">Weex<i class="fa fa-external-link-alt"></i></span>是阿里开发的用于统一h5、iOS、Android三端的开源库。其基本原理是通过JSCore实现JS与原生的调用，它的渲染引擎最终会路由到原生的控件上面。业内用得相对少点。</p>
+<h1 id="Flutter"><a href="#Flutter" class="headerlink" title="Flutter"></a>Flutter</h1><p><span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL2ZsdXR0ZXIvZmx1dHRlcg==">Flutter<i class="fa fa-external-link-alt"></i></span>是google开发的用于统一iOS、Android两端的开源库（不能用在h5）。其基本原理是通过自己的skia渲染引擎实现iOS和Android控件的统一。目前业界使用的越来越多。</p>
 <h1 id="如何抉择"><a href="#如何抉择" class="headerlink" title="如何抉择"></a>如何抉择</h1><ul>
 <li>  如果是小公司，建议只使用h5混编，引入其他的混编技术，学习成本高、维护成本高，招人也比较难。</li>
 <li>  如果是中大型公司。一般都会选用h5、rn、flutter混编。如果要统一三端，那就rn。如果只想统一iOS和Android，flutter是个不错的选择。</li>
 </ul>
-<p>参考资料：<br><a target="_blank" rel="noopener" href="https://tech.meituan.com/2020/09/30/waimai-mobile-architecture-evolution.html">外卖客户端容器化架构的演进</a><br><a target="_blank" rel="noopener" href="https://tech.meituan.com/2017/06/09/webviewperf.html">WebView性能、体验分析与优化</a><br><a target="_blank" rel="noopener" href="https://juejin.cn/post/6844903809521549320#heading-10">iOS app秒开H5优化探索</a></p>
+<p>参考资料：<br><span class="exturl" data-url="aHR0cHM6Ly90ZWNoLm1laXR1YW4uY29tLzIwMjAvMDkvMzAvd2FpbWFpLW1vYmlsZS1hcmNoaXRlY3R1cmUtZXZvbHV0aW9uLmh0bWw=">外卖客户端容器化架构的演进<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly90ZWNoLm1laXR1YW4uY29tLzIwMTcvMDYvMDkvd2Vidmlld3BlcmYuaHRtbA==">WebView性能、体验分析与优化<i class="fa fa-external-link-alt"></i></span><br><span class="exturl" data-url="aHR0cHM6Ly9qdWVqaW4uY24vcG9zdC82ODQ0OTAzODA5NTIxNTQ5MzIwI2hlYWRpbmctMTA=">iOS app秒开H5优化探索<i class="fa fa-external-link-alt"></i></span></p>
 
     </div>
 
@@ -301,6 +351,11 @@
 
           </div>
           
+    
+  <div class="comments">
+    <div id="lv-container" data-id="city" data-uid="MTAyMC81NTM0NS8zMTgxMg=="></div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -368,11 +423,21 @@
         </a>
       </div>
       <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
         <span class="site-state-item-count">2</span>
-        <span class="site-state-item-name">tags</span>
+        <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
 </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="aHR0cHM6Ly9naXRodWIuY29tL0NvZGVQZXJyeUg=" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;CodePerryH"><i class="fab fa-github fa-fw"></i>GitHub</span>
+      </span>
+      <span class="links-of-author-item">
+        <span class="exturl" data-url="bWFpbHRvOjY0ODE2NzM1MEBxcS5jb20=" title="E-Mail → mailto:648167350@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</span>
+      </span>
+  </div>
 
 
 
@@ -394,17 +459,49 @@
 
 <div class="copyright">
   
-  &copy; 
+  &copy; 2016 – 
   <span itemprop="copyrightYear">2022</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">CodeoPerryH</span>
 </div>
-  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  <div class="powered-by">Powered by <span class="exturl theme-link" data-url="aHR0cHM6Ly9oZXhvLmlv">Hexo</span> & <span class="exturl theme-link" data-url="aHR0cHM6Ly9waXNjZXMudGhlbWUtbmV4dC5vcmc=">NexT.Pisces</span>
   </div>
 
+<div class="powered-by">
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <i class="fa fa-user-md"></i>
+    <span id="busuanzi_container_site_uv">
+        本站访客数:<span id="busuanzi_value_site_uv"></span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span id="busuanzi_container_site_pv">
+        本站访问量<span id="busuanzi_value_site_pv"></span>
+    </span>
+</div>
+
         
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
 
 
 
@@ -427,12 +524,16 @@
 <script src="/js/motion.js"></script>
 
 
-<script src="/js/schemes/muse.js"></script>
+<script src="/js/schemes/pisces.js"></script>
 
 
 <script src="/js/next-boot.js"></script>
 
 
+  <script defer src="/lib/three/three.min.js"></script>
+    <script defer src="/lib/three/three-waves.min.js"></script>
+    <script defer src="/lib/three/canvas_lines.min.js"></script>
+    <script defer src="/lib/three/canvas_sphere.min.js"></script>
 
 
   
@@ -440,6 +541,10 @@
 
 
 
+  
+<script src="/js/local-search.js"></script>
+
+
 
 
 
@@ -454,6 +559,22 @@
   
 
   
+
+<script>
+NexT.utils.loadComments(document.querySelector('#lv-container'), () => {
+  window.livereOptions = {
+    refer: location.pathname.replace(CONFIG.root, '').replace('index.html', '')
+  };
+  (function(d, s) {
+    var j, e = d.getElementsByTagName(s)[0];
+    if (typeof LivereTower === 'function') { return; }
+    j = d.createElement(s);
+    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+    j.async = true;
+    e.parentNode.insertBefore(j, e);
+  })(document, 'script');
+});
+</script>
 
 </body>
 </html>
